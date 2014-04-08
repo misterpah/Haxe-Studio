@@ -1,0 +1,10 @@
+{
+"name":"Editor",
+"actualName":"plugin.misterpah.Editor",
+"author":"misterpah",
+"website":"http://www.misterpah.com",
+"dependency":["plugin.misterpah.FileAccess","plugin.misterpah.ProjectAccess","plugin.misterpah.Completion"],
+"configuration":{
+	"default":0
+	}
+}

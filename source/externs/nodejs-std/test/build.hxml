@@ -1,0 +1,16 @@
+-debug
+# -D server
+# -D nodejs
+-D nodejs_std
+# This makes sure that the importing of the javascript sys library doesn't conflict with macros 
+# that also e.g. import sys.FileSystem
+# --macro Macro.makeSys()
+# -lib nodejs-std
+-cp ./
+-cp ../src
+# -lib nodejs
+-js test.js
+--remap sys:sys
+-main Test
+
+-cmd node test.js

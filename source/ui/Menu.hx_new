@@ -1,0 +1,59 @@
+package ui;
+import jQuery.JQuery;
+import js.Browser;
+
+@:keep @:expose class Menu
+{
+	public var menuTitle:String;
+	public var menuItem:Array<Dynamic>;
+	public function new(_menuTitle:String):Void
+	{
+		menuTitle = _menuTitle;
+		menuItem = new Array();
+	}
+	
+	public function addItem(_menuTitle:String,messageBroadcast:Dynamic):Void
+	{
+		var temp = new Array();
+		temp.push(_menuTitle);
+		temp.push(messageBroadcast);
+		menuItem.push(temp);
+	}
+
+	public function addSeperator():Void
+	{
+		var temp = new Array();
+		temp.push("");
+		menuItem.push(temp);
+	}
+
+	
+	
+	public function show():Void
+	{
+		var generated_item = "";
+		for (each in menuItem)
+			{
+			var title = each[0];
+			var messageBroadcast = each[1];
+			if (title != "")
+				{
+				generated_item += '<li><a href="#" onclick=\'$(document).triggerHandler("'+messageBroadcast+'"); \'>'+title+'</a></li>';
+				}
+			if (title == "")
+				{
+				generated_item += '<li class="divider"></li>';
+				}
+			}
+	
+	
+		var standardDropdown = ['<li class="dropdown">',
+		'<a href="#" class="dropdown-toggle" data-toggle="dropdown">'+ menuTitle +' <b class="caret"></b></a>',
+		'<ul class="dropdown-menu">',
+		' '+ generated_item +'',
+		'</ul>',
+		'</li>'].join("\n");
+		
+		new JQuery("#position-navbar").append(standardDropdown);
+	}
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Haxe Studio",
+  "main": "index.html",
+  "window": {
+    "title": "Haxe Studio",
+    "toolbar": true,
+    "frame": true,
+    "width": 800,
+    "height": 600,
+    "position": "center",
+	"show": true
+  }  
+}

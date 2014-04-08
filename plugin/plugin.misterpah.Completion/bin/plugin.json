@@ -1,0 +1,10 @@
+{
+"name":"Completion",
+"actualName":"plugin.misterpah.Completion",
+"author":"misterpah",
+"website":"http://www.misterpah.com",
+"dependency":["plugin.misterpah.HaxeServer"],
+"configuration":{
+	"default":0
+	}
+}

@@ -1,0 +1,189 @@
+*
+{
+cursor:default;
+}
+
+.padding
+{
+margin-right:10px;
+}
+
+
+/* menu color */
+.navbar-default
+{
+font-family:"Ubuntu";
+font-size:15px;
+border:0px;
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#131313), color-stop(10%,#2b2b2b),color-stop(90%,#2b2b2b), color-stop(100%,#131313)); /* Chrome,Safari4+ */
+}
+hr
+{
+padding-bottom:5px;
+margin:0px;
+}
+#left-panel .well
+{
+background:#34495e;
+color:#ffffff;
+}
+
+#left-panel #projectControl_wrap
+{
+font-family:"Lato";
+font-size:15px;
+height:20vh;
+}
+
+#left-panel #projectTree_wrap
+{
+font-family:"Lato";
+font-size:15px;
+height:40vh;
+overflow-y:auto;
+}
+#projectTree a.file
+{
+color:#ffffff;
+font-weight:bold;
+}
+
+#projectTree a.folder
+{
+color:#dddddd;
+font-weight:bold;
+}
+
+
+
+#content
+{
+/*background:#2C3E50;*/
+
+
+}
+#left-panel
+{
+background-color:#2C3E50;
+background:url(./bg.png) repeat;
+}
+#right-panel
+{
+background:#34495e;
+background:url(./bg.png) repeat;
+}
+
+
+
+
+
+/* menu item */
+.navbar-default .navbar-nav>li>a
+{
+color:#ffffff !important;
+}
+
+.navbar-default .navbar-nav>li>a:hover
+{
+color:#F1C40F !important;
+background:#ae440f;
+}
+
+
+
+/* menu dropdown */
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus
+{
+background:#ae440f;
+color:#ffffff;
+}
+
+li.dropdown > a:visited
+{
+color:#ffffff;
+}
+
+
+/* menu dropdown */
+.navbar-nav>li>.dropdown-menu
+{
+border:1px solid #397ff6;
+border:0px;
+border-left:0px;
+background:#ae440f;
+text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.4);
+}
+/* menu dropdown */
+.dropdown-menu>li>a
+{
+color:#ffffff;
+
+}
+
+.CodeMirror-hints
+{
+height:100px !important;
+}
+
+.navbar .nav>li>a
+{
+padding: 5px 10px;
+text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.8);
+}
+
+#misterpah_editor_tabs_position ul 
+{
+border-color:#ae440f;
+}
+
+#misterpah_editor_tabs_position ul li
+{
+height:30px;
+}
+
+#misterpah_editor_tabs_position ul li.active a
+{
+color:#ffffff;
+background:#ae440f;
+text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
+border-color:#ae440f;
+}
+
+#misterpah_editor_tabs_position ul li a:hover
+{
+color:#ffffff;
+background:#f5af8c;
+text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
+border-color:#ae440f;
+}
+
+
+#misterpah_editor_tabs_position ul li a
+{
+top:-7px;
+color:#ae440f;
+font-family:"Ubuntu";
+font-size:15px;
+text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
+}
+
+.lint-error {
+font-size: 70%;
+background: #ffa;
+color: #a00;
+padding: 2px 5px 3px;
+}
+
+
+.cm-s-base16-dark.CodeMirror
+{
+background:url(./bg.png) repeat;
+font-family:'inconsolata';
+font-size:16px;
+}
+
+@font-face {
+  font-family: 'inconsolata';
+  src: url('../fonts/Inconsolata.otf');
+}
+

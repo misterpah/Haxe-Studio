@@ -1,0 +1,70 @@
+		html{
+		height:100%;
+		}
+		body{
+		min-height:100%;
+		overflow:hidden !important;
+		}
+		
+		.form-control
+		{
+		font-family: sans-serif !important;
+		}
+
+		.dropdown-menu{
+		min-width:300px;
+		}	
+		.no-gutter {
+		padding-left:0px !important;
+		padding-right:0px !important;
+		margin-left:0px !important;
+		margin-right:0px !important;
+		}
+
+	
+		.nodrag {
+		-webkit-app-region: no-drag !important;
+		}
+
+		#border_wrap
+		{
+		position:absolute;
+		left:0px;
+		top:0px;
+		border:1px solid #e7e7e7;
+		z-index:-1;
+		}
+		
+		#nav-button
+		{
+		position:absolute;
+		top:10px;
+		right:10px;
+		z-index:10001;
+		-webkit-app-region: no-drag !important;
+		}
+		
+		.wrap
+		{
+		height:100vh;
+		}
+		
+		#content,#left-panel,#right-panel{
+		height:96vh;
+		}
+		
+		.well
+		{
+		padding:10px;
+		box-shadow:none;
+		border:0px;
+		border-radius:0px;
+		margin-bottom:10px;
+		
+		}
+		
+		.navbar-nav > li > a {padding-top:5px !important; padding-bottom:5px !important;}
+		.navbar {min-height:4vh !important}
+		.navbar-header{height:2vh !important;padding-top:6px !important; padding-bottom:5px !important;}
+		.navbar-brand{padding-top:0px;padding-bottom:0px;}
+		

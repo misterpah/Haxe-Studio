@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Haxe Studio</title>
+		<meta charset="utf-8">
+		<script>tsort = require('gaia-tsort');</script>
+		
+		
+		<script src="./js/jquery-2.0.3.min.js"></script>
+		<script src="./js/jquery.keystroke.min.js"></script>
+		<script src="./js/bootstrap/bootstrap.min.js"></script>	
+		<script src="./js/bootstrap/bootstrap-select.min.js"></script>	
+		<link href="./css/bootstrap-select.min.css" rel="stylesheet" media="screen">		
+		
+		<script src="./js/node.dir.walker.js"></script>
+		<script src="./js/cputime.js"></script>		
+		<link href="./css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="./css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">
+		
+		
+		<script>
+		$("body").on("plugin_loaded",function()
+		{
+		console.log("loaded");
+		});
+		</script>
+	</head>
+	<body>
+		<div class="wrap">
+			<div class=" navbar navbar-default" style="-webkit-border-radius: 0 0 0 0;margin:0px;">
+				<div class="navbar-collapse collapse">
+					<ul id="position-navbar" class="nodrag nav navbar-nav"></ul>
+				</div><!--/.nav-collapse -->
+			</div> <!-- /nav -->	
+	
+			<div id='content' class="no-gutter">
+				<div id='right-panel' class="col-xs-12 col-lg-12 no-gutter"><div id='editor_position' ></div></div>
+			</div>
+
+			<div style="position:absolute;top:50px;left:0px;width:100%;z-index:999;" id='notify_position'></div>
+			<div id="haxe:trace"></div>
+			<div id='style_overide'></div>
+			<div id='modal_position' style='overflow:auto;'></div>
+			<div id='temp' style='display:none'></div>	 
+
+
+			<link href="./css/index.css" rel="stylesheet" media="screen">
+			<link href="./theme/theme.css" rel="stylesheet" media="screen">
+			<script src="./js/haxestudio.js"></script>
+			<script>
+				document.body.addEventListener('dragover', function(e){
+				  e.preventDefault();
+				  e.stopPropagation();
+				}, false);			
+			</script>
+		</div>
+	</body>
+</html>
