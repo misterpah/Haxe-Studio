@@ -60,9 +60,6 @@ plugin.misterpah.ProjectAccess.main = function() {
 	plugin.misterpah.ProjectAccess.register_shortcutkey();
 }
 plugin.misterpah.ProjectAccess.register_shortcutkey = function() {
-	$.keyStroke(79,{ modKeys : ["ctrlKey","shiftKey"]},function() {
-		Main.message.broadcast("core:FileMenu.openProject","plugin.misterpah.ProjectAccess",null);
-	});
 }
 plugin.misterpah.ProjectAccess.register_listener = function() {
 	Main.message.listen("core:FileMenu.openProject","plugin.misterpah.ProjectAccess",plugin.misterpah.ProjectAccess.open_project);
@@ -128,7 +125,6 @@ plugin.misterpah.ProjectAccess.parse_project = function() {
 				}
 			}
 			Main.session.project_xml_parameter = content_push.join(" ");
-			console.log(Main.session.project_xml_parameter);
 			if(Main.session.project_xml_parameter != "") Main.message.broadcast("plugin.misterpah.ProjectAccess:system_parse_project.complete","plugin.misterpah.ProjectAccess",[]);
 		}
 	});

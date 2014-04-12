@@ -14,7 +14,7 @@ import js.Browser;
 
 	static public function register_listener():Void
 	{
-		Main.message.listen("plugin.misterpah.HaxeCheck:versionCheck.complete","plugin.misterpah.HaxeServer",spawn_server,null);
+		Main.message.listen("plugin.misterpah.HaxeCheck:versionCheck.complete","plugin.misterpah.HaxeServer",spawn_server);
 	}
 
 	

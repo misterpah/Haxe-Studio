@@ -14,10 +14,6 @@ import js.Browser;
 
 	static private function register_shortcutkey():Void
 	{
-	untyped $.keyStroke( 78, { modKeys: ['ctrlKey'] }, function(){  Main.message.broadcast("core:FileMenu.newFile","plugin.misterpah.FileAccess",null); }); // CTRL + N
-	untyped $.keyStroke( 79, { modKeys: ['ctrlKey'] }, function(){  Main.message.broadcast("core:FileMenu.openFile","plugin.misterpah.FileAccess",null); }); // CTRL + O
-	untyped $.keyStroke( 83, { modKeys: ['ctrlKey'] }, function(){  Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess",null); }); // CTRL + S
-	untyped $.keyStroke( 87, { modKeys: ['ctrlKey'] }, function(){  Main.message.broadcast("core:FileMenu.closeFile","plugin.misterpah.FileAccess",null); }); // CTRL + W
 	}
 	
 	static public function register_listener():Void

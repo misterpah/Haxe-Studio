@@ -118,14 +118,16 @@ import js.Node;
 		
 		var exec_str = "";
 		var temp = "";
+		var exec_array:Array<String> = [];
 		for (each in lines_to_exec)
 			{
 			temp = StringTools.replace(each,"%CD%", join_str_cd);
 			temp = StringTools.replace(temp,"%CAT%", cat_service);
 			temp = StringTools.replace(temp,"%QUOTE%", quote);
-			exec_str += temp + join_str;
+			exec_array.push(temp);
 			}
-		//trace(exec_str);
+		exec_str = exec_array.join(join_str);
+		//trace("exec ---> "+exec_str);
 		node_exec(exec_str,{},function(error, stdout:String,stderr:String){callback(error, stdout,stderr);});
 		}	
 		

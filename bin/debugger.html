@@ -1,0 +1,23 @@
+<html>
+	<head>
+		<script src="./js/jquery-2.0.3.min.js"></script>
+	</head>
+
+<body>
+	<div id="compile-error" style="display:none">
+		<b>Error :</b><br/> <div id="compile-error-error"></div>
+	</div>
+</body>
+<script>
+jQuery(document).ready(function()
+{
+if (localStorage.showError == "true")
+	{
+	$("#compile-error").css("display","block");
+	$("#compile-error-status").html(localStorage.compile_error_status);
+	$("#compile-error-error").html(localStorage.compile_error_error);
+	}
+});
+</script>
+
+</html>

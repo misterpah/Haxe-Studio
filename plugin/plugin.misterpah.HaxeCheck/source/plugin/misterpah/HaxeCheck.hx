@@ -15,7 +15,7 @@ import js.Browser;
 	
 	static public function register_listener():Void
 	{	
-		Main.message.listen("plugin.misterpah.HaxeCheck:versionCheck.complete","plugin.misterpah.HaxeCheck",versionCheck_complete,null);
+		Main.message.listen("plugin.misterpah.HaxeCheck:versionCheck.complete","plugin.misterpah.HaxeCheck",versionCheck_complete);
 	}
 
 	static public function versionCheck_complete():Void
@@ -40,7 +40,7 @@ import js.Browser;
 		if (error == null ) // haxe is available
 			{
 			haxe_version = stderr;
-			Main.message.broadcast("plugin.misterpah.HaxeCheck:versionCheck.complete","plugin.misterpah.HaxeCheck");
+			Main.message.broadcast("plugin.misterpah.HaxeCheck:versionCheck.complete","plugin.misterpah.HaxeCheck",null);
 			}
 		else // haxe is not available
 			{

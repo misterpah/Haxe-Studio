@@ -101,9 +101,9 @@ import CodeMirror;
 
         //new JQuery(js.Browser.document).on("core:utils.system_get_completion.complete",handle_getCompletion_complete);
         //new JQuery(js.Browser.document).on("core:utils.system_get_completion.complete_dynamic_completion",handle_getCompletion_complete);
-      	new JQuery(js.Browser.document).on("plugin.misterpah.FileAccess:close_file.complete",close_tab);
-    	new JQuery(js.Browser.document).on("plugin.misterpah.Completion:static_completion.complete",handle_static_completion);
-    	new JQuery(js.Browser.document).on("plugin.misterpah.Editor:build_completion.complete.dynamic",handle_dynamic_completion);
+		Main.message.listen("plugin.misterpah.FileAccess:close_file.complete","plugin.misterpah.Editor",close_tab);
+    	Main.message.listen("plugin.misterpah.Completion:static_completion.complete","plugin.misterpah.Editor",handle_static_completion);
+    	Main.message.listen("plugin.misterpah.Editor:build_completion.complete.dynamic","plugin.misterpah.Editor",handle_dynamic_completion);
     	
     }
 

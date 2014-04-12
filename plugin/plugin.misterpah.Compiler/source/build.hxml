@@ -1,0 +1,7 @@
+-cp ../../../source/externs/haxestudio
+-cp ../../../source/externs/nodejs-std/src
+-lib jQueryExtern
+-js ../bin/plugin.js
+-main plugin.misterpah.Compiler
+-dce full
+-debug

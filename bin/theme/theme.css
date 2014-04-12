@@ -2,6 +2,10 @@
 {
 cursor:default;
 }
+body
+{
+background:url(./bg.png) repeat;
+}
 
 .padding
 {

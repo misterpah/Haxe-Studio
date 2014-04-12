@@ -227,9 +227,9 @@ plugin.misterpah.Editor.register_hooks = function() {
 	new $(js.Browser.window).on("resize",null,function() {
 		plugin.misterpah.Editor.editor_resize();
 	});
-	new $(js.Browser.document).on("plugin.misterpah.FileAccess:close_file.complete",null,plugin.misterpah.Editor.close_tab);
-	new $(js.Browser.document).on("plugin.misterpah.Completion:static_completion.complete",null,plugin.misterpah.Editor.handle_static_completion);
-	new $(js.Browser.document).on("plugin.misterpah.Editor:build_completion.complete.dynamic",null,plugin.misterpah.Editor.handle_dynamic_completion);
+	Main.message.listen("plugin.misterpah.FileAccess:close_file.complete","plugin.misterpah.Editor",plugin.misterpah.Editor.close_tab);
+	Main.message.listen("plugin.misterpah.Completion:static_completion.complete","plugin.misterpah.Editor",plugin.misterpah.Editor.handle_static_completion);
+	Main.message.listen("plugin.misterpah.Editor:build_completion.complete.dynamic","plugin.misterpah.Editor",plugin.misterpah.Editor.handle_dynamic_completion);
 }
 plugin.misterpah.Editor.create_ui = function() {
 	new $("#editor_position").css("display","none");

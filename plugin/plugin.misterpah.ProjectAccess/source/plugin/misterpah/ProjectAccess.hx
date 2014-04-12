@@ -14,7 +14,7 @@ import js.Browser;
 	
 	static private function register_shortcutkey():Void
 	{
-	untyped $.keyStroke( 79, { modKeys: ['ctrlKey','shiftKey'] }, function(){  Main.message.broadcast("core:FileMenu.openProject","plugin.misterpah.ProjectAccess",null); }); // CTRL + SHIFT + O
+	
 	}	
 	
 	static public function register_listener():Void
@@ -110,7 +110,7 @@ import js.Browser;
 
 			        Main.session.project_xml_parameter = content_push.join(' ');					
 
-			        trace(Main.session.project_xml_parameter);
+			        //trace(Main.session.project_xml_parameter);
 					if (Main.session.project_xml_parameter != "")
 						{
 						Main.message.broadcast("plugin.misterpah.ProjectAccess:system_parse_project.complete","plugin.misterpah.ProjectAccess",[]);

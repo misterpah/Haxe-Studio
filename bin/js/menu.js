@@ -35,4 +35,3 @@ menubar.append(new gui.MenuItem({ label: 'File', submenu: FileMenu}));
 menubar.append(new gui.MenuItem({ label: 'Compile', submenu: CompileMenu}));
 menubar.append(new gui.MenuItem({ label: 'Help', submenu: HelpMenu}));
 gui.Window.get().menu = menubar;
-console.dir(gui.Window.get().menu);

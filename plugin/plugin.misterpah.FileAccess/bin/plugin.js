@@ -78,18 +78,6 @@ plugin.misterpah.FileAccess.main = function() {
 	plugin.misterpah.FileAccess.register_shortcutkey();
 }
 plugin.misterpah.FileAccess.register_shortcutkey = function() {
-	$.keyStroke(78,{ modKeys : ["ctrlKey"]},function() {
-		Main.message.broadcast("core:FileMenu.newFile","plugin.misterpah.FileAccess",null);
-	});
-	$.keyStroke(79,{ modKeys : ["ctrlKey"]},function() {
-		Main.message.broadcast("core:FileMenu.openFile","plugin.misterpah.FileAccess",null);
-	});
-	$.keyStroke(83,{ modKeys : ["ctrlKey"]},function() {
-		Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess",null);
-	});
-	$.keyStroke(87,{ modKeys : ["ctrlKey"]},function() {
-		Main.message.broadcast("core:FileMenu.closeFile","plugin.misterpah.FileAccess",null);
-	});
 }
 plugin.misterpah.FileAccess.register_listener = function() {
 	Main.message.listen("core:FileMenu.newFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.new_file);

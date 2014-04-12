@@ -85,7 +85,7 @@ plugin.misterpah.HaxeServer.main = function() {
 	plugin.misterpah.HaxeServer.register_listener();
 }
 plugin.misterpah.HaxeServer.register_listener = function() {
-	Main.message.listen("plugin.misterpah.HaxeCheck:versionCheck.complete","plugin.misterpah.HaxeServer",plugin.misterpah.HaxeServer.spawn_server,null);
+	Main.message.listen("plugin.misterpah.HaxeCheck:versionCheck.complete","plugin.misterpah.HaxeServer",plugin.misterpah.HaxeServer.spawn_server);
 }
 plugin.misterpah.HaxeServer.spawn_server = function() {
 	plugin.misterpah.HaxeServer.haxeCompletionServer = js.Node.require("child_process").spawn("haxe",["--wait","30003"]);

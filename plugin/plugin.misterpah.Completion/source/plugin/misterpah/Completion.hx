@@ -16,12 +16,9 @@ import js.Browser;
 
 	static public function register_listener():Void
 	{
-		Main.message.listen("plugin.misterpah.Completion:static_completion","plugin.misterpah.Completion",static_completion,null);
-		Main.message.listen("plugin.misterpah.Completion:dynamic_completion","plugin.misterpah.Completion",dynamic_completion,null);
+		Main.message.listen("plugin.misterpah.Completion:static_completion","plugin.misterpah.Completion",static_completion);
+		Main.message.listen("plugin.misterpah.Completion:dynamic_completion","plugin.misterpah.Completion",dynamic_completion);
     }
-    
-    
-    
     
     
 	public static function get_completion_from_server(position:Int,callback:Dynamic)
@@ -29,30 +26,8 @@ import js.Browser;
 		var path = Main.session.active_file;
 		
 		Utils.exec(["cd %CD% %QUOTE%"+Main.session.project_folder+"%QUOTE%",
-			"haxe --connect 30003 "+Main.session.project_xml_parameter+" --display %QUOTE%"+path+"%QUOTE%@"+position],function(stderr){callback(stderr);});
-		/*
-		var exec_str = "cd " + join_str_cd +'"' + Main.session.project_folder+'"' + join_str + "haxe --connect 30003 "+ Main.session.project_xml_parameter + " --display " +'"'+ path +'"'+ "@"+ position;
-		trace("fetching completion.");
-		return Utils.exec(exec_str,
-			{},
-			function(error, stdout:String, stderr:String)
-			{
-				//trace(error);trace(stdout);trace(stderr);
-				if (error == null)
-				{
-					trace("completion found.");
-					callback(stderr);
-				}
-				
-			});
-		*/
-		
+			"haxe --connect 30003 "+Main.session.project_xml_parameter+" --display %QUOTE%"+path+"%QUOTE%@"+position],function(p1,p2,p3){callback(p1,p2,p3);});		
 	}	
-    
-    
-    
-    
-    
     
 		
 	static public function dynamic_completion():Void
@@ -81,17 +56,15 @@ import js.Browser;
 			untyped sessionStorage.static_completion = untyped file;
 			trace("fetching completed");
 			trace("invoke display completion");
-			Main.message.broadcast("plugin.misterpah.Completion:static_completion.complete","plugin.misterpah.Completion");			
+			Main.message.broadcast("plugin.misterpah.Completion:static_completion.complete","plugin.misterpah.Completion",null);			
 			}
 		else
 			{
 			trace("no static completion found");
 			trace("Generating static completion.");
-			get_completion_from_server(untyped sessionStorage.cursor_index,function(stderr){build_completion(stderr,'static');});
+			get_completion_from_server(untyped sessionStorage.cursor_index,function(p1,p2,p3){/*trace(p1);trace(p2);trace(p3);*/build_completion(p3,'static');});
 			}
 		}
-		
-		
 		
 	static public function build_completion(data:String,completion_type:String = "static"):Void
 		{
@@ -134,8 +107,8 @@ import js.Browser;
 		else if (completion_type == "dynamic")
 			{
 			untyped sessionStorage.static_completion = untyped JSON.stringify(completion_array);
-			trace(untyped sessionStorage.static_completion);
-			Main.message.broadcast("plugin.misterpah.Editor:build_completion.complete.dynamic","plugin.misterpah.Editor");
+			//trace(untyped sessionStorage.static_completion);
+			Main.message.broadcast("plugin.misterpah.Editor:build_completion.complete.dynamic","plugin.misterpah.Editor",null);
 			}
 		}
 	
@@ -148,7 +121,7 @@ import js.Browser;
 		Utils.newFile(Main.session.project_folder + Utils.path.sep + "completion" + Utils.path.sep +find_completion+".completion");
 		Utils.saveFile(Main.session.project_folder + Utils.path.sep + "completion" + Utils.path.sep +find_completion+".completion", completion_content);
 		haxe.Timer.delay(function () {
-			Main.message.broadcast("plugin.misterpah.Completion:static_completion","plugin.misterpah.Completion");
+			Main.message.broadcast("plugin.misterpah.Completion:static_completion","plugin.misterpah.Completion",null);
 			}, 1000);
 		}
 

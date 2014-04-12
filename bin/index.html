@@ -39,8 +39,6 @@
 	</head>
 	<body>
 		<div class="wrap">
-			
-	
 			<div id='content' class="no-gutter">
 				<div id='right-panel' class="col-xs-12 col-lg-12 no-gutter"><div id='editor_position' ></div></div>
 			</div>
@@ -62,6 +60,46 @@
 				  e.preventDefault();
 				  e.stopPropagation();
 				}, false);
+				
+				function recompile_all_plugin()
+					{
+					var dirname = process.execPath.substr(0,process.execPath.lastIndexOf('/'));
+					var plugin_path = dirname+"/../../plugin/";
+					
+					
+					var plugin_list = Utils.readDir("../plugin");
+					for (var i=0;i<plugin_list.length;i++)
+						{
+						Utils.exec(["cd %CD% "+plugin_path+plugin_list[i]+"/source","haxe build.hxml"],function(p1,p2,p3)
+							{
+							if (p3 != "")
+								{
+								console.dir(p3);
+								console.log("--------------");
+								}
+							else
+								{
+								console.log("ok");
+								}
+							});
+						}
+					var core_path = dirname+"/../../source";
+						Utils.exec(["cd %CD% "+core_path,"haxe build.hxml"],function(p1,p2,p3)
+							{
+							if (p3 != "")
+								{
+								console.dir(p3);
+								console.log("--------------");
+								}
+							else
+								{
+								console.log("core ok");
+								}
+							});
+					
+					
+					
+					}
 			</script>
 		</div>
 	</body>

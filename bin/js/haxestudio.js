@@ -319,6 +319,7 @@ Utils.exec = function(lines_to_exec,callback) {
 	}
 	var exec_str = "";
 	var temp = "";
+	var exec_array = [];
 	var _g1 = 0;
 	while(_g1 < lines_to_exec.length) {
 		var each = lines_to_exec[_g1];
@@ -326,8 +327,9 @@ Utils.exec = function(lines_to_exec,callback) {
 		temp = StringTools.replace(each,"%CD%",join_str_cd);
 		temp = StringTools.replace(temp,"%CAT%",cat_service);
 		temp = StringTools.replace(temp,"%QUOTE%",quote);
-		exec_str += temp + join_str;
+		exec_array.push(temp);
 	}
+	exec_str = exec_array.join(join_str);
 	Utils.node_exec(exec_str,{ },function(error,stdout,stderr) {
 		callback(error,stdout,stderr);
 	});

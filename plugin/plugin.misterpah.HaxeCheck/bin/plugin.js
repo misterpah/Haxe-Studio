@@ -131,7 +131,7 @@ plugin.misterpah.HaxeCheck.main = function() {
 	plugin.misterpah.HaxeCheck.check_haxe();
 }
 plugin.misterpah.HaxeCheck.register_listener = function() {
-	Main.message.listen("plugin.misterpah.HaxeCheck:versionCheck.complete","plugin.misterpah.HaxeCheck",plugin.misterpah.HaxeCheck.versionCheck_complete,null);
+	Main.message.listen("plugin.misterpah.HaxeCheck:versionCheck.complete","plugin.misterpah.HaxeCheck",plugin.misterpah.HaxeCheck.versionCheck_complete);
 }
 plugin.misterpah.HaxeCheck.versionCheck_complete = function() {
 	var version_split = plugin.misterpah.HaxeCheck.haxe_version.split(".");
@@ -144,7 +144,7 @@ plugin.misterpah.HaxeCheck.check_haxe = function() {
 	Utils.exec(["haxe -version"],function(error,stdout,stderr) {
 		if(error == null) {
 			plugin.misterpah.HaxeCheck.haxe_version = stderr;
-			Main.message.broadcast("plugin.misterpah.HaxeCheck:versionCheck.complete","plugin.misterpah.HaxeCheck");
+			Main.message.broadcast("plugin.misterpah.HaxeCheck:versionCheck.complete","plugin.misterpah.HaxeCheck",null);
 		} else {
 			console.log(error);
 			console.log(stdout);
