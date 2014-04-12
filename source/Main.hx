@@ -30,8 +30,9 @@ import jQuery.*;
 		plugin_loading_sequence.reverse();
 		plugin_load_all("../plugin",plugin_loading_sequence);
 		
-		new menu.FileMenu();
-		new menu.CompileMenu();
+		//new menu.FileMenu();
+		//new menu.CompileMenu();
+		//new menu.HelpMenu();		
 		}
 	
 	

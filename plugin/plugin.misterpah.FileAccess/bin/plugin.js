@@ -79,23 +79,23 @@ plugin.misterpah.FileAccess.main = function() {
 }
 plugin.misterpah.FileAccess.register_shortcutkey = function() {
 	$.keyStroke(78,{ modKeys : ["ctrlKey"]},function() {
-		Main.message.broadcast("core:FileMenu.newFile","plugin.misterpah.FileAccess");
+		Main.message.broadcast("core:FileMenu.newFile","plugin.misterpah.FileAccess",null);
 	});
 	$.keyStroke(79,{ modKeys : ["ctrlKey"]},function() {
-		Main.message.broadcast("core:FileMenu.openFile","plugin.misterpah.FileAccess");
+		Main.message.broadcast("core:FileMenu.openFile","plugin.misterpah.FileAccess",null);
 	});
 	$.keyStroke(83,{ modKeys : ["ctrlKey"]},function() {
-		Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess");
+		Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess",null);
 	});
 	$.keyStroke(87,{ modKeys : ["ctrlKey"]},function() {
-		Main.message.broadcast("core:FileMenu.closeFile","plugin.misterpah.FileAccess");
+		Main.message.broadcast("core:FileMenu.closeFile","plugin.misterpah.FileAccess",null);
 	});
 }
 plugin.misterpah.FileAccess.register_listener = function() {
-	Main.message.listen("core:FileMenu.newFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.new_file,null);
-	Main.message.listen("core:FileMenu.openFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.open_file,null);
-	Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.save_file,null);
-	Main.message.listen("core:FileMenu.closeFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.close_file,null);
+	Main.message.listen("core:FileMenu.newFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.new_file);
+	Main.message.listen("core:FileMenu.openFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.open_file);
+	Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.save_file);
+	Main.message.listen("core:FileMenu.closeFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.close_file);
 }
 plugin.misterpah.FileAccess.new_file = function() {
 	var file_dialog = new ui.FileDialog();
@@ -106,7 +106,7 @@ plugin.misterpah.FileAccess.newFileHandler = function(path) {
 	if(StringTools.endsWith(path,"hx") == false) path += ".hx";
 	Utils.newFile(path);
 	plugin.misterpah.FileAccess.openFileHandler(path,true);
-	Main.message.broadcast("plugin.misterpah.FileAccess:new_file.complete","plugin.misterpah.FileAccess");
+	Main.message.broadcast("plugin.misterpah.FileAccess:new_file.complete","plugin.misterpah.FileAccess",null);
 }
 plugin.misterpah.FileAccess.open_file = function() {
 	var filedialog = new ui.FileDialog();
@@ -126,20 +126,20 @@ plugin.misterpah.FileAccess.openFileHandler = function(path,newFile) {
 		}
 		Main.file_stack.add(path,content,className);
 		Main.session.active_file = path;
-		Main.message.broadcast("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.FileAccess");
-		if(newFile == true) Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess");
+		Main.message.broadcast("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.FileAccess",null);
+		if(newFile == true) Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess",null);
 	}
 }
 plugin.misterpah.FileAccess.save_file = function() {
 	var path = Main.session.active_file;
 	var file_obj = Main.file_stack.find(path);
 	Utils.saveFile(path,file_obj[1]);
-	Main.message.broadcast("plugin.misterpah.FileAccess:save_file.complete","plugin.misterpah.FileAccess");
+	Main.message.broadcast("plugin.misterpah.FileAccess:save_file.complete","plugin.misterpah.FileAccess",null);
 }
 plugin.misterpah.FileAccess.close_file = function() {
 	var path = Main.session.active_file;
 	Main.file_stack.remove(path);
-	Main.message.broadcast("plugin.misterpah.FileAccess:close_file.complete","plugin.misterpah.FileAccess");
+	Main.message.broadcast("plugin.misterpah.FileAccess:close_file.complete","plugin.misterpah.FileAccess",null);
 }
 String.prototype.__class__ = String;
 String.__name__ = true;

@@ -9,29 +9,37 @@
 		<script src="./js/jquery-2.0.3.min.js"></script>
 		<script src="./js/jquery.keystroke.min.js"></script>
 		<script src="./js/bootstrap/bootstrap.min.js"></script>	
-		<script src="./js/bootstrap/bootstrap-select.min.js"></script>	
+		<script src="./js/bootstrap/bootstrap-select.min.js"></script>
 		<link href="./css/bootstrap-select.min.css" rel="stylesheet" media="screen">		
 		
 		<script src="./js/node.dir.walker.js"></script>
 		<script src="./js/cputime.js"></script>		
+		<script src="./js/EventBus.js"></script>
+		
 		<link href="./css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="./css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">
 		
 		
 		<script>
+		localStorage.clear();
 		$("body").on("plugin_loaded",function()
 		{
 		console.log("loaded");
 		});
+		
+		gui = require("nw.gui");
+		
+		setInterval(function()
+			{
+			localStorage.event_listeners = JSON.stringify(Main.message.listen_message);
+			localStorage.event_dispatchers = JSON.stringify(Main.message.broadcast_message);
+			},5000);
 		</script>
+		
 	</head>
 	<body>
 		<div class="wrap">
-			<div class=" navbar navbar-default" style="-webkit-border-radius: 0 0 0 0;margin:0px;">
-				<div class="navbar-collapse collapse">
-					<ul id="position-navbar" class="nodrag nav navbar-nav"></ul>
-				</div><!--/.nav-collapse -->
-			</div> <!-- /nav -->	
+			
 	
 			<div id='content' class="no-gutter">
 				<div id='right-panel' class="col-xs-12 col-lg-12 no-gutter"><div id='editor_position' ></div></div>
@@ -46,13 +54,16 @@
 
 			<link href="./css/index.css" rel="stylesheet" media="screen">
 			<link href="./theme/theme.css" rel="stylesheet" media="screen">
+			<script src="./js/menu.js"></script>
 			<script src="./js/haxestudio.js"></script>
+			<script src="./js/defaultMenu.js"></script>
 			<script>
 				document.body.addEventListener('dragover', function(e){
 				  e.preventDefault();
 				  e.stopPropagation();
-				}, false);			
+				}, false);
 			</script>
 		</div>
 	</body>
 </html>
+

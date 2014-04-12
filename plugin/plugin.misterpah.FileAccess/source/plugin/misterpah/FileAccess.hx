@@ -14,18 +14,18 @@ import js.Browser;
 
 	static private function register_shortcutkey():Void
 	{
-	untyped $.keyStroke( 78, { modKeys: ['ctrlKey'] }, function(){  Main.message.broadcast("core:FileMenu.newFile","plugin.misterpah.FileAccess"); }); // CTRL + N
-	untyped $.keyStroke( 79, { modKeys: ['ctrlKey'] }, function(){  Main.message.broadcast("core:FileMenu.openFile","plugin.misterpah.FileAccess"); }); // CTRL + O
-	untyped $.keyStroke( 83, { modKeys: ['ctrlKey'] }, function(){  Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess"); }); // CTRL + S
-	untyped $.keyStroke( 87, { modKeys: ['ctrlKey'] }, function(){  Main.message.broadcast("core:FileMenu.closeFile","plugin.misterpah.FileAccess"); }); // CTRL + W
+	untyped $.keyStroke( 78, { modKeys: ['ctrlKey'] }, function(){  Main.message.broadcast("core:FileMenu.newFile","plugin.misterpah.FileAccess",null); }); // CTRL + N
+	untyped $.keyStroke( 79, { modKeys: ['ctrlKey'] }, function(){  Main.message.broadcast("core:FileMenu.openFile","plugin.misterpah.FileAccess",null); }); // CTRL + O
+	untyped $.keyStroke( 83, { modKeys: ['ctrlKey'] }, function(){  Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess",null); }); // CTRL + S
+	untyped $.keyStroke( 87, { modKeys: ['ctrlKey'] }, function(){  Main.message.broadcast("core:FileMenu.closeFile","plugin.misterpah.FileAccess",null); }); // CTRL + W
 	}
 	
 	static public function register_listener():Void
 	{
-	Main.message.listen("core:FileMenu.newFile","plugin.misterpah.FileAccess",new_file,null);
-	Main.message.listen("core:FileMenu.openFile","plugin.misterpah.FileAccess",open_file,null);
-	Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.FileAccess",save_file,null);
-	Main.message.listen("core:FileMenu.closeFile","plugin.misterpah.FileAccess",close_file,null);
+	Main.message.listen("core:FileMenu.newFile","plugin.misterpah.FileAccess",new_file);
+	Main.message.listen("core:FileMenu.openFile","plugin.misterpah.FileAccess",open_file);
+	Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.FileAccess",save_file);
+	Main.message.listen("core:FileMenu.closeFile","plugin.misterpah.FileAccess",close_file);
 	}
 	
     static public function new_file():Void
@@ -43,7 +43,7 @@ import js.Browser;
         }
         Utils.newFile(path);
         openFileHandler(path,true);
-		Main.message.broadcast("plugin.misterpah.FileAccess:new_file.complete","plugin.misterpah.FileAccess");
+		Main.message.broadcast("plugin.misterpah.FileAccess:new_file.complete","plugin.misterpah.FileAccess",null);
     }	
 	
     static public function open_file():Void
@@ -76,10 +76,10 @@ import js.Browser;
                 }
             Main.file_stack.add(path,content,className);
             Main.session.active_file = path;
-			Main.message.broadcast("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.FileAccess");
+			Main.message.broadcast("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.FileAccess",null);
 	        if (newFile == true)
                 {
-                Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess");
+                Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess",null);
                 }
         }
     }
@@ -89,13 +89,13 @@ import js.Browser;
         var path = Main.session.active_file;
         var file_obj = Main.file_stack.find(path);
         Utils.saveFile(path,file_obj[1]);
-		Main.message.broadcast("plugin.misterpah.FileAccess:save_file.complete","plugin.misterpah.FileAccess");
+		Main.message.broadcast("plugin.misterpah.FileAccess:save_file.complete","plugin.misterpah.FileAccess",null);
     }
 
     static public function close_file()
     {
         var path = Main.session.active_file;
         Main.file_stack.remove(path);
-		Main.message.broadcast("plugin.misterpah.FileAccess:close_file.complete","plugin.misterpah.FileAccess");
+		Main.message.broadcast("plugin.misterpah.FileAccess:close_file.complete","plugin.misterpah.FileAccess",null);
     }    
 }

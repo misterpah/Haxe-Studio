@@ -14,14 +14,14 @@ import js.Browser;
 	
 	static private function register_shortcutkey():Void
 	{
-	untyped $.keyStroke( 79, { modKeys: ['ctrlKey','shiftKey'] }, function(){  Main.message.broadcast("core:FileMenu.openProject","plugin.misterpah.FileAccess"); }); // CTRL + SHIFT + O
+	untyped $.keyStroke( 79, { modKeys: ['ctrlKey','shiftKey'] }, function(){  Main.message.broadcast("core:FileMenu.openProject","plugin.misterpah.ProjectAccess",null); }); // CTRL + SHIFT + O
 	}	
 	
 	static public function register_listener():Void
 	{
-	Main.message.listen("core:FileMenu.openProject","plugin.misterpah.ProjectAccess",open_project,null);
-	Main.message.listen("core:FileMenu.closeProject","plugin.misterpah.ProjectAccess",close_project,null);
-	Main.message.listen("plugin.misterpah.ProjectAccess","plugin.misterpah.ProjectAccess",parse_project_complete,null);
+	Main.message.listen("core:FileMenu.openProject","plugin.misterpah.ProjectAccess",open_project);
+	Main.message.listen("core:FileMenu.closeProject","plugin.misterpah.ProjectAccess",close_project);
+	Main.message.listen("plugin.misterpah.ProjectAccess","plugin.misterpah.ProjectAccess",parse_project_complete);
 	
 	}
 	
@@ -39,7 +39,7 @@ import js.Browser;
 	
 	static private function parse_project_complete():Void
 	{
-		Main.message.broadcast("plugin.misterpah.ProjectAccess:open_project.complete","plugin.misterpah.ProjectAccess");
+		Main.message.broadcast("plugin.misterpah.ProjectAccess:open_project.complete","plugin.misterpah.ProjectAccess",null);
 	}
 	
 	
@@ -48,7 +48,7 @@ import js.Browser;
         Main.session.project_xml = '';
         Main.session.project_folder = '';
         Main.session.project_xml_parameter = '';
-		Main.message.broadcast("plugin.misterpah.ProjectAccess:close_project.complete","plugin.misterpah.ProjectAccess");
+		Main.message.broadcast("plugin.misterpah.ProjectAccess:close_project.complete","plugin.misterpah.ProjectAccess",null);
     }
     
     
@@ -76,7 +76,6 @@ import js.Browser;
 	    	}
 		Utils.exec(["cd %CD% \""+Main.session.project_folder+"\"",compiler],function(error,stdout,stderr)
 			{
-			//trace(error);trace(stdout);trace(stderr);
 				var the_error = false;
 				if (stderr != "") {the_error = true;}
 				if (the_error == true)
@@ -111,10 +110,10 @@ import js.Browser;
 
 			        Main.session.project_xml_parameter = content_push.join(' ');					
 
-			        //trace(Main.session.project_xml_parameter);
+			        trace(Main.session.project_xml_parameter);
 					if (Main.session.project_xml_parameter != "")
 						{
-						Main.message.broadcast("plugin.misterpah.ProjectAccess:system_parse_project.complete","plugin.misterpah.ProjectAccess");
+						Main.message.broadcast("plugin.misterpah.ProjectAccess:system_parse_project.complete","plugin.misterpah.ProjectAccess",[]);
 						}
 				} // stdout != ""
 			

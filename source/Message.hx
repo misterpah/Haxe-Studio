@@ -12,22 +12,22 @@ class Message
 		listen_message = new Array();
 	}
 	
-	public function broadcast(message:String,caller_name:String)
+	public function broadcast(message:String,caller_name:String,parameter:Array<Dynamic>)
 	{
 		var temp = new Array();
 		temp.push(message);
 		temp.push(caller_name);	
 		broadcast_message.push(temp);
-		new JQuery(js.Browser.document).triggerHandler(message);
+		untyped EventBus.dispatch(message,caller_name,parameter);
 	}
 	
-	public function listen(message:String,caller_name:String,action:Dynamic,parameter:Map<String,Dynamic>)
+	public function listen(message:String,caller_name:String,callback_function:Dynamic)
 	{
 		var temp = new Array();
 		temp.push(message);	
 		temp.push(caller_name);
 		listen_message.push(temp);
-		new JQuery(js.Browser.document).on(message,action,parameter);
+		untyped EventBus.addEventListener(message,callback_function, caller_name);
 	}
 	
 	public function list_broadcast()

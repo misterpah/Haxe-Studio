@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Haxe Studio</title>
+		<meta charset="utf-8">
+		<script>tsort = require('gaia-tsort');</script>
+		<script src="./js/jquery-2.0.3.min.js"></script>
+		<script src="./js/bootstrap/bootstrap.min.js"></script>	
+		<link href="./css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="./css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">
+		<script>
+		var listeners = "";
+		var dispatchers = "";
+		//setInterval(function(){refresh_event();},5000);
+		
+		function refresh_event()
+			{
+			listeners = JSON.parse(localStorage.event_listeners);
+			dispatchers = JSON.parse(localStorage.event_dispatchers);
+			$(document).triggerHandler("refresh_event");
+			}
+		
+		
+		$(document).on("refresh_event",function(event,data){;
+			str = "";
+			for (i = 0; i < listeners.length; i++)
+				{
+				str += "<tr>";
+				str += "<td>"+listeners[i][0]+"</td>";
+				str += "<td>"+listeners[i][1]+"</td>";
+				str += "</tr>";					
+				}			
+			$("#listeners-table").html(str);
+
+
+
+			str = "";
+			for (i = 0; i < dispatchers.length; i++)
+				{
+				str += "<tr>";
+				str += "<td>"+dispatchers[i][0]+"</td>";
+				str += "<td>"+dispatchers[i][1]+"</td>";
+				str += "</tr>";					
+				}
+			/*
+			for (var key in dispatchers) {
+			  if (dispatchers.hasOwnProperty(key)) {
+				str += "<tr>";
+				str += "<td>"+key+"</td>";
+				str += "<td>"+dispatchers[key].caller+"</td>";
+				str += "</tr>";	
+			  }
+			}
+			*/			
+			$("#broadcaster-table").html(str);
+
+
+			
+			
+			});
+		</script>
+	</head>
+	<body>
+		
+		<div class="container">
+			<div class="col-xs-12">
+				<button type="button" onClick="refresh_event();" class="btn btn-primary btn-lg">Refresh</button>
+				* the event object in Haxe Studio updated in 5 second interval. This view isn't.
+			</div>
+			<div class="col-xs-6">
+				<h2>Listeners</h2>
+				<table class="table">
+				  <thead>
+					<tr>
+					  <th>Message</th>
+					  <th>Origin</th>
+					</tr>
+				  </thead>
+				  <tbody id="listeners-table">
+				  </tbody>
+				</table>	
+			</div>
+			
+			<div class="col-xs-6">
+				<h2>Broadcaster</h2>
+				<table class="table">
+				  <thead>
+					<tr>
+					  <th>Message</th>
+					  <th>Origin</th>
+					</tr>
+				  </thead>
+				  <tbody id="broadcaster-table">
+				  </tbody>
+				</table>	
+			</div>			
+			
+		</div>
+	</body>

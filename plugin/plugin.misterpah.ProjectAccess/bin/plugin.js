@@ -61,13 +61,13 @@ plugin.misterpah.ProjectAccess.main = function() {
 }
 plugin.misterpah.ProjectAccess.register_shortcutkey = function() {
 	$.keyStroke(79,{ modKeys : ["ctrlKey","shiftKey"]},function() {
-		Main.message.broadcast("core:FileMenu.openProject","plugin.misterpah.FileAccess");
+		Main.message.broadcast("core:FileMenu.openProject","plugin.misterpah.ProjectAccess",null);
 	});
 }
 plugin.misterpah.ProjectAccess.register_listener = function() {
-	Main.message.listen("core:FileMenu.openProject","plugin.misterpah.ProjectAccess",plugin.misterpah.ProjectAccess.open_project,null);
-	Main.message.listen("core:FileMenu.closeProject","plugin.misterpah.ProjectAccess",plugin.misterpah.ProjectAccess.close_project,null);
-	Main.message.listen("plugin.misterpah.ProjectAccess","plugin.misterpah.ProjectAccess",plugin.misterpah.ProjectAccess.parse_project_complete,null);
+	Main.message.listen("core:FileMenu.openProject","plugin.misterpah.ProjectAccess",plugin.misterpah.ProjectAccess.open_project);
+	Main.message.listen("core:FileMenu.closeProject","plugin.misterpah.ProjectAccess",plugin.misterpah.ProjectAccess.close_project);
+	Main.message.listen("plugin.misterpah.ProjectAccess","plugin.misterpah.ProjectAccess",plugin.misterpah.ProjectAccess.parse_project_complete);
 }
 plugin.misterpah.ProjectAccess.open_project = function() {
 	var filedialog = new ui.FileDialog();
@@ -79,13 +79,13 @@ plugin.misterpah.ProjectAccess.openProjectHandler = function(path,newFile) {
 	plugin.misterpah.ProjectAccess.parse_project();
 }
 plugin.misterpah.ProjectAccess.parse_project_complete = function() {
-	Main.message.broadcast("plugin.misterpah.ProjectAccess:open_project.complete","plugin.misterpah.ProjectAccess");
+	Main.message.broadcast("plugin.misterpah.ProjectAccess:open_project.complete","plugin.misterpah.ProjectAccess",null);
 }
 plugin.misterpah.ProjectAccess.close_project = function() {
 	Main.session.project_xml = "";
 	Main.session.project_folder = "";
 	Main.session.project_xml_parameter = "";
-	Main.message.broadcast("plugin.misterpah.ProjectAccess:close_project.complete","plugin.misterpah.ProjectAccess");
+	Main.message.broadcast("plugin.misterpah.ProjectAccess:close_project.complete","plugin.misterpah.ProjectAccess",null);
 }
 plugin.misterpah.ProjectAccess.parse_project = function() {
 	var exec_str = "";
@@ -128,7 +128,8 @@ plugin.misterpah.ProjectAccess.parse_project = function() {
 				}
 			}
 			Main.session.project_xml_parameter = content_push.join(" ");
-			if(Main.session.project_xml_parameter != "") Main.message.broadcast("plugin.misterpah.ProjectAccess:system_parse_project.complete","plugin.misterpah.ProjectAccess");
+			console.log(Main.session.project_xml_parameter);
+			if(Main.session.project_xml_parameter != "") Main.message.broadcast("plugin.misterpah.ProjectAccess:system_parse_project.complete","plugin.misterpah.ProjectAccess",[]);
 		}
 	});
 }

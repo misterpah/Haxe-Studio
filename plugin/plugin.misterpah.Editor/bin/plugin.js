@@ -220,7 +220,7 @@ plugin.misterpah.Editor.register_hooks = function() {
 		var cursor_pos = CodeMirror.Pos(unshowed_tab[0],unshowed_tab[1]);
 		plugin.misterpah.Editor.cm.setCursor(cursor_pos);
 	});
-	new $(js.Browser.document).on("plugin.misterpah.FileAccess:open_file.complete",null,function() {
+	Main.message.listen("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.Editor",function() {
 		new $("#editor_position").css("display","block");
 		plugin.misterpah.Editor.make_tab();
 	});
@@ -299,16 +299,16 @@ plugin.misterpah.Editor.request_static_completion = function(cm) {
 	console.log("token is : " + sessionStorage.find_completion);
 	console.log("tokenizing terms completed.");
 	console.log("invoke static completion");
-	Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.Editor");
-	Main.message.broadcast("plugin.misterpah.Completion:static_completion","plugin.misterpah.Editor");
+	Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.Editor",null);
+	Main.message.broadcast("plugin.misterpah.Completion:static_completion","plugin.misterpah.Editor",null);
 }
 plugin.misterpah.Editor.request_dynamic_completion = function(cm) {
 	console.log("request_dynamic_completion");
-	Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.Editor");
+	Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.Editor",null);
 	plugin.misterpah.Editor.cursor_type = "(";
 	sessionStorage.cursor_pos = cm.getCursor().ch;
 	console.log("invoke dynamic completion");
-	Main.message.broadcast("plugin.misterpah.Completion:dynamic_completion","plugin.misterpah.Editor");
+	Main.message.broadcast("plugin.misterpah.Completion:dynamic_completion","plugin.misterpah.Editor",null);
 }
 plugin.misterpah.Editor.handle_static_completion = function() {
 	console.log("preparing static completion");

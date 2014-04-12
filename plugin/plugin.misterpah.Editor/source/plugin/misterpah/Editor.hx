@@ -86,11 +86,12 @@ import CodeMirror;
 
 			
 			
-        new JQuery(js.Browser.document).on("plugin.misterpah.FileAccess:open_file.complete",function():Void
+		Main.message.listen("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.Editor", function()
             {
             new JQuery("#editor_position").css("display","block");
             make_tab();
-            });
+            }
+		);
 
         new JQuery(js.Browser.window).on("resize",function()
             {
@@ -215,18 +216,18 @@ import CodeMirror;
 		trace("token is : "+untyped sessionStorage.find_completion);
 		trace("tokenizing terms completed.");
 		trace('invoke static completion');
-		Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.Editor");
-		Main.message.broadcast("plugin.misterpah.Completion:static_completion","plugin.misterpah.Editor");
+		Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.Editor",null);
+		Main.message.broadcast("plugin.misterpah.Completion:static_completion","plugin.misterpah.Editor",null);
 		}
 	
 	public static function request_dynamic_completion(cm)
 	{
 	trace("request_dynamic_completion");
-	Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.Editor");
+	Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.Editor",null);
 	cursor_type = "(";
 	untyped sessionStorage.cursor_pos = cm.getCursor().ch;
 	trace('invoke dynamic completion');
-	Main.message.broadcast("plugin.misterpah.Completion:dynamic_completion","plugin.misterpah.Editor");
+	Main.message.broadcast("plugin.misterpah.Completion:dynamic_completion","plugin.misterpah.Editor",null);
 	}
 	 
 

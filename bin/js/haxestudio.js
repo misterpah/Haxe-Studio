@@ -1,19 +1,11 @@
 (function () { "use strict";
 var $estr = function() { return js.Boot.__string_rec(this,''); };
-function $extend(from, fields) {
-	function inherit() {}; inherit.prototype = from; var proto = new inherit();
-	for (var name in fields) proto[name] = fields[name];
-	if( fields.toString !== Object.prototype.toString ) proto.toString = fields.toString;
-	return proto;
-}
 var _Either = {}
 _Either.Either_Impl_ = function() { }
-_Either.Either_Impl_.__name__ = true;
 var FileObject = function() {
 	this.file_stack = new Array();
 };
 $hxExpose(FileObject, "FileObject");
-FileObject.__name__ = true;
 FileObject.prototype = {
 	remove: function(path) {
 		if(this.file_stack.length > 0) {
@@ -56,10 +48,8 @@ FileObject.prototype = {
 		a[2] = className;
 		return this.file_stack.push(a);
 	}
-	,__class__: FileObject
 }
 var HxOverrides = function() { }
-HxOverrides.__name__ = true;
 HxOverrides.cca = function(s,index) {
 	var x = s.charCodeAt(index);
 	if(x != x) return undefined;
@@ -74,28 +64,8 @@ HxOverrides.substr = function(s,pos,len) {
 	} else if(len < 0) len = s.length + len - pos;
 	return s.substr(pos,len);
 }
-HxOverrides.iter = function(a) {
-	return { cur : 0, arr : a, hasNext : function() {
-		return this.cur < this.arr.length;
-	}, next : function() {
-		return this.arr[this.cur++];
-	}};
-}
-var Lambda = function() { }
-Lambda.__name__ = true;
-Lambda.indexOf = function(it,v) {
-	var i = 0;
-	var $it0 = $iterator(it)();
-	while( $it0.hasNext() ) {
-		var v2 = $it0.next();
-		if(v == v2) return i;
-		i++;
-	}
-	return -1;
-}
 var Main = function() { }
 $hxExpose(Main, "Main");
-Main.__name__ = true;
 Main.main = function() {
 	Main.session = new Session();
 	Main.file_stack = new FileObject();
@@ -106,8 +76,6 @@ Main.main = function() {
 	Main.plugin_solve_dependency("../plugin");
 	Main.plugin_loading_sequence.reverse();
 	Main.plugin_load_all("../plugin",Main.plugin_loading_sequence);
-	new menu.FileMenu();
-	new menu.CompileMenu();
 }
 Main.plugin_load_all = function(path,dependency_sequence) {
 	var _g = 0;
@@ -157,7 +125,6 @@ var Message = function() {
 	this.broadcast_message = new Array();
 	this.listen_message = new Array();
 };
-Message.__name__ = true;
 Message.prototype = {
 	list_listen: function() {
 		return this.listen_message;
@@ -165,24 +132,22 @@ Message.prototype = {
 	,list_broadcast: function() {
 		return this.broadcast_message;
 	}
-	,listen: function(message,caller_name,action,parameter) {
+	,listen: function(message,caller_name,callback_function) {
 		var temp = new Array();
 		temp.push(message);
 		temp.push(caller_name);
 		this.listen_message.push(temp);
-		new $(js.Browser.document).on(message,action,parameter);
+		EventBus.addEventListener(message,callback_function,caller_name);
 	}
-	,broadcast: function(message,caller_name) {
+	,broadcast: function(message,caller_name,parameter) {
 		var temp = new Array();
 		temp.push(message);
 		temp.push(caller_name);
 		this.broadcast_message.push(temp);
-		new $(js.Browser.document).triggerHandler(message);
+		EventBus.dispatch(message,caller_name,parameter);
 	}
-	,__class__: Message
 }
 var Reflect = function() { }
-Reflect.__name__ = true;
 Reflect.field = function(o,field) {
 	var v = null;
 	try {
@@ -208,15 +173,7 @@ var Session = function() {
 	this.active_file = "";
 };
 $hxExpose(Session, "Session");
-Session.__name__ = true;
-Session.prototype = {
-	__class__: Session
-}
 var Std = function() { }
-Std.__name__ = true;
-Std.string = function(s) {
-	return js.Boot.__string_rec(s,"");
-}
 Std.parseInt = function(x) {
 	var v = parseInt(x,10);
 	if(v == 0 && (HxOverrides.cca(x,1) == 120 || HxOverrides.cca(x,1) == 88)) v = parseInt(x);
@@ -226,18 +183,12 @@ Std.parseInt = function(x) {
 var StringBuf = function() {
 	this.b = "";
 };
-StringBuf.__name__ = true;
-StringBuf.prototype = {
-	__class__: StringBuf
-}
 var StringTools = function() { }
-StringTools.__name__ = true;
 StringTools.replace = function(s,sub,by) {
 	return s.split(sub).join(by);
 }
 var js = {}
 js.Node = function() { }
-js.Node.__name__ = true;
 js.Node.get_assert = function() {
 	return js.Node.require("assert");
 }
@@ -303,7 +254,6 @@ js.Node.newSocket = function(options) {
 }
 var Utils = function() { }
 $hxExpose(Utils, "Utils");
-Utils.__name__ = true;
 Utils.checkFileExist = function(filename) {
 	return Utils.fs.existsSync(filename);
 }
@@ -388,7 +338,6 @@ haxe.io.Bytes = function(length,b) {
 	this.length = length;
 	this.b = b;
 };
-haxe.io.Bytes.__name__ = true;
 haxe.io.Bytes.alloc = function(length) {
 	var a = new Array();
 	var _g = 0;
@@ -510,9 +459,8 @@ haxe.io.Bytes.prototype = {
 	,get: function(pos) {
 		return this.b[pos];
 	}
-	,__class__: haxe.io.Bytes
 }
-haxe.io.Error = { __ename__ : true, __constructs__ : ["Blocked","Overflow","OutsideBounds","Custom"] }
+haxe.io.Error = { __constructs__ : ["Blocked","Overflow","OutsideBounds","Custom"] }
 haxe.io.Error.Blocked = ["Blocked",0];
 haxe.io.Error.Blocked.toString = $estr;
 haxe.io.Error.Blocked.__enum__ = haxe.io.Error;
@@ -523,213 +471,11 @@ haxe.io.Error.OutsideBounds = ["OutsideBounds",2];
 haxe.io.Error.OutsideBounds.toString = $estr;
 haxe.io.Error.OutsideBounds.__enum__ = haxe.io.Error;
 haxe.io.Error.Custom = function(e) { var $x = ["Custom",3,e]; $x.__enum__ = haxe.io.Error; $x.toString = $estr; return $x; }
-js.Boot = function() { }
-js.Boot.__name__ = true;
-js.Boot.__string_rec = function(o,s) {
-	if(o == null) return "null";
-	if(s.length >= 5) return "<...>";
-	var t = typeof(o);
-	if(t == "function" && (o.__name__ || o.__ename__)) t = "object";
-	switch(t) {
-	case "object":
-		if(o instanceof Array) {
-			if(o.__enum__) {
-				if(o.length == 2) return o[0];
-				var str = o[0] + "(";
-				s += "\t";
-				var _g1 = 2, _g = o.length;
-				while(_g1 < _g) {
-					var i = _g1++;
-					if(i != 2) str += "," + js.Boot.__string_rec(o[i],s); else str += js.Boot.__string_rec(o[i],s);
-				}
-				return str + ")";
-			}
-			var l = o.length;
-			var i;
-			var str = "[";
-			s += "\t";
-			var _g = 0;
-			while(_g < l) {
-				var i1 = _g++;
-				str += (i1 > 0?",":"") + js.Boot.__string_rec(o[i1],s);
-			}
-			str += "]";
-			return str;
-		}
-		var tostr;
-		try {
-			tostr = o.toString;
-		} catch( e ) {
-			return "???";
-		}
-		if(tostr != null && tostr != Object.toString) {
-			var s2 = o.toString();
-			if(s2 != "[object Object]") return s2;
-		}
-		var k = null;
-		var str = "{\n";
-		s += "\t";
-		var hasp = o.hasOwnProperty != null;
-		for( var k in o ) { ;
-		if(hasp && !o.hasOwnProperty(k)) {
-			continue;
-		}
-		if(k == "prototype" || k == "__class__" || k == "__super__" || k == "__interfaces__" || k == "__properties__") {
-			continue;
-		}
-		if(str.length != 2) str += ", \n";
-		str += s + k + " : " + js.Boot.__string_rec(o[k],s);
-		}
-		s = s.substring(1);
-		str += "\n" + s + "}";
-		return str;
-	case "function":
-		return "<function>";
-	case "string":
-		return o;
-	default:
-		return String(o);
-	}
-}
-js.Boot.__interfLoop = function(cc,cl) {
-	if(cc == null) return false;
-	if(cc == cl) return true;
-	var intf = cc.__interfaces__;
-	if(intf != null) {
-		var _g1 = 0, _g = intf.length;
-		while(_g1 < _g) {
-			var i = _g1++;
-			var i1 = intf[i];
-			if(i1 == cl || js.Boot.__interfLoop(i1,cl)) return true;
-		}
-	}
-	return js.Boot.__interfLoop(cc.__super__,cl);
-}
-js.Boot.__instanceof = function(o,cl) {
-	if(cl == null) return false;
-	switch(cl) {
-	case Int:
-		return (o|0) === o;
-	case Float:
-		return typeof(o) == "number";
-	case Bool:
-		return typeof(o) == "boolean";
-	case String:
-		return typeof(o) == "string";
-	case Dynamic:
-		return true;
-	default:
-		if(o != null) {
-			if(typeof(cl) == "function") {
-				if(o instanceof cl) {
-					if(cl == Array) return o.__enum__ == null;
-					return true;
-				}
-				if(js.Boot.__interfLoop(o.__class__,cl)) return true;
-			}
-		} else return false;
-		if(cl == Class && o.__name__ != null) return true;
-		if(cl == Enum && o.__ename__ != null) return true;
-		return o.__enum__ == cl;
-	}
-}
-js.Boot.__cast = function(o,t) {
-	if(js.Boot.__instanceof(o,t)) return o; else throw "Cannot cast " + Std.string(o) + " to " + Std.string(t);
-}
-js.Browser = function() { }
-js.Browser.__name__ = true;
 js.NodeC = function() { }
-js.NodeC.__name__ = true;
 var ui = {}
-ui.Menu = function(_text,_headerText) {
-	this.li = js.Browser.document.createElement("li");
-	this.li.className = "dropdown";
-	var a = js.Browser.document.createElement("a");
-	a.href = "#";
-	a.className = "dropdown-toggle";
-	a.setAttribute("data-toggle","dropdown");
-	a.innerText = _text;
-	this.li.appendChild(a);
-	this.ul = js.Browser.document.createElement("ul");
-	this.ul.className = "dropdown-menu";
-	if(_headerText != null) {
-		var li_header = js.Browser.document.createElement("li");
-		li_header.className = "dropdown-header";
-		li_header.innerText = _headerText;
-		this.ul.appendChild(li_header);
-	}
-	this.li.appendChild(this.ul);
-};
-ui.Menu.__name__ = true;
-ui.Menu.prototype = {
-	setDisabled: function(indexes) {
-		var childNodes = this.ul.childNodes;
-		var _g1 = 0, _g = childNodes.length;
-		while(_g1 < _g) {
-			var i = _g1++;
-			var child = js.Boot.__cast(childNodes[i] , Element);
-			if(child.className != "divider") {
-				if(Lambda.indexOf(indexes,i) == -1) child.className = ""; else child.className = "disabled";
-			}
-		}
-	}
-	,addToDocument: function() {
-		var div = js.Boot.__cast(js.Browser.document.getElementById("position-navbar") , Element);
-		div.appendChild(this.li);
-	}
-	,addSeparator: function() {
-		this.ul.appendChild(new ui.Separator().getElement());
-	}
-	,addMenuItem: function(_text,_onClickFunctionName,_onClickFunction,_hotkey) {
-		this.ul.appendChild(new ui.MenuButtonItem(_text,_onClickFunctionName,_onClickFunction,_hotkey).getElement());
-	}
-	,__class__: ui.Menu
-}
-var menu = {}
-menu.CompileMenu = function() {
-	ui.Menu.call(this,"Compile");
-	this.create_ui();
-};
-menu.CompileMenu.__name__ = true;
-menu.CompileMenu.__super__ = ui.Menu;
-menu.CompileMenu.prototype = $extend(ui.Menu.prototype,{
-	create_ui: function() {
-		this.addMenuItem("Flash","plugin.misterpah.ProjectTree:compile_Flash",null,null);
-		this.addMenuItem("HTML5","plugin.misterpah.ProjectTree:compile_Html5",null,null);
-		this.addMenuItem("Neko","plugin.misterpah.ProjectTree:compile_Neko",null,null);
-		this.addMenuItem("Hxml","plugin.misterpah.ProjectTree:compile_Hxml",null,null);
-		this.addToDocument();
-	}
-	,__class__: menu.CompileMenu
-});
-menu.FileMenu = function() {
-	ui.Menu.call(this,"File");
-	this.create_ui();
-};
-menu.FileMenu.__name__ = true;
-menu.FileMenu.__super__ = ui.Menu;
-menu.FileMenu.prototype = $extend(ui.Menu.prototype,{
-	create_ui: function() {
-		this.addMenuItem("Open Project...","core:FileMenu.openProject",null,"Ctrl-Shift-O");
-		this.addMenuItem("Close Project...","core:FileMenu.closeProject",null);
-		this.addSeparator();
-		this.addMenuItem("New File...","core:FileMenu.newFile",null,"Ctrl-N");
-		this.addMenuItem("Open File...","core:FileMenu.openFile",null,"Ctrl-O");
-		this.addMenuItem("Save","core:FileMenu.saveFile",null,"Ctrl-S");
-		this.addMenuItem("Close File","core:FileMenu.closeFile",null,"Ctrl-W");
-		this.addSeparator();
-		this.addMenuItem("Exit","core:FileMenu.exit",function() {
-			var application_window = js.Node.require("nw.gui").Window.get();
-			application_window.close();
-		},"Alt-F4");
-		this.addToDocument();
-	}
-	,__class__: menu.FileMenu
-});
 ui.FileDialog = function() {
 };
 $hxExpose(ui.FileDialog, "ui.FileDialog");
-ui.FileDialog.__name__ = true;
 ui.FileDialog.prototype = {
 	show: function(function_name,saveAs) {
 		if(saveAs == null) saveAs = false;
@@ -741,54 +487,6 @@ ui.FileDialog.prototype = {
 		});
 		chooser.trigger("click");
 	}
-	,__class__: ui.FileDialog
-}
-ui.MenuItem = function() { }
-$hxExpose(ui.MenuItem, "ui.MenuItem");
-ui.MenuItem.__name__ = true;
-ui.MenuItem.prototype = {
-	__class__: ui.MenuItem
-}
-ui.MenuButtonItem = function(_text,_onClickFunctionName,_onClickFunction,_hotkey) {
-	var span = null;
-	if(_hotkey != null) {
-		span = js.Browser.document.createElement("span");
-		span.style.color = "silver";
-		span.style["float"] = "right";
-		span.innerText = _hotkey;
-	}
-	this.li = js.Browser.document.createElement("li");
-	var a = js.Browser.document.createElement("a");
-	a.style.left = "0";
-	a.setAttribute("onclick","$(document).triggerHandler(\"" + _onClickFunctionName + "\");");
-	a.innerText = _text;
-	if(span != null) a.appendChild(span);
-	this.li.appendChild(a);
-	this.registerEvent(_onClickFunctionName,_onClickFunction);
-};
-$hxExpose(ui.MenuButtonItem, "ui.MenuButtonItem");
-ui.MenuButtonItem.__name__ = true;
-ui.MenuButtonItem.__interfaces__ = [ui.MenuItem];
-ui.MenuButtonItem.prototype = {
-	registerEvent: function(_onClickFunctionName,_onClickFunction) {
-		if(_onClickFunction != null) new $(js.Browser.document).on(_onClickFunctionName,_onClickFunction);
-	}
-	,getElement: function() {
-		return this.li;
-	}
-	,__class__: ui.MenuButtonItem
-}
-ui.Separator = function() {
-	this.li = js.Browser.document.createElement("li");
-	this.li.className = "divider";
-};
-ui.Separator.__name__ = true;
-ui.Separator.__interfaces__ = [ui.MenuItem];
-ui.Separator.prototype = {
-	getElement: function() {
-		return this.li;
-	}
-	,__class__: ui.Separator
 }
 ui.ModalDialog = function() {
 	this.title = "";
@@ -800,7 +498,6 @@ ui.ModalDialog = function() {
 	this.cancel_text = "";
 };
 $hxExpose(ui.ModalDialog, "ui.ModalDialog");
-ui.ModalDialog.__name__ = true;
 ui.ModalDialog.prototype = {
 	hide: function() {
 		new $("#" + this.id).modal("hide");
@@ -822,14 +519,12 @@ ui.ModalDialog.prototype = {
 		new $("#modal_position").html(retStr);
 		new $("#style_overide").append("<style>.modal{overflow:hidden}</style>");
 	}
-	,__class__: ui.ModalDialog
 }
 ui.Notify = function() {
 	this.type = "";
 	this.content = "";
 };
 $hxExpose(ui.Notify, "ui.Notify");
-ui.Notify.__name__ = true;
 ui.Notify.prototype = {
 	show: function() {
 		var type_error = "";
@@ -853,23 +548,9 @@ ui.Notify.prototype = {
 			new $("#notify_position").html(retStr);
 		}
 	}
-	,__class__: ui.Notify
 }
-function $iterator(o) { if( o instanceof Array ) return function() { return HxOverrides.iter(o); }; return typeof(o.iterator) == 'function' ? $bind(o,o.iterator) : o.iterator; };
 var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; };
-String.prototype.__class__ = String;
-String.__name__ = true;
-Array.prototype.__class__ = Array;
-Array.__name__ = true;
-var Int = { __name__ : ["Int"]};
-var Dynamic = { __name__ : ["Dynamic"]};
-var Float = Number;
-Float.__name__ = ["Float"];
-var Bool = Boolean;
-Bool.__ename__ = ["Bool"];
-var Class = { __name__ : ["Class"]};
-var Enum = { };
 var module, setImmediate, clearImmediate;
 js.Node.setTimeout = setTimeout;
 js.Node.clearTimeout = clearTimeout;
@@ -892,7 +573,6 @@ Utils.path = js.Node.require("path");
 Utils.fs = js.Node.require("fs");
 Utils.node_exec = ($_=js.Node.require("child_process"),$bind($_,$_.exec));
 Utils.node_os = js.Node.require("os");
-js.Browser.document = typeof window != "undefined" ? window.document : null;
 js.NodeC.UTF8 = "utf8";
 js.NodeC.ASCII = "ascii";
 js.NodeC.BINARY = "binary";
