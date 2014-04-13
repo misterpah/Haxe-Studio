@@ -1,0 +1,13 @@
+{
+    "name": "Haxe-Studio",
+    "url" : "https://github.com/as3boyan/Haxe-Studio",
+    "license": "MIT",
+    "tags": ["IDE", "node-webkit", "desktop", "html5"],
+    "description": "Haxe Studio - plugin-based IDE for Haxe",
+    "version": "0.3.0",
+    "releasenote": "See changes.md",
+    "contributors": ["misterpah"],
+    "dependencies": {
+		"node-webkit": ""
+		}
+}
