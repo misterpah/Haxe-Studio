@@ -1,13 +1,13 @@
-(function () { "use strict";
-var Session = function() { }
-$hxExpose(Session, "Session");
-var plugin = {}
-plugin.misterpah = {}
-plugin.misterpah.Compiler = function() { }
-$hxExpose(plugin.misterpah.Compiler, "plugin.misterpah.Compiler");
+(function ($hx_exports) { "use strict";
+$hx_exports.plugin = $hx_exports.plugin || {};
+$hx_exports.plugin.misterpah = $hx_exports.plugin.misterpah || {};
+var Session = $hx_exports.Session = function() { };
+var plugin = {};
+plugin.misterpah = {};
+plugin.misterpah.Compiler = $hx_exports.plugin.misterpah.Compiler = function() { };
 plugin.misterpah.Compiler.main = function() {
 	plugin.misterpah.Compiler.register_listener();
-}
+};
 plugin.misterpah.Compiler.register_listener = function() {
 	Main.message.listen("plugin.misterpah.ProjectTree:compile_Hxml","plugin.misterpah.Compiler",function() {
 		plugin.misterpah.Compiler.compile_to_target("HXML");
@@ -24,7 +24,7 @@ plugin.misterpah.Compiler.register_listener = function() {
 	Main.message.listen("plugin.misterpah.ProjectTree:compile_Android","plugin.misterpah.Compiler",function() {
 		plugin.misterpah.Compiler.compile_to_target("LIME-ANDROID");
 	});
-}
+};
 plugin.misterpah.Compiler.compile_to_target = function(target) {
 	var compile_string = "";
 	switch(target) {
@@ -47,30 +47,22 @@ plugin.misterpah.Compiler.compile_to_target = function(target) {
 		console.log("wat?");
 		return;
 	}
+	notify("Compiling to " + target,"info");
 	Utils.exec(["cd %CD% %QUOTE%" + Main.session.project_folder + "%QUOTE%",compile_string],function(error,stdout,stderr) {
+		notify("Compiling complete","success");
 		if(stderr != "") {
 			localStorage.showError = "true";
 			localStorage.compile_error_status = stdout;
 			localStorage.compile_error_error = stderr;
-			Utils.gui.Window.open("./debugger.html",{ title : "debugger", position : "center", toolbar : false, focus : false});
+			if(error != null) Utils.gui.Window.open("./debugger.html",{ title : "debugger", position : "center", toolbar : false, focus : false});
 		}
 		if(stderr == "") localStorage.showError = "false";
 		console.log(error);
 		console.log(stdout);
 		console.log(stderr);
 	});
-}
+};
 plugin.misterpah.Compiler.main();
-function $hxExpose(src, path) {
-	var o = typeof window != "undefined" ? window : exports;
-	var parts = path.split(".");
-	for(var ii = 0; ii < parts.length-1; ++ii) {
-		var p = parts[ii];
-		if(typeof o[p] == "undefined") o[p] = {};
-		o = o[p];
-	}
-	o[parts[parts.length-1]] = src;
-}
-})();
+})(typeof window != "undefined" ? window : exports);
 
-//@ sourceMappingURL=plugin.js.map
+//# sourceMappingURL=plugin.js.map

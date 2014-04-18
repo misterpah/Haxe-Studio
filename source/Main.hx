@@ -8,11 +8,13 @@ import jQuery.*;
 	static public var session:Session;
 	static public var message:Message;
 	static public var file_stack:FileObject;
+	static public var version:String;
 	private static var plugin_loading_sequence:Array<String>;
 	
 	
 	static public function main():Void
 		{
+		version = "0.2 alpha";
 		session = new Session();
 		file_stack = new FileObject();
 		message = new Message();

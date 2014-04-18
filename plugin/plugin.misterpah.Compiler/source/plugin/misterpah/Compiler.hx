@@ -39,15 +39,19 @@ import Main;
 		    return;
 		}		
 		
-		
+		untyped notify("Compiling to "+target,"info");
 		Utils.exec(["cd %CD% %QUOTE%"+Main.session.project_folder+"%QUOTE%",
 			compile_string],function(error,stdout,stderr){
+				untyped notify("Compiling complete","success");
 				if (stderr != "")
 				{
 					untyped localStorage.showError = "true";
 					untyped localStorage.compile_error_status = stdout;
 					untyped localStorage.compile_error_error = stderr;
-					Utils.gui.Window.open("./debugger.html",{title:"debugger",position: 'center',toolbar:false,focus:false});
+					if (error != null) // error 
+						{
+						Utils.gui.Window.open("./debugger.html",{title:"debugger",position: 'center',toolbar:false,focus:false});
+						}
 				}
 				if (stderr == "")
 					{

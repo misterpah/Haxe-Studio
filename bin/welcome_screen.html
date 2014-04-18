@@ -1,0 +1,26 @@
+<div class="modal fade" id="splash" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    
+      <div class="modal-header">
+      	<div class="text-center">
+	        <h3>Haxe Studio</h3>
+    	    <p>version <span id="haxestudio_version"></span></p>
+    	</div>
+      </div>    
+    
+      <div class="modal-body">
+      	<div class="col-xs-6">
+	      	<button type="button" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;New Project</button>
+      	</div>
+      	<div class="col-xs-6">
+	      	<button type="button" onClick="Main.message.broadcast('core:FileMenu.openProject','splash',null);" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Open Project</button>
+      	</div>
+      	<p><br/></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

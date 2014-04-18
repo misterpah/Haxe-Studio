@@ -124,6 +124,11 @@ color:#ffffff;
 
 }
 
+.CodeMirror-scroll
+{
+overflow-x:hidden;
+}
+
 .CodeMirror-hints
 {
 height:100px !important;

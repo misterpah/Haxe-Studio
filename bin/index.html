@@ -10,6 +10,7 @@
 		<script src="./js/jquery.keystroke.min.js"></script>
 		<script src="./js/bootstrap/bootstrap.min.js"></script>	
 		<script src="./js/bootstrap/bootstrap-select.min.js"></script>
+		<script src="./js/bootstrap/bootstrap-notify.js"></script>	
 		<link href="./css/bootstrap-select.min.css" rel="stylesheet" media="screen">		
 		
 		<script src="./js/node.dir.walker.js"></script>
@@ -18,7 +19,7 @@
 		
 		<link href="./css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="./css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">
-		
+		<link href="./css/bootstrap-notify.css" rel="stylesheet" media="screen">
 		
 		<script>
 		localStorage.clear();
@@ -38,24 +39,109 @@
 		
 	</head>
 	<body>
-		<div class="wrap">
-			<div id='content' class="no-gutter">
-				<div id='right-panel' class="col-xs-12 col-lg-12 no-gutter"><div id='editor_position' ></div></div>
+		<div id="haxe:trace"></div>
+		<div style="overflow:auto;" class="modal fade" id="splash" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+			<div class="modal-content">
+		
+			  <div class="modal-header">
+			  	<div class="text-center">
+					<h3>Haxe Studio</h3>
+					<p>version <span id="haxestudio_version"></span></p>
+				</div>
+			  </div>    
+		
+			  <div class="modal-body">
+			  	<div class="col-xs-6">
+				  	<button type="button" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;New Project</button>
+			  	</div>
+			  	<div class="col-xs-6">
+				  	<button type="button" onClick="Main.message.broadcast('core:FileMenu.openProject','splash',null);" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Open Project</button>
+			  	</div>
+			  	<p><br/></p>
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			  </div>
 			</div>
-
-			<div style="position:absolute;top:50px;left:0px;width:100%;z-index:999;" id='notify_position'></div>
-			<div id="haxe:trace"></div>
-			<div id='style_overide'></div>
-			<div id='modal_position' style='overflow:auto;'></div>
-			<div id='temp' style='display:none'></div>	 
-
-
+		  </div>
+		</div>	
+	
+	
+		<div style="z-index:9999" class='notifications bottom-right'></div>
+		<div id='editor_position' ></div>
+		<div id='temp' style='display:none'></div>		
+	</body>
+	
 			<link href="./css/index.css" rel="stylesheet" media="screen">
 			<link href="./theme/theme.css" rel="stylesheet" media="screen">
 			<script src="./js/menu.js"></script>
 			<script src="./js/haxestudio.js"></script>
+			<script src="./js/error_code.js"></script>
 			<script src="./js/defaultMenu.js"></script>
 			<script>
+				function toggleSplash()
+					{
+					if ($('#splash').css("display") != "block")
+						{
+						$('#splash').modal({show:true,keyboard:false,backdrop:false});
+						$("#haxestudio_version").html(Main.version);	
+						}				
+					else
+						{
+						$('#splash').css("display","none");
+						$('#splash').modal({show:false});
+						}
+					}
+					
+				function notify(message,type)
+					{
+					if (Main.error_code[message] != null)
+						{
+						message = Main.error_code[message];
+						}
+					
+					var closable =true;
+					var fadeout = { enabled: true, delay: 3000 }
+					var glyphicon = '';
+					if (type=="danger")
+						{
+						closable = false;
+						fadeout ={ enabled: true, delay: 10000 }
+						glyphicon = '<span class="glyphicon glyphicon-warning-sign"></span>'
+						}
+
+					if (type=="info")
+						{
+						closable = true;
+						fadeout ={ enabled: true, delay: 3000 }
+						glyphicon = '<span class="glyphicon glyphicon-info-sign"></span>'
+						}
+						
+					
+					$('.bottom-right').notify({
+						message: { text: message},
+						type :type, // info,success,warning,danger,inverse,blackgloss
+						closable:closable,
+						fadeOut:fadeout,
+						glyphicon:glyphicon
+						}).show(); // for the ones that aren't closable and don't fade out there is a .hide() function.
+					}
+					
+				function reload_haxestudio()
+					{
+					gui.Window.get().reload();
+					}
+					
+								
+				$(document).ready(function()
+					{
+					Main.message.listen("plugin.misterpah.ProjectAccess:system_parse_project.complete","splash",function(){toggleSplash();});
+					Main.message.listen("plugin.misterpah.FileAccess:open_file.complete","splash",function(){toggleSplash();});
+					toggleSplash();
+					});
+
+				// prevent drag & drop
 				document.body.addEventListener('dragover', function(e){
 				  e.preventDefault();
 				  e.stopPropagation();
@@ -74,11 +160,13 @@
 							{
 							if (p3 != "")
 								{
+								notify(p3,"danger");
 								console.dir(p3);
 								console.log("--------------");
 								}
 							else
 								{
+								notify("compile ok!","success");								
 								console.log("ok");
 								}
 							});
@@ -88,11 +176,13 @@
 							{
 							if (p3 != "")
 								{
+								notify(p3,"danger");								
 								console.dir(p3);
 								console.log("--------------");
 								}
 							else
 								{
+								notify("core compile ok!","success");
 								console.log("core ok");
 								}
 							});
@@ -100,8 +190,7 @@
 					
 					
 					}
-			</script>
-		</div>
-	</body>
+			</script>	
+	
 </html>
 

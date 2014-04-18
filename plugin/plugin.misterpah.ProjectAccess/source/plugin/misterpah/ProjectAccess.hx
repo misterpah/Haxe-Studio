@@ -63,7 +63,8 @@ import js.Browser;
 	    var projectFolder = filename.split(Utils.path.sep);
 	    projectFolder.pop();
 	    Main.session.project_folder = projectFolder.join(Utils.path.sep);		
-	    
+
+		trace(filename_ext);
 	    
 	    var compiler = "";
 	    if (filename_ext == "xml")
@@ -76,20 +77,14 @@ import js.Browser;
 	    	}
 		Utils.exec(["cd %CD% \""+Main.session.project_folder+"\"",compiler],function(error,stdout,stderr)
 			{
-				var the_error = false;
-				if (stderr != "") {the_error = true;}
-				if (the_error == true)
+				trace(error);trace(stdout);trace(stderr);
+				if (error != null) // error 
 				{
-					trace(error);trace(stdout);trace(stderr);
-					var notify = new ui.Notify();
-					notify.type = "error";
-					notify.content = "not a valid Haxe Project File ( XML / HXML )";
-					notify.show();	
+					untyped notify(stderr,"danger");
 					Main.session.project_xml = "";					
 				}
 				else
 				{
-					//new JQuery('#projectContent').html(stdout);
 					var content_push:Array<String> = new Array();
 					var content:Array<String> = stdout.split("\n");
 
@@ -113,6 +108,7 @@ import js.Browser;
 			        //trace(Main.session.project_xml_parameter);
 					if (Main.session.project_xml_parameter != "")
 						{
+						untyped notify("Project opened","success");
 						Main.message.broadcast("plugin.misterpah.ProjectAccess:system_parse_project.complete","plugin.misterpah.ProjectAccess",[]);
 						}
 				} // stdout != ""

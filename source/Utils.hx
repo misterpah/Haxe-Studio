@@ -127,8 +127,16 @@ import js.Node;
 			exec_array.push(temp);
 			}
 		exec_str = exec_array.join(join_str);
-		//trace("exec ---> "+exec_str);
-		node_exec(exec_str,{},function(error, stdout:String,stderr:String){callback(error, stdout,stderr);});
+		node_exec(exec_str,{},function(error, stdout:String,stderr:String){
+			if (error != null) // error
+				{
+				if (stdout!="")
+					{
+					untyped notify(stdout,"danger");
+					}
+				}
+			callback(error, stdout,stderr);
+			});
 		}	
 		
     

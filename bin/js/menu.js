@@ -1,5 +1,4 @@
 // Create an empty menu
-console.dir(gui.Window.get().menu);
 var menubar = new gui.Menu({ type: 'menubar' });
 var sub1 = new gui.Menu();
 
