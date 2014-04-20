@@ -56,6 +56,7 @@ import CodeMirror;
 		
 		
 		Utils.loadJS(plugin_path() +"/editor_hint.js",function(){});
+		Utils.loadJS(plugin_path() +"/editor_resizer.js",function(){});
 		Utils.loadCSS(plugin_path() +"/editor.css");
 		
 		
@@ -93,10 +94,6 @@ import CodeMirror;
             }
 		);
 
-        new JQuery(js.Browser.window).on("resize",function()
-            {
-            editor_resize();
-            });
 
 
 		Main.message.listen("plugin.misterpah.FileAccess:close_file.complete","plugin.misterpah.Editor",close_tab);
@@ -174,7 +171,7 @@ import CodeMirror;
             else if (cm.getValue().charAt(cursor_pos - 1) == '(')
             	{
             	untyped sessionStorage.hint_pos = cm.getCursor().line;
-            	request_dynamic_completion(cm);
+            	//request_dynamic_completion(cm);
             	}
             });
         //editor_resize();
@@ -288,19 +285,6 @@ function openBuffer(name, text, mode) {
 
 
 	
-    private static function editor_resize()
-        {
-        var win = Utils.gui.Window.get();
-        var win_height = cast(win.height,Int);
-        var doc_height = new JQuery(js.Browser.document).height();
-
-        var tab_height = new JQuery("#misterpah_editor_tabs_position a").height();
-        //trace(win_height);
-        //trace(doc_height);
-        //trace(tab_height);
-        new JQuery(".CodeMirror").css("height", Std.string(doc_height - 30) +"px");
-        new JQuery(".CodeMirror").css("overflow-x", "hidden");
-        }
 
     private static function close_tab()
     {
