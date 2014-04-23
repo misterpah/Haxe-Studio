@@ -39,7 +39,6 @@
 		
 	</head>
 	<body>
-		<div id="haxe:trace"></div>
 		<div style="overflow:auto;" class="modal fade" id="splash" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 			<div class="modal-content">
@@ -65,9 +64,10 @@
 			  </div>
 			</div>
 		  </div>
-		</div>	
-	
-	
+		</div>		
+		
+		
+		
 		<div style="z-index:9999" class='notifications bottom-right'></div>
 		<div id='editor_position' ></div>
 		<div id='temp' style='display:none'></div>		
@@ -80,6 +80,14 @@
 			<script src="./js/error_code.js"></script>
 			<script src="./js/defaultMenu.js"></script>
 			<script>
+				$.getDocHeight = function () {
+				    return Math.max(
+				        $(document).height(),
+				        $(window).height(),
+				        document.documentElement.clientHeight
+				    );
+				};
+							
 				function toggleSplash()
 					{
 					if ($('#splash').css("display") != "block")
