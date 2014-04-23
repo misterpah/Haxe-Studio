@@ -36,10 +36,6 @@ Main.message.listen("core:HelpMenu.contribution","menu",function(){
 HelpMenu.append(build_menuitem("Developer Console","core:HelpMenu.developerTools",""));
 Main.message.listen("core:HelpMenu.developerTools","menu",function(){
 	gui.Window.get().showDevTools();
-});
-
-HelpMenu.append(build_menuitem("IDE debugger","core:HelpMenu.ideDebugger",""));
-Main.message.listen("core:HelpMenu.ideDebugger","menu",function(){
 	gui.Window.open("./ide_debugger.html",{title:"IDE Debugger",focus:false,nodejs:true});
 });
 

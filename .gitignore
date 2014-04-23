@@ -1,2 +1,5 @@
-plugin-non-free/
-dist/
+plugin-non-free/*
+dist/*
+runtime/linux-32/*
+runtime/linux-64/*
+runtime/windows/*
