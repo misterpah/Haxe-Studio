@@ -49,6 +49,10 @@ import CodeMirror;
 		Utils.loadJS(plugin_path() +"/codemirror-3.15/addon/fold/foldcode.js",function(){});
 		Utils.loadJS(plugin_path() +"/codemirror-3.15/addon/fold/foldgutter.js",function(){});
 		Utils.loadJS(plugin_path() +"/codemirror-3.15/addon/selection/active-line.js",function(){});
+		Utils.loadJS(plugin_path() +"/codemirror-3.15/addon/search/search.js",function(){});
+		Utils.loadJS(plugin_path() +"/codemirror-3.15/addon/search/searchcursor.js",function(){});
+		Utils.loadJS(plugin_path() +"/codemirror-3.15/addon/dialog/dialog.js",function(){});
+		Utils.loadJS(plugin_path() +"/codemirror-3.15/addon/dialog/dialog.css",function(){});
 		Utils.loadJS(plugin_path() +"/codemirror-3.15/addon/hint/show-hint.js",function(){});
 		
 		Utils.loadJS(plugin_path() +"/js/codemirror.hint.haxe.js",function(){});
@@ -329,7 +333,7 @@ function openBuffer(name, text, mode) {
             }
                        
         new JQuery("#misterpah_editor_cm_position").css("display","block"); 
-
+		cm.focus();
         cm.refresh();
 
     }	

@@ -1,3 +1,4 @@
+/*
 @font-face {
   font-family: 'inconsolata';
   src: url('./Inconsolata.otf');
@@ -7,10 +8,12 @@
 font-family:'inconsolata';
 font-size:16px;
 }
-
+*/
 .lint-error {
 font-size: 70%;
 background: #ffa;
 color: #a00;
 padding: 2px 5px 3px;
 }
+
+

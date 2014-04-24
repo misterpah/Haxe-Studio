@@ -61,6 +61,14 @@ plugin.misterpah.Editor.init = function() {
 	});
 	Utils.loadJS(plugin.misterpah.Editor.plugin_path() + "/codemirror-3.15/addon/selection/active-line.js",function() {
 	});
+	Utils.loadJS(plugin.misterpah.Editor.plugin_path() + "/codemirror-3.15/addon/search/search.js",function() {
+	});
+	Utils.loadJS(plugin.misterpah.Editor.plugin_path() + "/codemirror-3.15/addon/search/searchcursor.js",function() {
+	});
+	Utils.loadJS(plugin.misterpah.Editor.plugin_path() + "/codemirror-3.15/addon/dialog/dialog.js",function() {
+	});
+	Utils.loadJS(plugin.misterpah.Editor.plugin_path() + "/codemirror-3.15/addon/dialog/dialog.css",function() {
+	});
 	Utils.loadJS(plugin.misterpah.Editor.plugin_path() + "/codemirror-3.15/addon/hint/show-hint.js",function() {
 	});
 	Utils.loadJS(plugin.misterpah.Editor.plugin_path() + "/js/codemirror.hint.haxe.js",function() {
@@ -230,6 +238,7 @@ plugin.misterpah.Editor.show_tab = function(path,tabShow) {
 		$("#misterpah_editor_tabs_position a[data-path='" + path + "']").parent().addClass("active");
 	}
 	new $("#misterpah_editor_cm_position").css("display","block");
+	plugin.misterpah.Editor.cm.focus();
 	plugin.misterpah.Editor.cm.refresh();
 };
 function $iterator(o) { if( o instanceof Array ) return function() { return HxOverrides.iter(o); }; return typeof(o.iterator) == 'function' ? $bind(o,o.iterator) : o.iterator; }

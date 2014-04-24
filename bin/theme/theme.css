@@ -224,4 +224,12 @@ textarea::selection {
 }
 
 
+/* search box */
+.CodeMirror-dialog
+{
+z-index:9998;
+position:relative;
+background:#000000;
+color:#ffffff;
+}
 
