@@ -32,7 +32,7 @@ plugin.misterpah.Compiler.compile_to_target = function(target) {
 		compile_string = "haxe %QUOTE%" + Main.session.project_xml + "%QUOTE%";
 		break;
 	case "LIME-FLASH":
-		compile_string = "lime test flash";
+		compile_string = "lime test flash -Dfdb -debug";
 		break;
 	case "LIME-NEKO":
 		compile_string = "lime test neko";

@@ -136,7 +136,13 @@ plugin.misterpah.Editor.create_ui = function() {
 		var cursor_pos = cm1.indexFromPos(cm1.getCursor());
 		sessionStorage.cursor_index = cursor_pos;
 		sessionStorage.keypress = cm1.getValue().charAt(cursor_pos - 1);
-		if(cm1.getValue().charAt(cursor_pos - 1) == ".") plugin.misterpah.Editor.request_static_completion(cm1); else if(cm1.getValue().charAt(cursor_pos - 1) == "(") sessionStorage.hint_pos = cm1.getCursor().line;
+		if(cm1.getValue().charAt(cursor_pos - 1) == ".") plugin.misterpah.Editor.request_static_completion(cm1); else if(cm1.getValue().charAt(cursor_pos - 1) == "(") {
+			sessionStorage.hint_pos = cm1.getCursor().line;
+			plugin.misterpah.Editor.request_dynamic_completion(cm1);
+		} else if(cm1.getValue().charAt(cursor_pos - 1) == ";") {
+			sessionStorage.hint_pos = cm1.getCursor().line;
+			plugin.misterpah.Editor.request_dynamic_completion(cm1);
+		}
 	});
 };
 plugin.misterpah.Editor.openBuffer = function(name,text) {
@@ -150,7 +156,6 @@ plugin.misterpah.Editor.selectBuffer = function(editor,name) {
 };
 plugin.misterpah.Editor.request_static_completion = function(cm) {
 	console.log("request_static_completion");
-	console.log("tokenizing terms");
 	plugin.misterpah.Editor.cursor_type = ".";
 	sessionStorage.cursor_pos = cm.getCursor().ch;
 	sessionStorage.cursor_pos_line = cm.getCursor().line;
@@ -175,8 +180,6 @@ plugin.misterpah.Editor.request_static_completion = function(cm) {
 	}
 	sessionStorage.find_completion = completion_str_array.join(".");
 	console.log("token is : " + sessionStorage.find_completion);
-	console.log("tokenizing terms completed.");
-	console.log("invoke static completion");
 	Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.Editor",null);
 	Main.message.broadcast("plugin.misterpah.Completion:static_completion","plugin.misterpah.Editor",null);
 };
@@ -190,15 +193,15 @@ plugin.misterpah.Editor.request_dynamic_completion = function(cm) {
 };
 plugin.misterpah.Editor.handle_static_completion = function() {
 	console.log("preparing static completion");
+	if(sessionStorage.static_completion == ("" | sessionStorage.static_completion == null)) return;
 	var completion_array = JSON.parse(sessionStorage.static_completion);
-	console.log(completion_array);
 	plugin.misterpah.Editor.completion_list = new Array();
 	var temp = completion_array;
 	var _g = 0;
 	while(_g < temp.length) {
 		var each = temp[_g];
 		++_g;
-		var fname = each[0];
+		var fname = each;
 		plugin.misterpah.Editor.completion_list.push(fname);
 	}
 	console.log("invoke show completion");
@@ -207,7 +210,7 @@ plugin.misterpah.Editor.handle_static_completion = function() {
 };
 plugin.misterpah.Editor.handle_dynamic_completion = function() {
 	console.log("preparing dynamic completion");
-	var completion_array = JSON.parse(sessionStorage.static_completion);
+	var completion_array = JSON.parse(sessionStorage.build_completion);
 	console.log(completion_array);
 	plugin.misterpah.Editor.widgetStack.push(inline_hint(plugin.misterpah.Editor.cm.getCursor().line,completion_array));
 };

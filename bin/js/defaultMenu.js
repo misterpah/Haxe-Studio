@@ -24,6 +24,9 @@ Main.message.listen("core:FileMenu.exit","menu",function(){
 });
 
 CompileMenu.append(build_menuitem("Flash","plugin.misterpah.ProjectTree:compile_Flash",""));
+$.keyStroke( 116, {  }, function(){  Main.message.broadcast("plugin.misterpah.ProjectTree:compile_Flash","shortcut_key",null); }); // F5
+
+
 CompileMenu.append(build_menuitem("HTML5","plugin.misterpah.ProjectTree:compile_Html5",""));
 CompileMenu.append(build_menuitem("Neko","plugin.misterpah.ProjectTree:compile_Neko",""));
 CompileMenu.append(build_menuitem("Hxml","plugin.misterpah.ProjectTree:compile_Hxml",""));
@@ -36,6 +39,7 @@ Main.message.listen("core:HelpMenu.contribution","menu",function(){
 HelpMenu.append(build_menuitem("Developer Console","core:HelpMenu.developerTools",""));
 Main.message.listen("core:HelpMenu.developerTools","menu",function(){
 	gui.Window.get().showDevTools();
-	gui.Window.open("./ide_debugger.html",{title:"IDE Debugger",focus:false,nodejs:true});
 });
+
+
 

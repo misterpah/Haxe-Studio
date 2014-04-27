@@ -127,6 +127,7 @@ import js.Node;
 			exec_array.push(temp);
 			}
 		exec_str = exec_array.join(join_str);
+		//trace (exec_str);
 		node_exec(exec_str,{},function(error, stdout:String,stderr:String){
 			if (error != null) // error
 				{

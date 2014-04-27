@@ -168,6 +168,25 @@ import CodeMirror;
             var cursor_pos = cm.indexFromPos(cm.getCursor());
             untyped sessionStorage.cursor_index = cursor_pos;
             untyped sessionStorage.keypress = cm.getValue().charAt(cursor_pos - 1);
+	        if (cm.getValue().charAt(cursor_pos - 1) == '.')
+	        	{
+	        	request_static_completion(cm);
+	        	}
+	        else if (cm.getValue().charAt(cursor_pos - 1) == '(')
+	        	{
+	        	untyped sessionStorage.hint_pos = cm.getCursor().line;
+	        	request_dynamic_completion(cm);
+	        	}            
+	        else if (cm.getValue().charAt(cursor_pos - 1) == ';')
+	        	{
+	        	untyped sessionStorage.hint_pos = cm.getCursor().line;
+	        	request_dynamic_completion(cm);	        	
+	        	}
+			//untyped $.keyStroke( 32, { modKeys: ['ctrlKey'] }, function(){ 
+
+	          //  }); // CTRL + SPACE
+
+            /*
             if (cm.getValue().charAt(cursor_pos - 1) == '.')
             	{
             	request_static_completion(cm);
@@ -177,6 +196,7 @@ import CodeMirror;
             	untyped sessionStorage.hint_pos = cm.getCursor().line;
             	//request_dynamic_completion(cm);
             	}
+            */
             });
         //editor_resize();
     }
@@ -209,7 +229,7 @@ function openBuffer(name, text, mode) {
 	public static function request_static_completion(cm)
 		{
 		trace("request_static_completion");
-		trace("tokenizing terms");
+		//trace("tokenizing terms");
         cursor_type = ".";
         untyped sessionStorage.cursor_pos = cm.getCursor().ch;
         untyped sessionStorage.cursor_pos_line = cm.getCursor().line;
@@ -240,8 +260,8 @@ function openBuffer(name, text, mode) {
 			}
 		untyped sessionStorage.find_completion = completion_str_array.join(".");
 		trace("token is : "+untyped sessionStorage.find_completion);
-		trace("tokenizing terms completed.");
-		trace('invoke static completion');
+		//trace("tokenizing terms completed.");
+		//trace('invoke static completion');
 		Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.Editor",null);
 		Main.message.broadcast("plugin.misterpah.Completion:static_completion","plugin.misterpah.Editor",null);
 		}
@@ -261,15 +281,19 @@ function openBuffer(name, text, mode) {
    static private function handle_static_completion()
     {
     	trace("preparing static completion");
+    	if (untyped sessionStorage.static_completion == "" | untyped sessionStorage.static_completion == null)
+    		{
+    		return;
+    		}
         var completion_array:Dynamic = untyped JSON.parse(sessionStorage.static_completion);
-        trace(completion_array);
+        //trace(completion_array);
 
 		completion_list = new Array();
         var temp:Array<String> = completion_array;
         
 		for (each in temp)
 			{
-			var fname = untyped each[0];
+			var fname = untyped each;
 			completion_list.push(fname);
 			}
 		trace("invoke show completion");
@@ -280,7 +304,7 @@ function openBuffer(name, text, mode) {
    static private function handle_dynamic_completion()
     {
     	trace("preparing dynamic completion");
-        var completion_array:Dynamic = untyped JSON.parse(sessionStorage.static_completion);
+        var completion_array:Dynamic = untyped JSON.parse(sessionStorage.build_completion);
         trace(completion_array);
         widgetStack.push(untyped inline_hint(cm.getCursor().line,completion_array));
 

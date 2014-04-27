@@ -27,7 +27,7 @@ import Main;
 		case "HXML":
 		    compile_string = "haxe %QUOTE%"+Main.session.project_xml+"%QUOTE%";
 		case "LIME-FLASH":
-		    compile_string = "lime test flash";
+		    compile_string = "lime test flash -Dfdb -debug";
 		case "LIME-NEKO":
 		    compile_string = "lime test neko";
 		case "LIME-HTML5":

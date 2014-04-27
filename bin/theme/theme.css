@@ -124,6 +124,7 @@ overflow-x:hidden;
 .CodeMirror-hints
 {
 height:100px !important;
+width:200px !important;
 }
 
 .navbar .nav>li>a
@@ -178,7 +179,7 @@ padding: 2px 5px 3px;
 
 .cm-s-base16-dark.CodeMirror
 {
-background:url(./bg.png) repeat;
+/*background:url(./bg.png) repeat;*/
 font-family:'Source Code Pro';
 font-size:16px;
 line-height:20px;

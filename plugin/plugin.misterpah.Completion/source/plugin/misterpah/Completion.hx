@@ -16,8 +16,8 @@ import js.Browser;
 
 	static public function register_listener():Void
 	{
-		Main.message.listen("plugin.misterpah.Completion:static_completion","plugin.misterpah.Completion",static_completion);
-		Main.message.listen("plugin.misterpah.Completion:dynamic_completion","plugin.misterpah.Completion",dynamic_completion);
+		Main.message.listen("plugin.misterpah.Completion:static_completion","plugin.misterpah.Completion",get_completion_new);
+		Main.message.listen("plugin.misterpah.Completion:dynamic_completion","plugin.misterpah.Completion",get_completion_new);
     }
     
     
@@ -30,14 +30,77 @@ import js.Browser;
 	}	
     
 		
+
+	static public function get_completion_new()
+		{
+		get_completion_from_server(untyped sessionStorage.cursor_index,function(p1,p2,p3){build_completion_new(p3);});
+		}
+		
+	static public function build_completion_new(p3)
+		{
+		if (untyped p3.startsWith("Error") == true) // not null or blank
+			{
+			return;
+			}
+		else if (untyped p3.startsWith("<list>") == true) //completion via . 
+			{
+			var completion_array:Dynamic = untyped $.xml2json(p3);
+			var completion = new Array();
+			for (each in 0...completion_array.i.length)
+				{
+				completion.push(completion_array.i[each].n);
+				}
+			untyped sessionStorage.static_completion = untyped JSON.stringify(completion);
+			Main.message.broadcast("plugin.misterpah.Completion:static_completion.complete","plugin.misterpah.Completion",null);
+			}
+		else if (untyped p3.startsWith("<type>") == true) //completion via (
+			{
+			var completion_array:Dynamic = untyped $.xml2json(p3);
+			untyped sessionStorage.build_completion = untyped JSON.stringify(completion_array);
+			Main.message.broadcast("plugin.misterpah.Editor:build_completion.complete.dynamic","plugin.misterpah.Editor",null);
+			}		
+		else
+			{
+			untyped sessionStorage.build_completion = untyped JSON.stringify(p3);
+			Main.message.broadcast("plugin.misterpah.Editor:build_completion.complete.dynamic","plugin.misterpah.Editor",null);			
+			}	
+		//trace(p3);
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		/*
 	static public function dynamic_completion():Void
 		{
 		get_completion_from_server(untyped sessionStorage.cursor_index,function(stderr){build_completion(stderr,'dynamic');});
 		}
-		
+	
+
 	static public function static_completion():Void
 		{
 		trace("check for static completion");
+		
+		
+
 		var find_completion = untyped sessionStorage.find_completion;
 		var file = "";
 		
@@ -62,8 +125,9 @@ import js.Browser;
 			{
 			trace("no static completion found");
 			trace("Generating static completion.");
-			get_completion_from_server(untyped sessionStorage.cursor_index,function(p1,p2,p3){/*trace(p1);trace(p2);trace(p3);*/build_completion(p3,'static');});
+			get_completion_from_server(untyped sessionStorage.cursor_index,function(p1,p2,p3){/*trace(p1);trace(p2);trace(p3);build_completion(p3,'static');});
 			}
+			
 		}
 		
 	static public function build_completion(data:String,completion_type:String = "static"):Void
@@ -124,5 +188,5 @@ import js.Browser;
 			Main.message.broadcast("plugin.misterpah.Completion:static_completion","plugin.misterpah.Completion",null);
 			}, 1000);
 		}
-
+	*/
 }
