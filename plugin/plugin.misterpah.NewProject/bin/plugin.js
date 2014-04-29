@@ -14,7 +14,7 @@ plugin.misterpah.NewProject.main = function() {
 	plugin.misterpah.NewProject.register_listener();
 };
 plugin.misterpah.NewProject.create_new_project = function() {
-	gui.Window.open("../plugin/plugin.misterpah.NewProject/bin/newProject.html",{ title : "Create New Project", focus : true, nodejs : true});
+	gui.Window.open("../plugin/plugin.misterpah.NewProject/bin/newProject.html",{ title : "Create New Project", focus : true, nodejs : true, min_width : "800px", min_height : "500px"});
 };
 plugin.misterpah.NewProject.register_listener = function() {
 	Main.message.listen("core:FileMenu.newProject","plugin.misterpah.NewProject",plugin.misterpah.NewProject.create_new_project);

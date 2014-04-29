@@ -14,7 +14,7 @@ import js.Browser;
 	
 	private static function create_new_project():Void
 	{
-	untyped gui.Window.open("../plugin/plugin.misterpah.NewProject/bin/newProject.html",{title:"Create New Project",focus:true,nodejs:true});
+	untyped gui.Window.open("../plugin/plugin.misterpah.NewProject/bin/newProject.html",{title:"Create New Project",focus:true,nodejs:true,min_width:"800px",min_height:"500px"});
 	}		
 	
 	static public function register_listener():Void

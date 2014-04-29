@@ -4,5 +4,5 @@
 "sourceRoot":"file://",
 "sources":["/home/pah/github/Haxe-Studio/plugin/plugin.misterpah.NewProject/source/plugin/misterpah/NewProject.hx"],
 "names":[],
-"mappings":";;;;;;;;;;;;mCAQiB,xBAEhB;;;iDAIc,tCAEP;CAAgB,AAA4D,OAAO,AAA2B,CAAY;;gDAGpH,rCAEd;CAAoB,AAA2B,AAA8B;;;;;"
+"mappings":";;;;;;;;;;;;mCAQiB,xBAEhB;;;iDAIc,tCAEP;CAAgB,AAA4D,OAAO,AAA2B,CAAY,GAAe,CAAmB;;gDAGtJ,rCAEd;CAAoB,AAA2B,AAA8B;;;;;"
 }
