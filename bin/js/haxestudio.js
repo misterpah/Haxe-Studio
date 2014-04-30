@@ -66,6 +66,8 @@ HxOverrides.substr = function(s,pos,len) {
 };
 var Main = $hx_exports.Main = function() { };
 Main.main = function() {
+};
+Main.run_haxe_studio = function() {
 	Main.version = "0.2 alpha";
 	Main.session = new Session();
 	Main.file_stack = new FileObject();

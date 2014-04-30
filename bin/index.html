@@ -78,6 +78,7 @@
 			<link href="./theme/theme.css" rel="stylesheet" media="screen">
 			<script src="./js/menu.js"></script>
 			<script src="./js/haxestudio.js"></script>
+			<script>Main.run_haxe_studio();</script>
 			<script src="./js/error_code.js"></script>
 			<script src="./js/defaultMenu.js"></script>
 			<script>
@@ -113,6 +114,7 @@
 								
 				$(document).ready(function()
 					{
+
 					Main.message.listen("plugin.misterpah.ProjectAccess:system_parse_project.complete","splash",function(){toggleSplash();});
 					Main.message.listen("plugin.misterpah.FileAccess:open_file.complete","splash",function(){toggleSplash();});
 					toggleSplash();

@@ -14,6 +14,10 @@ import jQuery.*;
 	
 	static public function main():Void
 		{
+		}
+
+	static public function run_haxe_studio():Void
+		{
 		version = "0.2 alpha";
 		session = new Session();
 		file_stack = new FileObject();
@@ -35,6 +39,7 @@ import jQuery.*;
 		//new menu.FileMenu();
 		//new menu.CompileMenu();
 		//new menu.HelpMenu();		
+		
 		}
 	
 	
