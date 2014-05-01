@@ -18,11 +18,11 @@ gui.Window.open("./ide_debugger.html",{title:"IDE Debugger",focus:false,nodejs:t
 
 function hs_compile_all_plugin()
 	{
-	var dirname = process.execPath.substr(0,process.execPath.lastIndexOf('/'));
-	var plugin_path = dirname+"/../../plugin/";
+	var dirname = root;
+	var plugin_path = dirname+"/plugin/";
 	
 	
-	var plugin_list = Utils.readDir("../plugin");
+	var plugin_list = Utils.readDir(dirname+"/plugin");
 	for (var i=0;i<plugin_list.length;i++)
 		{
 		Utils.exec(["cd %CD% "+plugin_path+plugin_list[i]+"/source","haxe build.hxml"],function(p1,p2,p3)
@@ -40,7 +40,7 @@ function hs_compile_all_plugin()
 				}
 			});
 		}
-	var core_path = dirname+"/../../source";
+	var core_path = dirname+"/source";
 		Utils.exec(["cd %CD% "+core_path,"haxe build.hxml"],function(p1,p2,p3)
 			{
 			if (p3 != "")

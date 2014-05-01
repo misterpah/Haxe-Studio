@@ -75,19 +75,21 @@ Main.run_haxe_studio = function() {
 	new ui.Notify();
 	new ui.FileDialog();
 	new ui.ModalDialog();
-	Main.plugin_solve_dependency("../plugin");
+	var root_path = root;
+	Main.plugin_solve_dependency(root_path + "/plugin");
 	Main.plugin_loading_sequence.reverse();
-	console.log(Main.plugin_loading_sequence);
-	Main.plugin_load_all("../plugin",Main.plugin_loading_sequence);
+	Main.plugin_load_all(root_path + "/plugin",Main.plugin_loading_sequence);
 };
 Main.plugin_load_all = function(path,dependency_sequence) {
 	var _g = 0;
 	while(_g < dependency_sequence.length) {
 		var each = dependency_sequence[_g];
 		++_g;
-		console.log(each);
-		if(each != "") Utils.loadJS(path + "/" + each + "/bin/plugin.js",function(script) {
-		}); else continue;
+		if(each != "") {
+			console.log(each);
+			Utils.loadJS(path + "/" + each + "/bin/plugin.js",function(script) {
+			});
+		} else continue;
 	}
 };
 Main.plugin_solve_dependency = function(path) {

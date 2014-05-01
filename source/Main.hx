@@ -30,16 +30,10 @@ import jQuery.*;
 		
 		
 		
-		
-		//Utils.exec(["uname -m","cd %CD% ~","ls"],function(error,stdout,stderr){trace(error);trace(stdout);trace(stderr);});
-		plugin_solve_dependency("../plugin");
+		var root_path = untyped root;
+		plugin_solve_dependency(root_path+"/plugin");
 		plugin_loading_sequence.reverse();
-		trace(plugin_loading_sequence);
-		plugin_load_all("../plugin",plugin_loading_sequence);
-		
-		//new menu.FileMenu();
-		//new menu.CompileMenu();
-		//new menu.HelpMenu();		
+		plugin_load_all(root_path+"/plugin",plugin_loading_sequence);
 		
 		}
 	
@@ -48,9 +42,9 @@ import jQuery.*;
 		{
 		for (each in dependency_sequence)
 			{
-			trace(each);
 			if (each != "")
 				{
+				trace(each);
 				Utils.loadJS(path+"/"+each+"/bin/plugin.js",function(script){});
 				}
 			else
