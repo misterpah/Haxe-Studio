@@ -34,6 +34,7 @@ import jQuery.*;
 		//Utils.exec(["uname -m","cd %CD% ~","ls"],function(error,stdout,stderr){trace(error);trace(stdout);trace(stderr);});
 		plugin_solve_dependency("../plugin");
 		plugin_loading_sequence.reverse();
+		trace(plugin_loading_sequence);
 		plugin_load_all("../plugin",plugin_loading_sequence);
 		
 		//new menu.FileMenu();

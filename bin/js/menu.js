@@ -1,10 +1,4 @@
 // Create an empty menu
-var menubar = new gui.Menu({ type: 'menubar' });
-var sub1 = new gui.Menu();
-
-var FileMenu = new gui.Menu();
-var CompileMenu = new gui.Menu();
-var HelpMenu = new gui.Menu();
 
 function build_menuitem(label,message_name,shortcut_key)
 	{
@@ -30,7 +24,4 @@ function build_seperator()
 	}
 
 	
-menubar.append(new gui.MenuItem({ label: 'File', submenu: FileMenu}));
-menubar.append(new gui.MenuItem({ label: 'Compile', submenu: CompileMenu}));
-menubar.append(new gui.MenuItem({ label: 'Help', submenu: HelpMenu}));
-gui.Window.get().menu = menubar;
+

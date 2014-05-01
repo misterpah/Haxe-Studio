@@ -1,3 +1,13 @@
+var menubar = new gui.Menu({ type: 'menubar' });
+var sub1 = new gui.Menu();
+
+var FileMenu = new gui.Menu();
+var CompileMenu = new gui.Menu();
+var HelpMenu = new gui.Menu();
+
+
+
+
 FileMenu.append(build_menuitem("Open Project...","core:FileMenu.openProject","Ctrl+Shift+O"));
 $.keyStroke( 79, { modKeys: ['ctrlKey','shiftKey'] }, function(){  Main.message.broadcast("core:FileMenu.openProject","shortcut_key",null); }); // CTRL + SHIFT + O
 
@@ -43,3 +53,7 @@ Main.message.listen("core:HelpMenu.developerTools","menu",function(){
 
 
 
+menubar.append(new gui.MenuItem({ label: 'File', submenu: FileMenu}));
+menubar.append(new gui.MenuItem({ label: 'Compile', submenu: CompileMenu}));
+menubar.append(new gui.MenuItem({ label: 'Help', submenu: HelpMenu}));
+gui.Window.get().menu = menubar;

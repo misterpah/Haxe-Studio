@@ -77,6 +77,7 @@ Main.run_haxe_studio = function() {
 	new ui.ModalDialog();
 	Main.plugin_solve_dependency("../plugin");
 	Main.plugin_loading_sequence.reverse();
+	console.log(Main.plugin_loading_sequence);
 	Main.plugin_load_all("../plugin",Main.plugin_loading_sequence);
 };
 Main.plugin_load_all = function(path,dependency_sequence) {
