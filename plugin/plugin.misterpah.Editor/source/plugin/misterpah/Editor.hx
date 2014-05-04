@@ -204,15 +204,6 @@ import CodeMirror;
     public static function openBuffer(name:String,text:String)
     	{
     	untyped plugin.misterpah.Editor.doc_buffer[name] = CodeMirror.Doc(text,"haxe");
-    	/*
-function openBuffer(name, text, mode) {
-  buffers[name] = CodeMirror.Doc(text, mode);
-  var opt = document.createElement("option");
-  opt.appendChild(document.createTextNode(name));
-  sel_top.appendChild(opt);
-  sel_bot.appendChild(opt.cloneNode(true));
-}    	
-*/
     	}
     	
     	
@@ -340,6 +331,7 @@ function openBuffer(name, text, mode) {
 	    {
         var path = Main.session.active_file;
         var file_obj = Main.file_stack.find(path);    
+        path = untyped encodeURIComponent(path);
         openBuffer(path, file_obj[1]);
         new JQuery("#editor_position").css("display","block");
         untyped $("#misterpah_editor_tabs_position ul").append("<li><a onclick='plugin.misterpah.Editor.show_tab(\""+path+"\");' data-path='"+path+"'>"+file_obj[2]+"</a></li>");
@@ -349,7 +341,7 @@ function openBuffer(name, text, mode) {
     private static function show_tab(path:String,tabShow:Bool=true)
     {
 	    selectBuffer(cm,path);
-	    Main.session.active_file = path;
+	    Main.session.active_file = untyped decodeURIComponent(path);
         if (tabShow == true)
             {
             untyped reset_active_tab();

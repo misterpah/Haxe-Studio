@@ -227,6 +227,7 @@ plugin.misterpah.Editor.close_tab = function() {
 plugin.misterpah.Editor.make_tab = function() {
 	var path = Main.session.active_file;
 	var file_obj = Main.file_stack.find(path);
+	path = encodeURIComponent(path);
 	plugin.misterpah.Editor.openBuffer(path,file_obj[1]);
 	new $("#editor_position").css("display","block");
 	$("#misterpah_editor_tabs_position ul").append("<li><a onclick='plugin.misterpah.Editor.show_tab(\"" + path + "\");' data-path='" + path + "'>" + file_obj[2] + "</a></li>");
@@ -235,7 +236,7 @@ plugin.misterpah.Editor.make_tab = function() {
 plugin.misterpah.Editor.show_tab = function(path,tabShow) {
 	if(tabShow == null) tabShow = true;
 	plugin.misterpah.Editor.selectBuffer(plugin.misterpah.Editor.cm,path);
-	Main.session.active_file = path;
+	Main.session.active_file = decodeURIComponent(path);
 	if(tabShow == true) {
 		reset_active_tab();
 		$("#misterpah_editor_tabs_position a[data-path='" + path + "']").parent().addClass("active");
