@@ -6,7 +6,8 @@ var CompileMenu = new gui.Menu();
 var HelpMenu = new gui.Menu();
 
 
-
+FileMenu.append(build_menuitem("New Project","core:FileMenu.newProject","Ctrl+Shift+N"));
+$.keyStroke( 78, { modKeys: ['ctrlKey','shiftKey'] }, function(){  Main.message.broadcast("core:FileMenu.openProject","shortcut_key",null); }); // CTRL + SHIFT + N
 
 FileMenu.append(build_menuitem("Open Project...","core:FileMenu.openProject","Ctrl+Shift+O"));
 $.keyStroke( 79, { modKeys: ['ctrlKey','shiftKey'] }, function(){  Main.message.broadcast("core:FileMenu.openProject","shortcut_key",null); }); // CTRL + SHIFT + O
@@ -35,7 +36,6 @@ Main.message.listen("core:FileMenu.exit","menu",function(){
 
 CompileMenu.append(build_menuitem("Flash","plugin.misterpah.ProjectTree:compile_Flash",""));
 $.keyStroke( 116, {  }, function(){  Main.message.broadcast("plugin.misterpah.ProjectTree:compile_Flash","shortcut_key",null); }); // F5
-
 
 CompileMenu.append(build_menuitem("HTML5","plugin.misterpah.ProjectTree:compile_Html5",""));
 CompileMenu.append(build_menuitem("Neko","plugin.misterpah.ProjectTree:compile_Neko",""));

@@ -2,6 +2,7 @@
   "name": "Haxe Studio",
   "main": "index.html",
   "window": {
+  	"icon" : "haxe-studio.png",
     "title": "Haxe Studio",
     "toolbar": false,
     "frame": true,

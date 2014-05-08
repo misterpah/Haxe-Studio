@@ -1,6 +1,9 @@
 <script src="../../../bin/js/jquery-2.0.3.min.js"></script>
+		<script src="../../../bin/js/bootstrap/bootstrap-notify.js"></script>	
 <script src="../../../bin/js/bootstrap/bootstrap.min.js"></script>	
+<script src="../../../bin/js/support.js"></script>	
 <script src="../../../bin/js/node.dir.walker.js"></script>
+
 
 
 <script>tsort = require('gaia-tsort');</script>
@@ -39,11 +42,10 @@ margin-bottom:10px;
 
 function notify(message,type)
 	{
-	if (Main.error_code[message] != null)
+	if (message.startsWith("Error"))
 		{
-		message = Main.error_code[message];
+		type = "danger";
 		}
-	
 	var closable =true;
 	var fadeout = { enabled: true, delay: 3000 }
 	var glyphicon = '';
@@ -142,13 +144,17 @@ function create_project(template_name)
 		exec_obj.push(template_obj.command.replace("%ProjectName%","%QUOTE%"+projectName+"%QUOTE%"));
 		
 		Utils.exec(exec_obj,function(p1,p2,p3){
-			if (p2 == "")
+			console.log(p1);
+			console.log(p2);
+			console.log(p3);
+
+			if (p1 == null)
 				{
-				alert(p3);
+				notify("project Created !","success");
 				}
 			else
 				{
-				alert(p2);
+				notify(p2,"danger");
 				}
 		
 		});
@@ -189,7 +195,7 @@ function build_desc(obj)
 	return ret;
 	}
 </script>
-
+<div style="z-index:9999" class='notifications bottom-right'></div>
 <div class="container">
 <h1>Create New Project</h1>
 <hr></hr>
