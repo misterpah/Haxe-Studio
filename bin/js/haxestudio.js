@@ -68,7 +68,7 @@ var Main = $hx_exports.Main = function() { };
 Main.main = function() {
 };
 Main.run_haxe_studio = function() {
-	Main.version = "0.2 alpha";
+	Main.version = "0.2 beta";
 	Main.session = new Session();
 	Main.file_stack = new FileObject();
 	Main.message = new Message();
