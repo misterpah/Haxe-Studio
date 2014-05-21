@@ -14,7 +14,8 @@ plugin.misterpah.NewProject.main = function() {
 	plugin.misterpah.NewProject.register_listener();
 };
 plugin.misterpah.NewProject.create_new_project = function() {
-	gui.Window.open("../plugin/plugin.misterpah.NewProject/bin/newProject.html",{ title : "Create New Project", focus : true, nodejs : true, min_width : 1024, min_height : 500, toolbar : false});
+	plugin.misterpah.NewProject.new_project_window = gui.Window.open("../plugin/plugin.misterpah.NewProject/bin/newProject.html",{ title : "Create New Project", focus : true, nodejs : true, min_width : 1024, min_height : 500, toolbar : true});
+	plugin.misterpah.NewProject.new_project_window.on('plugin.misterpah.NewProject:project_created', function(path,folder,name){console.dir(path + Utils.path.sep +folder + Utils.path.sep + name); Main.session.project_xml = path + Utils.path.sep + folder +Utils.path.sep + name; plugin.misterpah.NewProject.new_project_window.close(); Main.message.broadcast('plugin.misterpah.ProjectAccess:open_project_auto');});
 };
 plugin.misterpah.NewProject.register_listener = function() {
 	Main.message.listen("core:FileMenu.newProject","plugin.misterpah.NewProject",plugin.misterpah.NewProject.create_new_project);

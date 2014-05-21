@@ -22,8 +22,15 @@ import js.Browser;
 	Main.message.listen("core:FileMenu.openProject","plugin.misterpah.ProjectAccess",open_project);
 	Main.message.listen("core:FileMenu.closeProject","plugin.misterpah.ProjectAccess",close_project);
 	Main.message.listen("plugin.misterpah.ProjectAccess","plugin.misterpah.ProjectAccess",parse_project_complete);
-	
+	Main.message.listen("plugin.misterpah.ProjectAccess:open_project_auto","plugin.misterpah.ProjectAccess",open_project_auto);
 	}
+	
+	
+	
+	static public function open_project_auto():Void
+	{
+        parse_project();	
+	}	
 	
     static public function open_project():Void
     {

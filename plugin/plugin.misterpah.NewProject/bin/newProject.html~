@@ -152,7 +152,7 @@ function create_project(template_name)
 				{
 				notify("project Created !","success");
 				//window.parent.postMessage("plugin.misterpah.NewProject:project_created","*");
-				win.emit("plugin.misterpah.NewProject:project_created",projectFolder,projectName,template_obj.projectFile);
+				win.emit("plugin.misterpah.NewProject:project_created",projectFolder,projectName,template_obj.);
 				}
 			else
 				{
