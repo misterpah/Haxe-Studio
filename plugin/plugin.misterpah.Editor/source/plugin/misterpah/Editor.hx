@@ -158,6 +158,19 @@ import CodeMirror;
 
 		    		}
 		    	}
+		    	
+		    	
+		    if (cm.getValue().charAt(cm.indexFromPos(cm.getCursor()) - 1) == "(")
+		    	{
+		    	if (widgetStack.length > 0) // close hint when change line
+		    		{
+		    		for (each in widgetStack)
+		    			{
+		    			cm.removeLineWidget(each);
+		    			}
+
+		    		}		    	
+		    	}
             });
         
         CodeMirror.on(cm,"change",function(cm){

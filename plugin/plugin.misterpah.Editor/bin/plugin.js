@@ -127,6 +127,17 @@ plugin.misterpah.Editor.create_ui = function() {
 				}
 			}
 		}
+		if(cm.getValue().charAt(cm.indexFromPos(cm.getCursor()) - 1) == "(") {
+			if(plugin.misterpah.Editor.widgetStack.length > 0) {
+				var _g2 = 0;
+				var _g11 = plugin.misterpah.Editor.widgetStack;
+				while(_g2 < _g11.length) {
+					var each1 = _g11[_g2];
+					++_g2;
+					cm.removeLineWidget(each1);
+				}
+			}
+		}
 	});
 	CodeMirror.on(plugin.misterpah.Editor.cm,"change",function(cm1) {
 		var path1 = Main.session.active_file;
