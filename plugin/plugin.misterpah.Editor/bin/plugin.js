@@ -228,8 +228,8 @@ plugin.misterpah.Editor.handle_dynamic_completion = function() {
 plugin.misterpah.Editor.close_tab = function() {
 	var path = Main.session.active_file;
 	if(path != "") {
-		$("#misterpah_editor_tabs_position a[data-path='" + path + "']").remove();
-		delete_buffered_document(path);
+		$("#misterpah_editor_tabs_position a[data-path='" + encodeURIComponent(path) + "']").remove();
+		delete_buffered_document(encodeURIComponent(path));
 		Main.session.active_file = "";
 		var len = $("#misterpah_editor_tabs_position a").length;
 		if(len < 1) new $("#editor_position").css("display","none"); else new $("#misterpah_editor_cm_position").css("display","none");

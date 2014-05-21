@@ -323,8 +323,8 @@ import CodeMirror;
         var path = Main.session.active_file; 
         if (path != "")
         	{
-		    untyped $("#misterpah_editor_tabs_position a[data-path='"+path+"']").remove();
-		    untyped delete_buffered_document(path);
+		    untyped $("#misterpah_editor_tabs_position a[data-path='"+encodeURIComponent(path)+"']").remove();
+		    untyped delete_buffered_document(encodeURIComponent(path));
 		    Main.session.active_file = '';
 		    
 		    var len = untyped $("#misterpah_editor_tabs_position a").length;
