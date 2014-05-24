@@ -2,7 +2,9 @@
 "name":"NewProject",
 "actualName":"plugin.misterpah.NewProject",
 "author":"misterpah",
-"website":"http://www.misterpah.com",
+"version":0.2,
+"description":"Handles the project creation",
+"website":"http://haxestudio.com/",
 "dependency":[],
 "configuration":{
 	"default":0

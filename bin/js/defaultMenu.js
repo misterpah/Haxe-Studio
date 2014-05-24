@@ -3,6 +3,7 @@ var sub1 = new gui.Menu();
 
 var FileMenu = new gui.Menu();
 var CompileMenu = new gui.Menu();
+var ToolsMenu = new gui.Menu();
 var HelpMenu = new gui.Menu();
 
 
@@ -41,13 +42,18 @@ CompileMenu.append(build_menuitem("HTML5","plugin.misterpah.ProjectTree:compile_
 CompileMenu.append(build_menuitem("Neko","plugin.misterpah.ProjectTree:compile_Neko",""));
 CompileMenu.append(build_menuitem("Hxml","plugin.misterpah.ProjectTree:compile_Hxml",""));
 
+
 HelpMenu.append(build_menuitem("Contributors","core:HelpMenu.contribution",""));
 Main.message.listen("core:HelpMenu.contribution","menu",function(){
 	gui.Window.open("http://www.haxestudio.com/contributors/index.html");
 });
 
-HelpMenu.append(build_menuitem("Developer Console","core:HelpMenu.developerTools",""));
-Main.message.listen("core:HelpMenu.developerTools","menu",function(){
+
+
+ToolsMenu.append(build_menuitem("Manage Plugin","core:ToolsMenu.managePlugin",""));
+
+ToolsMenu.append(build_menuitem("Developer Console","core:ToolsMenu.developerTools",""));
+Main.message.listen("core:ToolsMenu.developerTools","menu",function(){
 	gui.Window.get().showDevTools();
 });
 
@@ -55,5 +61,6 @@ Main.message.listen("core:HelpMenu.developerTools","menu",function(){
 
 menubar.append(new gui.MenuItem({ label: 'File', submenu: FileMenu}));
 menubar.append(new gui.MenuItem({ label: 'Compile', submenu: CompileMenu}));
+menubar.append(new gui.MenuItem({ label: 'Tools', submenu: ToolsMenu}));
 menubar.append(new gui.MenuItem({ label: 'Help', submenu: HelpMenu}));
 gui.Window.get().menu = menubar;

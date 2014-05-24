@@ -2,7 +2,9 @@
 "name":"Compiler",
 "actualName":"plugin.misterpah.Compiler",
 "author":"misterpah",
-"website":"http://www.misterpah.com",
+"version":0.3,
+"description":"introduce Compile facilities. ",
+"website":"http://haxestudio.com",
 "dependency":[],
 "configuration":{
 	"default":0

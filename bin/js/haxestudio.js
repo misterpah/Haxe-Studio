@@ -68,7 +68,7 @@ var Main = $hx_exports.Main = function() { };
 Main.main = function() {
 };
 Main.run_haxe_studio = function() {
-	Main.version = "0.2 beta";
+	Main.version = "0.3 alpha";
 	Main.session = new Session();
 	Main.file_stack = new FileObject();
 	Main.message = new Message();
@@ -76,7 +76,17 @@ Main.run_haxe_studio = function() {
 	new ui.FileDialog();
 	new ui.ModalDialog();
 	var root_path = root;
-	Main.plugin_solve_dependency(root_path + "/plugin");
+	var filename = "./hs-plugin.json";
+	var data = { };
+	var ret = "";
+	if(Utils.checkFileExist(filename)) {
+		ret = Utils.readFile(filename);
+		data = JSON.parse(ret);
+	} else {
+		var available_plugin = Utils.readDir("../plugin");
+		data.load_plugin = available_plugin;
+	}
+	Main.plugin_solve_dependency(data.load_plugin);
 	Main.plugin_loading_sequence.reverse();
 	Main.plugin_load_all(root_path + "/plugin",Main.plugin_loading_sequence);
 };
@@ -92,14 +102,13 @@ Main.plugin_load_all = function(path,dependency_sequence) {
 		} else continue;
 	}
 };
-Main.plugin_solve_dependency = function(path) {
-	var available_plugin = Utils.readDir(path);
+Main.plugin_solve_dependency = function(available_plugin) {
 	var plugin = new Array();
 	var _g = 0;
 	while(_g < available_plugin.length) {
 		var each = available_plugin[_g];
 		++_g;
-		plugin.push(JSON.parse(Utils.readFile(path + "/" + each + "/bin/plugin.json")));
+		plugin.push(JSON.parse(Utils.readFile("../plugin/" + each + "/bin/plugin.json")));
 	}
 	var build_load_sequence = new Array();
 	var _g1 = 0;

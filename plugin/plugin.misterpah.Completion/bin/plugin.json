@@ -2,7 +2,9 @@
 "name":"Completion",
 "actualName":"plugin.misterpah.Completion",
 "author":"misterpah",
-"website":"http://www.misterpah.com",
+"version":0.3,
+"description":"provide Completion facilities for plugin.misterpah.Editor.",
+"website":"http://haxestudio.com",
 "dependency":["plugin.misterpah.HaxeServer"],
 "configuration":{
 	"default":0

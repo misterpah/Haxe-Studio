@@ -2,7 +2,9 @@
 "name":"HaxeCheck",
 "actualName":"plugin.misterpah.HaxeCheck",
 "author":"misterpah",
-"website":"http://www.misterpah.com",
+"version":0.3,
+"description":"Checks if PC are installed with Haxe 3",
+"website":"http://haxestudio.com",
 "dependency":[],
 "configuration":{
 	"default":0

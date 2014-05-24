@@ -18,7 +18,7 @@ import jQuery.*;
 
 	static public function run_haxe_studio():Void
 		{
-		version = "0.2 beta";
+		version = "0.3 alpha";
 		session = new Session();
 		file_stack = new FileObject();
 		message = new Message();
@@ -31,10 +31,28 @@ import jQuery.*;
 		
 		
 		var root_path = untyped root;
-		plugin_solve_dependency(root_path+"/plugin");
+		
+		
+		var filename = "./hs-plugin.json";
+		var data = untyped {};
+		var ret = "";
+		// load plugin from config file
+		if (Utils.checkFileExist(filename)) 
+			{ 
+			ret = Utils.readFile(filename);
+			data = untyped JSON.parse(ret); 
+			}	
+		else 
+			{ 
+			var available_plugin = Utils.readDir("../plugin"); 
+			untyped data.load_plugin = available_plugin;
+			}
+			
+		
+
+		plugin_solve_dependency(data.load_plugin);
 		plugin_loading_sequence.reverse();
 		plugin_load_all(root_path+"/plugin",plugin_loading_sequence);
-		
 		}
 	
 	
@@ -54,14 +72,14 @@ import jQuery.*;
 			}				
 		}
 	
-	static public function plugin_solve_dependency(path:String)
+	static public function plugin_solve_dependency(available_plugin:Array<String>)
 		{
-		var available_plugin = Utils.readDir(path);
+		//var available_plugin = Utils.readDir(path);
 		
 		var plugin = new Array();
 		for (each in available_plugin)
 			{
-			plugin.push(JSON.parse(Utils.readFile(path+"/"+each+"/bin/plugin.json")));
+			plugin.push(JSON.parse(Utils.readFile("../plugin/"+each+"/bin/plugin.json")));
 			}
 		
 		var build_load_sequence = new Array();

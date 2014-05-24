@@ -1,0 +1,12 @@
+{
+"name":"Manage Plugin",
+"actualName":"plugin.misterpah.ManagePlugin",
+"author":"misterpah",
+"version":0.1,
+"description":"Manage plugin for Haxe Studio",
+"website":"http://haxestudio.com/",
+"dependency":[],
+"configuration":{
+	"default":0
+	}
+}

@@ -2,7 +2,9 @@
 "name":"Editor",
 "actualName":"plugin.misterpah.Editor",
 "author":"misterpah",
-"website":"http://www.misterpah.com",
+"version":0.3,
+"description":"CodeMirror Editor for Haxe Studio.",
+"website":"http://haxestudio.com",
 "dependency":["plugin.misterpah.FileAccess","plugin.misterpah.ProjectAccess","plugin.misterpah.Completion"],
 "configuration":{
 	"default":0

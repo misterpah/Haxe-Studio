@@ -2,7 +2,9 @@
 "name":"FileAccess",
 "actualName":"plugin.misterpah.FileAccess",
 "author":"misterpah",
-"website":"http://www.misterpah.com",
+"version":0.3,
+"description":"Provide File manipulation facilities.",
+"website":"http://haxestudio.com",
 "dependency":[],
 "configuration":{
 	"default":0
