@@ -1,5 +1,1 @@
-{
-	"load_plugin" : [
-		"plugin.misterpah.Compiler", "plugin.misterpah.Completion", "plugin.misterpah.Editor", "plugin.misterpah.FileAccess", "plugin.misterpah.HaxeCheck", "plugin.misterpah.HaxeServer", "plugin.misterpah.ManagePlugin", "plugin.misterpah.NewProject", "plugin.misterpah.ProjectAccess"
-		]
-}
+{"load_plugin":["plugin.misterpah.ManagePlugin","plugin.misterpah.NewProject","plugin.misterpah.ProjectAccess"]}

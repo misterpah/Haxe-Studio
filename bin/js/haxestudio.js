@@ -3,6 +3,7 @@ $hx_exports.ui = $hx_exports.ui || {};
 var FileObject = $hx_exports.FileObject = function() {
 	this.file_stack = new Array();
 };
+FileObject.__name__ = true;
 FileObject.prototype = {
 	add: function(path,content,className) {
 		var a = new Array();
@@ -50,6 +51,7 @@ FileObject.prototype = {
 	}
 };
 var HxOverrides = function() { };
+HxOverrides.__name__ = true;
 HxOverrides.cca = function(s,index) {
 	var x = s.charCodeAt(index);
 	if(x != x) return undefined;
@@ -65,6 +67,7 @@ HxOverrides.substr = function(s,pos,len) {
 	return s.substr(pos,len);
 };
 var Main = $hx_exports.Main = function() { };
+Main.__name__ = true;
 Main.main = function() {
 };
 Main.run_haxe_studio = function() {
@@ -79,15 +82,28 @@ Main.run_haxe_studio = function() {
 	var filename = "./hs-plugin.json";
 	var data = { };
 	var ret = "";
+	var scan_plugin = true;
 	if(Utils.checkFileExist(filename)) {
 		ret = Utils.readFile(filename);
-		data = JSON.parse(ret);
+		try {
+			data = JSON.parse(ret);
+			scan_plugin = false;
+		} catch( unknown ) {
+			console.log("Unknown exception : " + Std.string(unknown));
+		}
 	} else {
+		Utils.newFile(root_path + Utils.path.sep + "bin" + Utils.path.sep + "hs-plugin.json");
+		scan_plugin = true;
+	}
+	if(scan_plugin == true) {
 		var available_plugin = Utils.readDir("../plugin");
 		data.load_plugin = available_plugin;
+		var saveThis = JSON.stringify(data);
+		Utils.saveFile(root_path + Utils.path.sep + "bin" + Utils.path.sep + "hs-plugin.json",saveThis);
 	}
 	Main.plugin_solve_dependency(data.load_plugin);
 	Main.plugin_loading_sequence.reverse();
+	localStorage.plugin_loading_sequence = JSON.stringify(Main.plugin_loading_sequence);
 	Main.plugin_load_all(root_path + "/plugin",Main.plugin_loading_sequence);
 };
 Main.plugin_load_all = function(path,dependency_sequence) {
@@ -139,6 +155,7 @@ var Message = function() {
 	this.broadcast_message = new Array();
 	this.listen_message = new Array();
 };
+Message.__name__ = true;
 Message.prototype = {
 	broadcast: function(message,caller_name,parameter) {
 		var temp = new Array();
@@ -162,6 +179,7 @@ Message.prototype = {
 	}
 };
 var Reflect = function() { };
+Reflect.__name__ = true;
 Reflect.field = function(o,field) {
 	try {
 		return o[field];
@@ -185,7 +203,12 @@ var Session = $hx_exports.Session = function() {
 	this.project_folder = "";
 	this.active_file = "";
 };
+Session.__name__ = true;
 var Std = function() { };
+Std.__name__ = true;
+Std.string = function(s) {
+	return js.Boot.__string_rec(s,"");
+};
 Std.parseInt = function(x) {
 	var v = parseInt(x,10);
 	if(v == 0 && (HxOverrides.cca(x,1) == 120 || HxOverrides.cca(x,1) == 88)) v = parseInt(x);
@@ -195,12 +218,15 @@ Std.parseInt = function(x) {
 var StringBuf = function() {
 	this.b = "";
 };
+StringBuf.__name__ = true;
 var StringTools = function() { };
+StringTools.__name__ = true;
 StringTools.replace = function(s,sub,by) {
 	return s.split(sub).join(by);
 };
 var js = {};
 js.Node = function() { };
+js.Node.__name__ = true;
 js.Node.get_assert = function() {
 	return js.Node.require("assert");
 };
@@ -265,6 +291,7 @@ js.Node.newSocket = function(options) {
 	return new js.Node.net.Socket(options);
 };
 var Utils = $hx_exports.Utils = function() { };
+Utils.__name__ = true;
 Utils.checkFileExist = function(filename) {
 	return Utils.fs.existsSync(filename);
 };
@@ -354,6 +381,7 @@ haxe.io.Bytes = function(length,b) {
 	this.length = length;
 	this.b = b;
 };
+haxe.io.Bytes.__name__ = true;
 haxe.io.Bytes.alloc = function(length) {
 	var a = new Array();
 	var _g = 0;
@@ -480,7 +508,7 @@ haxe.io.Bytes.prototype = {
 		return this.b;
 	}
 };
-haxe.io.Error = { __constructs__ : ["Blocked","Overflow","OutsideBounds","Custom"] };
+haxe.io.Error = { __ename__ : true, __constructs__ : ["Blocked","Overflow","OutsideBounds","Custom"] };
 haxe.io.Error.Blocked = ["Blocked",0];
 haxe.io.Error.Blocked.__enum__ = haxe.io.Error;
 haxe.io.Error.Overflow = ["Overflow",1];
@@ -488,10 +516,81 @@ haxe.io.Error.Overflow.__enum__ = haxe.io.Error;
 haxe.io.Error.OutsideBounds = ["OutsideBounds",2];
 haxe.io.Error.OutsideBounds.__enum__ = haxe.io.Error;
 haxe.io.Error.Custom = function(e) { var $x = ["Custom",3,e]; $x.__enum__ = haxe.io.Error; return $x; };
+js.Boot = function() { };
+js.Boot.__name__ = true;
+js.Boot.__string_rec = function(o,s) {
+	if(o == null) return "null";
+	if(s.length >= 5) return "<...>";
+	var t = typeof(o);
+	if(t == "function" && (o.__name__ || o.__ename__)) t = "object";
+	switch(t) {
+	case "object":
+		if(o instanceof Array) {
+			if(o.__enum__) {
+				if(o.length == 2) return o[0];
+				var str = o[0] + "(";
+				s += "\t";
+				var _g1 = 2;
+				var _g = o.length;
+				while(_g1 < _g) {
+					var i = _g1++;
+					if(i != 2) str += "," + js.Boot.__string_rec(o[i],s); else str += js.Boot.__string_rec(o[i],s);
+				}
+				return str + ")";
+			}
+			var l = o.length;
+			var i1;
+			var str1 = "[";
+			s += "\t";
+			var _g2 = 0;
+			while(_g2 < l) {
+				var i2 = _g2++;
+				str1 += (i2 > 0?",":"") + js.Boot.__string_rec(o[i2],s);
+			}
+			str1 += "]";
+			return str1;
+		}
+		var tostr;
+		try {
+			tostr = o.toString;
+		} catch( e ) {
+			return "???";
+		}
+		if(tostr != null && tostr != Object.toString) {
+			var s2 = o.toString();
+			if(s2 != "[object Object]") return s2;
+		}
+		var k = null;
+		var str2 = "{\n";
+		s += "\t";
+		var hasp = o.hasOwnProperty != null;
+		for( var k in o ) {
+		if(hasp && !o.hasOwnProperty(k)) {
+			continue;
+		}
+		if(k == "prototype" || k == "__class__" || k == "__super__" || k == "__interfaces__" || k == "__properties__") {
+			continue;
+		}
+		if(str2.length != 2) str2 += ", \n";
+		str2 += s + k + " : " + js.Boot.__string_rec(o[k],s);
+		}
+		s = s.substring(1);
+		str2 += "\n" + s + "}";
+		return str2;
+	case "function":
+		return "<function>";
+	case "string":
+		return o;
+	default:
+		return String(o);
+	}
+};
 js.NodeC = function() { };
+js.NodeC.__name__ = true;
 var ui = {};
 ui.FileDialog = $hx_exports.ui.FileDialog = function() {
 };
+ui.FileDialog.__name__ = true;
 ui.FileDialog.prototype = {
 	show: function(function_name,saveAs) {
 		if(saveAs == null) saveAs = false;
@@ -513,6 +612,7 @@ ui.ModalDialog = $hx_exports.ui.ModalDialog = function() {
 	this.ok_text = "";
 	this.cancel_text = "";
 };
+ui.ModalDialog.__name__ = true;
 ui.ModalDialog.prototype = {
 	updateModalDialog: function() {
 		var retStr = ["<div class='modal fade' id='" + this.id + "' tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true'>","<div class='modal-dialog'>","<div class='modal-content'>"].join("\n");
@@ -539,6 +639,7 @@ ui.Notify = $hx_exports.ui.Notify = function() {
 	this.type = "";
 	this.content = "";
 };
+ui.Notify.__name__ = true;
 ui.Notify.prototype = {
 	show: function() {
 		var type_error = "";
@@ -565,6 +666,8 @@ ui.Notify.prototype = {
 };
 var $_, $fid = 0;
 function $bind(o,m) { if( m == null ) return null; if( m.__id__ == null ) m.__id__ = $fid++; var f; if( o.hx__closures__ == null ) o.hx__closures__ = {}; else f = o.hx__closures__[m.__id__]; if( f == null ) { f = function(){ return f.method.apply(f.scope, arguments); }; f.scope = o; f.method = m; o.hx__closures__[m.__id__] = f; } return f; }
+String.__name__ = true;
+Array.__name__ = true;
 if(Array.prototype.map == null) Array.prototype.map = function(f) {
 	var a = [];
 	var _g1 = 0;

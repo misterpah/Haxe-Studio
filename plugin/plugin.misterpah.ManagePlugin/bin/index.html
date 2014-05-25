@@ -36,10 +36,15 @@ padding:10px;
 border-radius: 4px;
 margin-bottom:10px;
 }
+
+* {
+    outline: none !important;
+}
+
 </style>
 
 <script>
-
+var root = Utils.path.resolve(".");
 	
 var fs = require("fs");
 function openProject(obj)
@@ -82,20 +87,70 @@ $(document).ready(function()
 	
 	});
 
+function setOnOff(obj)
+	{
+	if ($(obj).html() == "ON")
+		{
+		$(obj).html("OFF");
+		$(obj).removeClass("active btn-primary");
+		$(obj).addClass("btn-default");
+		}
+	else
+		{
+		$(obj).html("ON");
+		$(obj).addClass("active btn-primary");
+		$(obj).removeClass("btn-default");
+		}
+	}
+
+
+function saveConfig()
+	{
+	var ret = []
+	$("#table_content button").each(function()
+		{
+		//console.log($(this).html());
+		if ($(this).html() == "ON")
+			{
+			ret.push($(this).attr("name"));
+			}
+		else if ($(this).html() == "CORE")
+			{
+			ret.push($(this).attr("name"));
+			}
+		//console.dir($(this).html())
+		});
+	console.dir(ret);
+	var config_file = Utils.readFile(root+Utils.path.sep+"hs-plugin.json");
+	var config_file_json = JSON.parse(config_file);
+	config_file_json.load_plugin = ret;
+	var saved_config_file_json = JSON.stringify(config_file_json);
+	Utils.saveFile(root+Utils.path.sep+"hs-plugin.json", saved_config_file_json);
+	}
 
 function display_plugin(i,data)
 	{
 	i = i+1;
+	var plugin_loading_sequence = JSON.parse(localStorage.plugin_loading_sequence);
+	var plugin_on = false;
+	var plugin_on_off = '<button onClick="setOnOff($(this));" class="btn btn-default btn-block" name="'+data.actualName+'" >OFF</button>';
+	if (plugin_loading_sequence.indexOf(data.actualName) != -1)
+		{
+		plugin_on = true;
+		plugin_on_off = '<button onClick="setOnOff($(this));" class="btn btn-primary btn-block active" name="'+data.actualName+'" >ON</button>';
+		}
+	
+	if (data.actualName == "plugin.misterpah.ManagePlugin")
+		{
+		plugin_on_off = '<button class="btn btn-warning btn-block" disabled="disabled" name="'+data.actualName+'" >CORE</button>';
+		}
+	
+	
 var ret = ['<div class="col-xs-12 clearfix">',
-'<div class="col-xs-9"><b>'+data.name+' v'+data.version+'</b> <br>('+data.actualName+')  <small>by '+data.author+'</small> <p>'+data.description+'</p></div>',
-'<div class="col-xs-3">',
-    '<div class="col-xs-3">',
-		//'<span class="glyphicon glyphicon-cog" style="font-size:30px;"></span>',
-    '</div>',
-	'<div class="col-xs-offset-3 col-xs-6">',
-    	'<button class="btn btn-primary btn-block active" id="'+data.actualName+'" >ON</button>',
-    '</div>',
+'<div class="col-xs-2">',
+	plugin_on_off,
 '</div>',
+'<div class="col-xs-10"><h3 style="margin:0px;padding:0px;">'+data.name+' v'+data.version+'</h3> <br>('+data.actualName+')  <small>by '+data.author+'</small> <p>'+data.description+'</p><p><b>Depends on : </b>'+data.dependency+'</p></div>',
 '</div><br>'].join("\n");
 	
 	$("#table_content").append(ret);
@@ -107,7 +162,7 @@ var template = {}
 <div style="z-index:9999" class='notifications bottom-right'></div>
 <div class="container">
 	<h1>Manage Plugin 
-		<button class="btn btn-primary active">CORE Plugin</button>
+		<button onclick="saveConfig();" class="btn btn-primary">Save Changes</button>
 	</h1>
 	<hr></hr>
 	<div id="table_content">
