@@ -25,6 +25,9 @@ package;
     public static function saveFile(filename:String, content:String):Dynamic;
     public static function loadJS(script:String,callback:Dynamic):Dynamic;
     public static function loadCSS(css:String):Dynamic;
+    public static function isFile(filename:String):Bool;
+    
+    //public static function getClassName():String;
     //public static function system_get_completion(position:Int,callback:Dynamic):Dynamic;
     //public static function system_create_project(exec_str:String):Dynamic;
     //public static function system_parse_project():Dynamic;

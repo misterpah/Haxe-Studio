@@ -2,6 +2,8 @@ package;
 import jQuery.*;
 import js.Browser;
 import js.Node;
+import haxe.macro.Context;
+import haxe.macro.Expr;
 
 @:keep @:expose class Utils
 	{
@@ -38,7 +40,16 @@ import js.Node;
 		trace("SYSTEM: file saved "+filename);
     	}
     
-
+	public static function isFile(filename:String):Bool
+		{
+		var stats = fs.statSync(filename);
+		var ret = false;
+		if (stats.isFile())
+			{
+			ret = true;
+			}
+		return ret;
+		}
 
 
 
@@ -50,6 +61,11 @@ import js.Node;
     
     
     // support
+    
+    
+    macro public static function getClassName():ExprOf<String> {
+        return { expr: EConst(CString(Context.getLocalClass().toString())), pos: Context.currentPos() }
+    }    
     
 	public static function loadJS(script:String,callback:Dynamic):Void
 		{

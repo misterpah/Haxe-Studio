@@ -114,7 +114,7 @@ import CodeMirror;
     {
 
         new JQuery("#editor_position").css("display","none");
-        new JQuery("#editor_position").append("<div  id='misterpah_editor_tabs_position'><ul class='nav nav-tabs'></ul></div>");
+        new JQuery("#editor_position").append("<div id='misterpah_editor_tabs_position'><ul class='nav nav-tabs'></ul></div>");
         new JQuery("#editor_position").append("<div class='ui-layout-center' id='misterpah_editor_cm_position'></div>");
         new JQuery("#misterpah_editor_cm_position").append("<textarea style='display:none;' name='misterpah_editor_cm_name' id='misterpah_editor_cm'></textarea>");
         

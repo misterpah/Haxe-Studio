@@ -10,7 +10,7 @@ $(window).resize(function()
 function resize_codemirror()
 	{
 	$(".CodeMirror").height($("html").height()- 30 +"px")
-	$(".CodeMirror").width($("html").width() +"px")
+	$(".CodeMirror").width($("#editor_position").width() +"px")
 	/*
 	console.log("resize!");
 	console.log($("html").height());	

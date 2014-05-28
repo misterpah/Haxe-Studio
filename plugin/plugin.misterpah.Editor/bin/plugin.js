@@ -105,7 +105,7 @@ plugin.misterpah.Editor.register_hooks = function() {
 };
 plugin.misterpah.Editor.create_ui = function() {
 	new $("#editor_position").css("display","none");
-	new $("#editor_position").append("<div  id='misterpah_editor_tabs_position'><ul class='nav nav-tabs'></ul></div>");
+	new $("#editor_position").append("<div id='misterpah_editor_tabs_position'><ul class='nav nav-tabs'></ul></div>");
 	new $("#editor_position").append("<div class='ui-layout-center' id='misterpah_editor_cm_position'></div>");
 	new $("#misterpah_editor_cm_position").append("<textarea style='display:none;' name='misterpah_editor_cm_name' id='misterpah_editor_cm'></textarea>");
 	plugin.misterpah.Editor.cm = CodeMirror.fromTextArea($("#misterpah_editor_cm")[0],{ lineNumbers : true, indentUnit : 4, tabSize : 4, indentWithTabs : true, cursorHeight : 0.85, mode : "haxe", theme : "base16-dark", viewportMargin : Infinity, matchBrackets : true, autoCloseBrackets : true, foldCode : true, foldGutter : true, styleActiveLine : true});

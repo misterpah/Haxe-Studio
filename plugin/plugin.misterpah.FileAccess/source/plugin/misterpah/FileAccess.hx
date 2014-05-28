@@ -22,6 +22,8 @@ import js.Browser;
 	Main.message.listen("core:FileMenu.openFile","plugin.misterpah.FileAccess",open_file);
 	Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.FileAccess",save_file);
 	Main.message.listen("core:FileMenu.closeFile","plugin.misterpah.FileAccess",close_file);
+	Main.message.listen("plugin.misterpah.FileAccess:OpenFileDirectly","plugin.misterpah.FileAccess",openFileDirectly);
+
 	}
 	
     static public function new_file():Void
@@ -47,6 +49,12 @@ import js.Browser;
         var filedialog = new ui.FileDialog();
 		filedialog.show(openFileHandler);		
     }
+
+	static private function openFileDirectly(event:Dynamic,path:String):Void
+	{
+	trace(path);
+	openFileHandler(path,false);
+	}
 
     static private function openFileHandler(path:String,newFile:Bool=false):Void
     {

@@ -306,6 +306,12 @@ Utils.saveFile = function(filename,content) {
 	Utils.fs.writeFileSync(filename,content);
 	console.log("SYSTEM: file saved " + filename);
 };
+Utils.isFile = function(filename) {
+	var stats = Utils.fs.statSync(filename);
+	var ret = false;
+	if(stats.isFile()) ret = true;
+	return ret;
+};
 Utils.readDir = function(path) {
 	return Utils.fs.readdirSync(path);
 };

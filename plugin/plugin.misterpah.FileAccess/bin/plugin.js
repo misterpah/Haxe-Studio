@@ -37,6 +37,7 @@ plugin.misterpah.FileAccess.register_listener = function() {
 	Main.message.listen("core:FileMenu.openFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.open_file);
 	Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.save_file);
 	Main.message.listen("core:FileMenu.closeFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.close_file);
+	Main.message.listen("plugin.misterpah.FileAccess:OpenFileDirectly","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.openFileDirectly);
 };
 plugin.misterpah.FileAccess.new_file = function() {
 	var file_dialog = new ui.FileDialog();
@@ -52,6 +53,10 @@ plugin.misterpah.FileAccess.newFileHandler = function(path) {
 plugin.misterpah.FileAccess.open_file = function() {
 	var filedialog = new ui.FileDialog();
 	filedialog.show(plugin.misterpah.FileAccess.openFileHandler);
+};
+plugin.misterpah.FileAccess.openFileDirectly = function(event,path) {
+	console.log(path);
+	plugin.misterpah.FileAccess.openFileHandler(path,false);
 };
 plugin.misterpah.FileAccess.openFileHandler = function(path,newFile) {
 	if(newFile == null) newFile = false;
