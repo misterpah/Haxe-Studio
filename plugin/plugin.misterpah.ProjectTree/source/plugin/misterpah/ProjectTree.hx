@@ -25,6 +25,7 @@ import js.Browser;
 	static public function create_ui():Void
 	{
 	Utils.loadJS(plugin_path() + "/projectTree.js",function(){});
+	Utils.loadCSS(plugin_path() + "/projectTree.css");
 	}
 	
 	

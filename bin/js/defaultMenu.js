@@ -1,4 +1,5 @@
 var menubar = new gui.Menu({ type: 'menubar' });
+
 var sub1 = new gui.Menu();
 
 var FileMenu = new gui.Menu();

@@ -82,7 +82,8 @@ color:#ffffff !important;
 .navbar-default .navbar-nav>li>a:hover
 {
 color:#F1C40F !important;
-background:#ae440f;
+background:#d35400;
+
 }
 
 
@@ -90,7 +91,7 @@ background:#ae440f;
 /* menu dropdown */
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus
 {
-background:#ae440f;
+background:#d35400;
 color:#ffffff;
 }
 
@@ -106,7 +107,7 @@ color:#ffffff;
 border:1px solid #397ff6;
 border:0px;
 border-left:0px;
-background:#ae440f;
+background:#d35400;
 text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.4);
 }
 /* menu dropdown */
@@ -135,7 +136,7 @@ text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.8);
 
 #misterpah_editor_tabs_position ul 
 {
-border-color:#ae440f;
+border-color:#d35400;
 }
 
 #misterpah_editor_tabs_position ul li
@@ -146,9 +147,9 @@ height:30px;
 #misterpah_editor_tabs_position ul li.active a
 {
 color:#ffffff;
-background:#ae440f;
+background:#d35400;
 text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
-border-color:#ae440f;
+border-color:#d35400;
 }
 
 #misterpah_editor_tabs_position ul li a:hover
@@ -156,14 +157,15 @@ border-color:#ae440f;
 color:#ffffff;
 background:#f5af8c;
 text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
-border-color:#ae440f;
+border-color:#d35400;
+height:37px;
 }
 
 
 #misterpah_editor_tabs_position ul li a
 {
 top:-7px;
-color:#ae440f;
+color:#d35400;
 font-family:"Ubuntu";
 font-size:15px;
 text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
@@ -195,17 +197,17 @@ line-height:20px;
         */
     }  
     ::-webkit-scrollbar-thumb {  
-        background-color: #ae440f;  
+        background-color: #d35400;  
 		-webkit-border-radius: 4px;
 		-moz-border-radius: 4px;
 		border-radius: 4px;        
     }  
     ::-webkit-scrollbar-thumb:hover {  
-        background-color: #ae440f;  
+        background-color: #d35400;  
     }  
     
 textarea::selection {
-	background: #ae440f;
+	background: #d35400;
 	color:#ffffff;
 }    
 
@@ -235,12 +237,38 @@ color:#ffffff;
 }
 
 
+
+
 /* project Tree */
 
 
 #tree_position a {
 color: #ffffff;
 text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
-border-color: #ae440f;
+border-color: #d35400;
 }
+
+
+#misterpah_editor_cm_position
+{
+border-left:1px solid #d35400;
+}
+
+
+#tree_position a.folder
+{
+color: #f39c12;
+}
+
+#tree_position a.file
+{
+/*color: #2980b9;*/
+color:#e74c3c;
+}
+
+#tree_position a.xml,#tree_position a.hx,#tree_position a.hxml,#tree_position a.txt
+{
+color: #2980b9;
+}
+
 

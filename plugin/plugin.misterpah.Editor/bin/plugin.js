@@ -253,6 +253,7 @@ plugin.misterpah.Editor.show_tab = function(path,tabShow) {
 		$("#misterpah_editor_tabs_position a[data-path='" + path + "']").parent().addClass("active");
 	}
 	new $("#misterpah_editor_cm_position").css("display","block");
+	gui.Window.get().resizeBy(1,1);
 	plugin.misterpah.Editor.cm.focus();
 	plugin.misterpah.Editor.cm.refresh();
 };

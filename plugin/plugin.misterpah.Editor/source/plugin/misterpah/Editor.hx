@@ -362,6 +362,7 @@ import CodeMirror;
             }
                        
         new JQuery("#misterpah_editor_cm_position").css("display","block"); 
+        untyped gui.Window.get().resizeBy(1,1);
 		cm.focus();
         cm.refresh();
 

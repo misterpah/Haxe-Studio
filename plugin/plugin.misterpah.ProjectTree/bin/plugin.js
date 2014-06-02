@@ -32,6 +32,7 @@ plugin.misterpah.ProjectTree.register_listener = function() {
 plugin.misterpah.ProjectTree.create_ui = function() {
 	Utils.loadJS(plugin.misterpah.ProjectTree.plugin_path() + "/projectTree.js",function() {
 	});
+	Utils.loadCSS(plugin.misterpah.ProjectTree.plugin_path() + "/projectTree.css");
 };
 String.__name__ = ["String"];
 Array.__name__ = ["Array"];
