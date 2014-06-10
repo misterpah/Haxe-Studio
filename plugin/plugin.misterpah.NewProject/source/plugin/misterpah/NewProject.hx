@@ -17,6 +17,10 @@ import js.Browser;
 	{
 	new_project_window = untyped gui.Window.open("../plugin/plugin.misterpah.NewProject/bin/newProject.html",{title:"Create New Project",focus:true,nodejs:true,min_width:1024,min_height:500,toolbar:true});
 	untyped __js__("plugin.misterpah.NewProject.new_project_window.on('plugin.misterpah.NewProject:project_created', function(path,folder,name){console.dir(path + Utils.path.sep +folder + Utils.path.sep + name); Main.session.project_xml = path + Utils.path.sep + folder +Utils.path.sep + name; plugin.misterpah.NewProject.new_project_window.close(); Main.message.broadcast('plugin.misterpah.ProjectAccess:open_project_auto');})");
+	
+	
+	untyped __js__("plugin.misterpah.NewProject.new_project_window.on('plugin.misterpah.NewProject:setProjectXML', function(projectXml){ Main.session.project_xml = projectXml})");
+	untyped __js__("plugin.misterpah.NewProject.new_project_window.on('plugin.misterpah.NewProject:autoOpenProject', function(){ plugin.misterpah.NewProject.new_project_window.close(); Main.message.broadcast('plugin.misterpah.ProjectAccess:open_project_auto');})");
 	}		
 	
 	static public function register_listener():Void

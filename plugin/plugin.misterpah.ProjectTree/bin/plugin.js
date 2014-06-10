@@ -28,6 +28,10 @@ plugin.misterpah.ProjectTree.plugin_path = function() {
 };
 plugin.misterpah.ProjectTree.register_listener = function() {
 	Main.message.listen("plugin.misterpah.ProjectAccess:system_parse_project.complete","plugin.misterpah.ProjectTree",plugin.misterpah.ProjectTree.create_ui);
+	Main.message.listen("plugin.misterpah.ProjectAccess:close_project.complete","plugin.misterpah.ProjectTree",plugin.misterpah.ProjectTree.reset_tree);
+};
+plugin.misterpah.ProjectTree.reset_tree = function() {
+	$("#tree_position").html("<br/><ul id='file_tree'></ul>");
 };
 plugin.misterpah.ProjectTree.create_ui = function() {
 	Utils.loadJS(plugin.misterpah.ProjectTree.plugin_path() + "/projectTree.js",function() {

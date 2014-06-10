@@ -42,10 +42,15 @@ margin-bottom:10px;
 
 function notify(message,type)
 	{
-	if (message.startsWith("Error"))
+	try
 		{
-		type = "danger";
+		if (message.startsWith("Error"))
+			{
+			type = "danger";
+			}
 		}
+	catch(e){}
+	
 	var closable =true;
 	var fadeout = { enabled: true, delay: 3000 }
 	var glyphicon = '';
@@ -108,6 +113,10 @@ function scan_project_template(filename)
 	{
 	for (var i = 0;i < filename.length;i++)
 		{
+		if (filename[i].endsWith("~"))
+			{
+			continue;
+			}
 		var ret = fs.readFileSync(filename[i],"utf-8");
 		var data = JSON.parse(ret);
 		template[data.name] = data;
@@ -130,14 +139,145 @@ function build_list(obj)
 	return result;
 	}
 
+
+
+
+
+
+function create_haxestudio_plugin(projectName)
+	{
+	if (!projectName.startsWith("plugin."))
+		{
+		notify("please follow the format : plugin.name.PluginName ","danger");
+		return;
+		}
+	var temp = projectName.split(".");
+	console.log(temp.length);
+	if (temp.length>3)
+		{
+		notify("please follow the format plugin.name.PluginName! ","danger");
+		return;
+		}
+	var className = temp.pop();
+	var name = temp.pop();
+	try
+		{
+		fs.mkdirSync("../plugin-3rd-party/"+projectName);
+		}
+	catch(e)
+		{
+		notify("Can't generate plugin! check for duplicate name","danger");
+		return;		
+		}
+		
+	fs.mkdirSync("../plugin-3rd-party/"+projectName+"/bin");
+	fs.mkdirSync("../plugin-3rd-party/"+projectName+"/source");
+	fs.mkdirSync("../plugin-3rd-party/"+projectName+"/source/plugin");
+	fs.mkdirSync("../plugin-3rd-party/"+projectName+"/source/plugin/"+name);
+
+
+	// create plugin.json
+	Utils.newFile("../plugin-3rd-party/"+projectName+"/bin/plugin.json");
+	var plugin_dot_json = ['{',
+	'"name":"'+className+'",',
+	'"actualName":"'+projectName+'",',
+	'"author":"'+name+'",',
+	'"version":0.1,',
+	'"description":"Edit this in /plugin-3rd-party/'+projectName+'/bin/plugin.json",',
+	'"website":"http://haxestudio.com/",',
+	'"dependency":[],',
+	'"configuration":{',
+	'	"default":0',
+	'	}',
+	'}'].join("\n");
+	Utils.saveFile("../plugin-3rd-party/"+projectName+"/bin/plugin.json",plugin_dot_json);
+
+	
+	// create build.xml
+	Utils.newFile("../plugin-3rd-party/"+projectName+"/source/build.hxml");
+	var build_dot_xml = ["-cp ../../../source/externs/haxestudio",
+	"-cp ../../../source/externs/nodejs-std/src",
+	"-lib jQueryExtern",
+	"-js ../bin/plugin.js",
+	"-main "+projectName,
+	"-dce full",
+	"-debug"].join("\n");
+	Utils.saveFile("../plugin-3rd-party/"+projectName+"/source/build.hxml",build_dot_xml);
+
+
+	// create ClassName.hx
+	Utils.newFile("../plugin-3rd-party/"+projectName+"/source/plugin/"+name+"/"+className+".hx");
+	var ClassName_dot_hx = ["package plugin."+name+";",
+	"import jQuery.*;",
+	"import js.Browser;",
+	"",
+	"@:keep @:expose class "+ className,
+	"{",
+	"",	
+	"	private static function plugin_path():String",
+	"	{",
+	'	return "../plugin-3rd-party/" + Type.getClassName('+className+') +"/bin";',
+	"	}",
+	"",
+	"	static public function main():Void",
+	"	{",
+	"		create_ui();",
+	"		register_listener();",
+	"	}",
+	"",	
+	"	private static function create_ui():Void",
+	"	{",
+	"	}",
+	"",	
+	"	static public function register_listener():Void",
+	"	{",
+	"	}",
+	"}"].join("\n");
+	Utils.saveFile("../plugin-3rd-party/"+projectName+"/source/plugin/"+name+"/"+className+".hx",ClassName_dot_hx);
+
+	notify("project Created !","success");
+	//win.emit("plugin.misterpah.NewProject:project_created",fs.realpathSync("../plugin-3rd-party"),projectName,"build.hxml");
+	win.emit("plugin.misterpah.NewProject:setProjectXML",fs.realpathSync("../plugin-3rd-party/"+projectName+"/source/build.hxml"));
+	win.emit("plugin.misterpah.NewProject:autoOpenProject");
+	}
+
+
+
+
+function create_project_custom(pluginName,projectName)
+	{
+	//console.log(pluginName,projectName);
+	if (pluginName == "haxestudioplugin")
+		{
+		create_haxestudio_plugin(projectName);
+		}
+	}
+
+
 function create_project(template_name)
 	{
 	var projectName = $("#"+template_name+"_projectName").val();
 	var projectFolder = $("#"+template_name+"_projectFolder").val();
 	
+	var template_obj = template[template_name];
+	if (template_obj.command.startsWith("CUSTOMJS"))
+		{
+		var template_obj_customcommand = template_obj.command.split(" ")[1];
+
+		if (projectName != "")
+			{
+			create_project_custom(template_obj_customcommand,projectName);
+			}
+		else
+			{
+			notify("project name can't be blank","danger");
+			}
+		return;
+		}
+	
+	
 	if (projectName != "" && projectFolder != "")
 		{
-		var template_obj = template[template_name];
 		console.log(projectFolder);
 		var exec_obj = []
 		exec_obj.push("cd %CD% %QUOTE%"+projectFolder+"%QUOTE%");
@@ -151,7 +291,6 @@ function create_project(template_name)
 			if (p1 == null)
 				{
 				notify("project Created !","success");
-				//window.parent.postMessage("plugin.misterpah.NewProject:project_created","*");
 				win.emit("plugin.misterpah.NewProject:project_created",projectFolder,projectName,template_obj.projectFile);
 				}
 			else
@@ -170,15 +309,22 @@ function create_project(template_name)
 function build_desc(obj)
 	{
 	console.dir(obj);
+	var projectDisplay = "";
+	if (obj.command.startsWith("CUSTOMJS"))
+		{
+		projectDisplay = 'style="display:none"';
+		}
 	var ret = ['<div id="'+obj.name+'" style="display:none;margin-top:10px;" class="col-xs-12">',
 	'<h3>Setup Project</h3>',
-	'<div class="col-xs-12">',
+	'<div '+projectDisplay+' class="col-xs-12">',
 		'<label class="col-xs-4">Project folder</label>',
 		'<input id="'+obj.name+'_projectFolder" class="col-xs-8 text-right" type="file" nwdirectory>',
 		'<div style="clear:both"> </div>',
 	'</div>',
 	'<br>',
-	'<input type="text"  class="form-control" id="'+obj.name+'_projectName" placeholder="Project Name">',
+	'<b>sample name :</b> '+obj.parameter.ProjectName+'<br/ ><br/ >',
+	'<b>Project Name :</b><br/ >',
+	'<input type="text" class="form-control" id="'+obj.name+'_projectName" placeholder="'+obj.parameter.ProjectName+'">',
 	'<br>',
 	'<button type="button" onclick="create_project(\''+obj.name+'\');" class="btn btn-primary btn-lg btn-block">Create '+obj.name+' Project</button>',
 	

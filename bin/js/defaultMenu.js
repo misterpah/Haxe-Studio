@@ -7,14 +7,13 @@ var CompileMenu = new gui.Menu();
 var ToolsMenu = new gui.Menu();
 var HelpMenu = new gui.Menu();
 
-
 FileMenu.append(build_menuitem("New Project","core:FileMenu.newProject","Ctrl+Shift+N"));
 $.keyStroke( 78, { modKeys: ['ctrlKey','shiftKey'] }, function(){  Main.message.broadcast("core:FileMenu.openProject","shortcut_key",null); }); // CTRL + SHIFT + N
 
 FileMenu.append(build_menuitem("Open Project...","core:FileMenu.openProject","Ctrl+Shift+O"));
 $.keyStroke( 79, { modKeys: ['ctrlKey','shiftKey'] }, function(){  Main.message.broadcast("core:FileMenu.openProject","shortcut_key",null); }); // CTRL + SHIFT + O
 
-FileMenu.append(build_menuitem("Close Project","core:FileMenu.closeProject",""));
+FileMenu.append(build_menuitem("Close Project","core:FileMenu.closeProject","Ctrl+Shift+W"));
 FileMenu.append(build_seperator());
 FileMenu.append(build_menuitem("New File...","core:FileMenu.newFile","Ctrl+N"));
 
@@ -58,6 +57,10 @@ Main.message.listen("core:ToolsMenu.developerTools","menu",function(){
 	gui.Window.get().showDevTools();
 });
 
+ToolsMenu.append(build_menuitem("Restart HaxeStudio","core:ToolsMenu.ReloadHaxeStudio",""));
+Main.message.listen("core:ToolsMenu.ReloadHaxeStudio","menu",function(){
+	hs_reload();
+});
 
 
 menubar.append(new gui.MenuItem({ label: 'File', submenu: FileMenu}));

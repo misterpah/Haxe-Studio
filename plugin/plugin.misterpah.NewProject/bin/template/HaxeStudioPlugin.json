@@ -1,0 +1,11 @@
+{
+"name" :"HaxeStudioPlugin",
+"description":"Create a new 3rd-party plugin for HaxeStudio",
+"logo" : "haxe-studio.png",
+"requirement": ["jQueryExtern"],
+"parameter" : { 
+	"ProjectName":"plugin.name.PluginName" 
+	},
+"command": "CUSTOMJS haxestudioplugin",
+"projectFile" : "Project.xml"
+}

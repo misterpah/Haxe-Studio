@@ -38,6 +38,7 @@ plugin.misterpah.ProjectAccess.parse_project_complete = function() {
 	Main.message.broadcast("plugin.misterpah.ProjectAccess:open_project.complete","plugin.misterpah.ProjectAccess",null);
 };
 plugin.misterpah.ProjectAccess.close_project = function() {
+	console.log("closing project");
 	Main.session.project_xml = "";
 	Main.session.project_folder = "";
 	Main.session.project_xml_parameter = "";

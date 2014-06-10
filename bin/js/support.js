@@ -11,6 +11,12 @@ if ( typeof String.prototype.endsWith != 'function' ) {
   }
 };
 
+function hs_reload()
+{
+window.menubar = null;
+gui.Window.get().reload();
+}
+
 function hs_event_dashboard()
 {
 gui.Window.open("./ide_debugger.html",{title:"IDE Debugger",focus:false,nodejs:true});
@@ -63,11 +69,12 @@ function hs_compile_all_plugin()
 	
 function notify(message,type)
 	{
+	/*
 	if (Main.error_code[message] != null)
 		{
 		message = Main.error_code[message];
 		}
-	
+	*/
 	var closable =true;
 	var fadeout = { enabled: true, delay: 3000 }
 	var glyphicon = '';

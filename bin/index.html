@@ -110,15 +110,11 @@
 					
 
 					
-				function reload_haxestudio()
-					{
-					gui.Window.get().reload();
-					}
 					
 								
 				$(document).ready(function()
 					{
-
+					Main.message.listen("core:FileMenu.closeProject","splash",function(){toggleSplash();$('#splash').css("display","block");});
 					Main.message.listen("plugin.misterpah.ProjectAccess:system_parse_project.complete","splash",function(){toggleSplash();});
 					Main.message.listen("plugin.misterpah.FileAccess:open_file.complete","splash",function(){toggleSplash();});
 					toggleSplash();

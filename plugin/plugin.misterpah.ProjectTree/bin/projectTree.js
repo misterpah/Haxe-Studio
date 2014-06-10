@@ -1,4 +1,5 @@
 $("#tree_position").html("");
+
 var folder_content = Utils.readDir(Main.session.project_folder);
 
 function openMe(obj)
@@ -56,7 +57,7 @@ function openFolder(obj)
 	//Main.message.broadcast("plugin.misterpah.FileAccess:OpenFileDirectly","plugin.misterpah.ProjectTree",path);
 	}
 
-$("#tree_position").html("<ul id='file_tree'></ul>");
+$("#tree_position").html("<br/><ul id='file_tree'></ul>");
 for (i = 0;i< folder_content.length;i++)
 	{
 	var isfile = Utils.isFile(Main.session.project_folder + Utils.path.sep + folder_content[i]);

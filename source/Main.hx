@@ -18,7 +18,7 @@ import jQuery.*;
 
 	static public function run_haxe_studio():Void
 		{
-		version = "0.3.2";
+		version = "0.3.3";
 		session = new Session();
 		file_stack = new FileObject();
 		message = new Message();
@@ -80,8 +80,8 @@ import jQuery.*;
 		for (each in dependency_sequence)
 			{
 			if (each != "")
-				{
-				trace(each);
+				{				
+				untyped console.debug(each);
 				Utils.loadJS(path+"/"+each+"/bin/plugin.js",function(script){});
 				}
 			else
@@ -98,7 +98,10 @@ import jQuery.*;
 		var plugin = new Array();
 		for (each in available_plugin)
 			{
-			plugin.push(JSON.parse(Utils.readFile("../plugin/"+each+"/bin/plugin.json")));
+			if (untyped fs.existsSync("../plugin/"+each+"/bin/plugin.json"))
+				{
+				plugin.push(JSON.parse(Utils.readFile("../plugin/"+each+"/bin/plugin.json")));
+				}
 			}
 		
 		var build_load_sequence = new Array();

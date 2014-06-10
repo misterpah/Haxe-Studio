@@ -52,6 +52,7 @@ import js.Browser;
 	
     private static function close_project()
     {
+    	trace("closing project");
         Main.session.project_xml = '';
         Main.session.project_folder = '';
         Main.session.project_xml_parameter = '';

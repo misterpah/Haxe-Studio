@@ -71,7 +71,7 @@ Main.__name__ = true;
 Main.main = function() {
 };
 Main.run_haxe_studio = function() {
-	Main.version = "0.3.2";
+	Main.version = "0.3.3";
 	Main.session = new Session();
 	Main.file_stack = new FileObject();
 	Main.message = new Message();
@@ -112,7 +112,7 @@ Main.plugin_load_all = function(path,dependency_sequence) {
 		var each = dependency_sequence[_g];
 		++_g;
 		if(each != "") {
-			console.log(each);
+			console.debug(each);
 			Utils.loadJS(path + "/" + each + "/bin/plugin.js",function(script) {
 			});
 		} else continue;
@@ -124,7 +124,7 @@ Main.plugin_solve_dependency = function(available_plugin) {
 	while(_g < available_plugin.length) {
 		var each = available_plugin[_g];
 		++_g;
-		plugin.push(JSON.parse(Utils.readFile("../plugin/" + each + "/bin/plugin.json")));
+		if(fs.existsSync("../plugin/" + each + "/bin/plugin.json")) plugin.push(JSON.parse(Utils.readFile("../plugin/" + each + "/bin/plugin.json")));
 	}
 	var build_load_sequence = new Array();
 	var _g1 = 0;
