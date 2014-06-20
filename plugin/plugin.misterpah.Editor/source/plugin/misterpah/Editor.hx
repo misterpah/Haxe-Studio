@@ -95,6 +95,7 @@ import CodeMirror;
             {
             new JQuery("#editor_position").css("display","block");
 			make_tab();
+			untyped resize_codemirror();
             }
 		);
 

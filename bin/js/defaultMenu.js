@@ -3,7 +3,6 @@ var menubar = new gui.Menu({ type: 'menubar' });
 var sub1 = new gui.Menu();
 
 var FileMenu = new gui.Menu();
-var CompileMenu = new gui.Menu();
 var ToolsMenu = new gui.Menu();
 var HelpMenu = new gui.Menu();
 
@@ -35,18 +34,6 @@ Main.message.listen("core:FileMenu.exit","menu",function(){
 	gui.Window.get().close();
 });
 
-CompileMenu.append(build_menuitem("Flash","plugin.misterpah.ProjectTree:compile_Flash",""));
-$.keyStroke( 116, {  }, function(){  Main.message.broadcast("plugin.misterpah.ProjectTree:compile_Flash","shortcut_key",null); }); // F5
-
-CompileMenu.append(build_menuitem("HTML5","plugin.misterpah.ProjectTree:compile_Html5",""));
-CompileMenu.append(build_menuitem("Neko","plugin.misterpah.ProjectTree:compile_Neko",""));
-CompileMenu.append(build_menuitem("Hxml","plugin.misterpah.ProjectTree:compile_Hxml",""));
-
-
-HelpMenu.append(build_menuitem("Contributors","core:HelpMenu.contribution",""));
-Main.message.listen("core:HelpMenu.contribution","menu",function(){
-	gui.Window.open("http://www.haxestudio.com/contributors/index.html");
-});
 
 
 
@@ -63,8 +50,13 @@ Main.message.listen("core:ToolsMenu.ReloadHaxeStudio","menu",function(){
 });
 
 
+HelpMenu.append(build_menuitem("Contributors","core:HelpMenu.contribution",""));
+Main.message.listen("core:HelpMenu.contribution","menu",function(){
+	gui.Window.open("http://www.haxestudio.com/contributors.html");
+});
+
+
 menubar.append(new gui.MenuItem({ label: 'File', submenu: FileMenu}));
-menubar.append(new gui.MenuItem({ label: 'Compile', submenu: CompileMenu}));
 menubar.append(new gui.MenuItem({ label: 'Tools', submenu: ToolsMenu}));
 menubar.append(new gui.MenuItem({ label: 'Help', submenu: HelpMenu}));
 gui.Window.get().menu = menubar;

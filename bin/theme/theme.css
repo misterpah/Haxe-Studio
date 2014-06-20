@@ -4,7 +4,8 @@ cursor:default;
 }
 body
 {
-background:url(./bg.png) repeat;
+/*background:url(./bg.png) repeat;*/
+background:#151515;
 }
 
 .padding
@@ -30,7 +31,7 @@ font-family:"Lato";
 font-size:15px;
 height:20vh;
 }
-
+/*
 #left-panel #projectTree_wrap
 {
 font-family:"Lato";
@@ -49,7 +50,7 @@ font-weight:bold;
 color:#dddddd;
 font-weight:bold;
 }
-
+*/
 
 
 #content
@@ -244,15 +245,11 @@ color:#ffffff;
 
 #tree_position a {
 color: #ffffff;
-text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
+text-shadow: 0px 1px 1px #000000;
 border-color: #d35400;
 }
 
 
-#misterpah_editor_cm_position
-{
-border-left:1px solid #d35400;
-}
 
 
 #tree_position a.folder
@@ -272,3 +269,69 @@ color: #2980b9;
 }
 
 
+
+.ui-layout-west{
+background:#151515;
+}
+
+
+.ui-layout-west {
+border-top:0px;
+border-left:0px;
+border-right:0px;
+border-bottom:0px;
+}
+
+.ui-layout-north {
+border-left:0px;
+border-right:0px;
+border-top:0px;
+}
+
+
+.ui-layout-south {
+border:0px;
+}
+.ui-layout-resizer-south
+{
+border-top:1px solid  #d35400;
+}
+
+.shadowme
+{
+text-shadow: 0px 1px 1px #000000;
+}
+
+
+.ui-layout-south {
+border:0px;
+background:#151515;
+color: #ffffff;
+text-shadow: 0px 1px 1px #000000;
+
+}
+
+
+
+.ui-layout-center {
+
+border-right:0px;
+border-top:0px;
+border-bottom:0px;
+}
+
+.ui-layout-toggler
+{
+	border-color: #d35400;
+	background:#d35400;
+}
+
+
+.buttonMenu
+{
+background:#151515;
+}
+.ui-layout-pane { /* all 'panes' */
+	padding:	0px !important; 
+	border-color: #d35400;
+}

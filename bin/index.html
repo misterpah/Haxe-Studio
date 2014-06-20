@@ -9,7 +9,11 @@
 		<script src="./js/jquery.keystroke.min.js"></script>
 		<script src="./js/bootstrap/bootstrap.min.js"></script>	
 		<script src="./js/bootstrap/bootstrap-select.min.js"></script>
-		<script src="./js/bootstrap/bootstrap-notify.js"></script>	
+		<script src="./js/bootstrap/bootstrap-notify.js"></script>
+		<script src="./js/jquery-ui-latest.js"></script>				
+		<script src="./js/jquery.layout-latest.js"></script>
+		
+		
 		<link href="./css/bootstrap-select.min.css" rel="stylesheet" media="screen">		
 		
 		<script src="./js/node.dir.walker.js"></script>
@@ -17,6 +21,7 @@
 		<script src="./js/EventBus.js"></script>
 		<script src="./js/support.js"></script>
 		
+		<link href="./css/layout-default-latest.css" rel="stylesheet" media="screen">
 		<link href="./css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="./css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">
 		<link href="./css/bootstrap-notify.css" rel="stylesheet" media="screen">
@@ -40,6 +45,9 @@
 		
 	</head>
 	<body>
+
+
+		<!--
 		<div style="overflow:auto;" class="modal fade" id="splash" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		  <div class="modal-dialog">
 			<div class="modal-content">
@@ -54,10 +62,10 @@
 		
 			  <div class="modal-body">
 			  	<div class="col-xs-6">
-				  	<button type="button" onClick="Main.message.broadcast('core:FileMenu.newProject','splash',null);" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;New Project</button>
+				  	<button type="button" onClick="Main.message.broadcast('core:FileMenu.newProject','splash',null);" class="shadowme btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;New Project</button>
 			  	</div>
 			  	<div class="col-xs-6">
-				  	<button type="button" onClick="Main.message.broadcast('core:FileMenu.openProject','splash',null);" class="btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Open Project</button>
+				  	<button type="button" onClick="Main.message.broadcast('core:FileMenu.openProject','splash',null);" class="shadowme btn btn-primary btn-lg btn-block"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Open Project</button>
 			  	</div>
 			  	<p><br/></p>
 			  </div>
@@ -67,22 +75,40 @@
 			</div>
 		  </div>
 		</div>		
-		
-		
-		
-		<div style="z-index:9999" class='notifications bottom-right'></div>
-		<div class="row" id="content_position">
-			<div class='hidden-xs col-sm-3 col-md-2 col-lg-2' ><div id='tree_position' class="col-lg-12"></div></div>
-			<div class='col-sm-9 col-md-10 col-xs-12 col-lg-10' id='editor_position'></div>
+		-->
+	
+	
+<div class="ui-layout-north buttonMenu" style="overflow:hidden;padding:5px !important;">
+	<div class="row">
+		<div id="compiler_position" class="col-xs-6">
 		</div>
-		<div id='temp' style='display:none'></div>		
+	</div>
+</div>
+<div id="content_position" style="overflow:hidden;" class="ui-layout-center ui-layout-wrapper"><div id='editor_position' ></div></div>
+<div class="ui-layout-west">
+	<div style="padding-left:10px;padding-top:10px;" id='tree_position'>
+		<p style="color:#ffffff" class="shadowme">Haxe Studio v<span class="hs_version"></span>
+			<br/>
+			===========<br/>
+			how to use Haxe Studio (correctly) : <br/>
+			<ol>
+				<li style="color:#ffffff">Create a New Project or Open Project. </li>
+				<li style="color:#ffffff">Then open the desired file(s)</li>
+			</ol>
+		</p>
+		</div>
+</div>	
+<div class="ui-layout-south"><div id="bottom_position"></div></div>
+	
+	
+	<div id='temp' style='display:none'></div>	
 	</body>
 	
 			<link href="./css/index.css" rel="stylesheet" media="screen">
 			<link href="./theme/theme.css" rel="stylesheet" media="screen">
 			<script src="./js/menu.js"></script>
 			<script src="./js/haxestudio.js"></script>
-			<script>Main.run_haxe_studio();</script>
+			<script>Main.run_haxe_studio();$("title").html( $("title").html() +" v"+Main.version); $(".hs_version").html(Main.version);</script>
 			<script src="./js/error_code.js"></script>
 			<script src="./js/defaultMenu.js"></script>
 			<script>
@@ -111,13 +137,70 @@
 
 					
 					
-								
+				function center_has_been_resized()
+					{
+					Main.message.broadcast("core:center_resized","index");
+					}	
+				var layout;
 				$(document).ready(function()
 					{
 					Main.message.listen("core:FileMenu.closeProject","splash",function(){toggleSplash();$('#splash').css("display","block");});
 					Main.message.listen("plugin.misterpah.ProjectAccess:system_parse_project.complete","splash",function(){toggleSplash();});
 					Main.message.listen("plugin.misterpah.FileAccess:open_file.complete","splash",function(){toggleSplash();});
 					toggleSplash();
+					//$('select').selectpicker();
+					layout = $('body').layout({ 
+						resizable:	true, 
+						applyDemoStyles: false,
+						north__spacing_open: 0, // north can't be resized
+						south__size:0.2,
+						south__close:true,
+						center__onresize_end: "center_has_been_resized",
+						west__onresize_end: "center_has_been_resized",
+						west__onopen_end: "center_has_been_resized",
+						west__onclose_end: "center_has_been_resized"
+						});
+						/*
+$('body').layout({
+
+		//	reference only - these options are NOT required because 'true' is the default
+			closable:					true	// pane can open & close
+		,	resizable:					true	// when open, pane can be resized 
+		,	slidable:					true	// when closed, pane can 'slide' open over other panes - closes on mouse-out
+		,	livePaneResizing:			true
+
+		//	some resizing/toggling settings
+		,	north__slidable:			false	// OVERRIDE the pane-default of 'slidable=true'
+		,	north__togglerLength_closed: '100%'	// toggle-button is full-width of resizer-bar
+		,	north__spacing_closed:		20		// big resizer-bar when open (zero height)
+		,	south__resizable:			false	// OVERRIDE the pane-default of 'resizable=true'
+		,	south__spacing_open:		0		// no resizer-bar when open (zero height)
+		,	south__spacing_closed:		20		// big resizer-bar when open (zero height)
+
+		//	some pane-size settings
+		,	west__minSize:				100
+		,	east__size:					300
+		,	east__minSize:				200
+		,	east__maxSize:				.5 // 50% of layout width
+		,	center__minWidth:			100
+
+		//	some pane animation settings
+		,	west__animatePaneSizing:	false
+		,	west__fxSpeed_size:			"fast"	// 'fast' animation when resizing west-pane
+		,	west__fxSpeed_open:			1000	// 1-second animation when opening west-pane
+		,	west__fxSettings_open:		{ easing: "easeOutBounce" } // 'bounce' effect when opening
+		,	west__fxName_close:			"none"	// NO animation when closing west-pane
+
+		//	enable showOverflow on west-pane so CSS popups will overlap north pane
+		,	west__showOverflowOnHover:	true
+
+		//	enable state management
+		,	stateManagement__enabled:	true // automatic cookie load & save enabled by default
+
+		,	showDebugMessages:			true // log and/or display messages from debugging & testing code
+		});						
+						
+					*/	
 					});
 
 				// prevent drag & drop

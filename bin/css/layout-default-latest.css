@@ -14,24 +14,15 @@
  * NOTE: For best code readability, view this with a fixed-space font and tabs equal to 4-chars
  */
 
-/*
- *	DEFAULT FONT
- *	Just to make demo-pages look better - not actually relevant to Layout!
- */
-/*body {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size:   100%;
-	*font-size:  80%;
-}*/
 
 /*
  *	PANES & CONTENT-DIVs
  */
 .ui-layout-pane { /* all 'panes' */
-	background:	#FFF; 
+	/*background:	#FFF; */
 	border:		1px solid #BBB;
-	/*padding:	10px; */
-	overflow:	hidden;
+	padding:	10px; 
+	overflow:	auto;
 	/* DO NOT add scrolling (or padding) to 'panes' that have a content-div,
 	   otherwise you may get double-scrollbars - on the pane AND on the content-div
 	   - use ui-layout-wrapper class if pane has a content-div
@@ -40,9 +31,9 @@
 	}
 	/* (scrolling) content-div inside pane allows for fixed header(s) and/or footer(s) */
 	.ui-layout-content {
-		/*padding:	10px;*/
-		/*position:	relative;*/ /* contain floated or positioned elements */
-		/*overflow:	auto;*/ /* add scrolling to content-div */
+		padding:	10px;
+		position:	relative; /* contain floated or positioned elements */
+		overflow:	auto; /* add scrolling to content-div */
 	}
 
 /*
@@ -59,7 +50,7 @@
 	border:		0; /* remove border because inner-layout-panes probably have borders */
 }
 .layout-scroll {
-	overflow:	hidden;
+	overflow:	auto;
 }
 .layout-hide {
 	display:	none;
@@ -69,8 +60,8 @@
  *	RESIZER-BARS
  */
 .ui-layout-resizer	{ /* all 'resizer-bars' */
-	background:		#DDD;
-	border:			1px solid #BBB;
+	background:		none;
+	border:			1px solid #444;
 	border-width:	0;
 	}
 	.ui-layout-resizer-drag {		/* REAL resizer while resize in progress */
@@ -150,7 +141,7 @@
 	 *	style the text we put INSIDE the togglers
 	 */
 	.ui-layout-toggler .content {
-		color:			#ccc;
+		color:			#666;
 		font-size:		12px;
 		font-weight:	bold;
 		width:			100%;
@@ -180,45 +171,3 @@
 div.ui-layout-mask {}		/* standard mask for iframes */
 iframe.ui-layout-mask {}	/* extra mask for objects/applets */
 
-/*
- *	Default printing styles
- */
-@media print {
-	/*
-	 *	Unless you want to print the layout as it appears onscreen,
-	 *	these html/body styles are needed to allow the content to 'flow'
-	 */
-	html {
-		height:		auto !important;
-		overflow:	visible !important;
-	}
-	body.ui-layout-container {
-		position:	static !important;
-		top:		auto !important;
-		bottom:		auto !important;
-		left:		auto !important;
-		right:		auto !important;
-		/* only IE6 has container width & height set by Layout */
-		_width:		auto !important;
-		_height:	auto !important;
-	}
-	.ui-layout-resizer, .ui-layout-toggler {
-		display:	none !important;
-	}
-	/*
-	 *	Default pane print styles disables positioning, borders and backgrounds.
-	 *	You can modify these styles however it suit your needs.
-	 */
-	.ui-layout-pane {
-		border:		none !important;
-		background:	 transparent !important;
-		position:	relative !important;
-		top:		auto !important;
-		bottom:		auto !important;
-		left:		auto !important;
-		right:		auto !important;
-		width:		auto !important;
-		height:		auto !important;
-		overflow:	visible !important;
-	}
-}

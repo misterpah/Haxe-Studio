@@ -1,4 +1,4 @@
-plugin-non-free/*
+plugin-3rd-party/*/*
 dist/*
 runtime/linux-32/*
 runtime/linux-64/*

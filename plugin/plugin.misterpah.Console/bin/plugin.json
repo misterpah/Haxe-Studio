@@ -1,0 +1,12 @@
+{
+"name":"Console",
+"actualName":"plugin.misterpah.Console",
+"author":"misterpah",
+"version":0.1,
+"description":"Provide user-side console.",
+"website":"http://haxestudio.com/",
+"dependency":[],
+"configuration":{
+	"default":0
+	}
+}

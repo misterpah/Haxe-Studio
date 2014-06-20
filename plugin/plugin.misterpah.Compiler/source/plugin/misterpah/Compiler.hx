@@ -8,38 +8,41 @@ import Main;
 {
     static public function main():Void
     {
+    	create_ui();
 		register_listener();
+    }
+	
+	private static function plugin_path():String
+	{
+	return "../plugin/" + Type.getClassName(Compiler) +"/bin";
+	}
+    	
+    
+    static public function create_ui():Void
+    {
+		Utils.loadJS(plugin_path() + "/Compiler_ui.js",function(){});
+		Utils.loadCSS(plugin_path() + "/Compiler_ui.css");
     }
 
 	static public function register_listener():Void
 	{
-		Main.message.listen("plugin.misterpah.ProjectTree:compile_Hxml","plugin.misterpah.Compiler",function(){compile_to_target("HXML");});
-		Main.message.listen("plugin.misterpah.ProjectTree:compile_Flash","plugin.misterpah.Compiler",function(){compile_to_target("LIME-FLASH");});
-		Main.message.listen("plugin.misterpah.ProjectTree:compile_Neko","plugin.misterpah.Compiler",function(){compile_to_target("LIME-NEKO");});
-		Main.message.listen("plugin.misterpah.ProjectTree:compile_Html5","plugin.misterpah.Compiler",function(){compile_to_target("LIME-HTML5");});
-		Main.message.listen("plugin.misterpah.ProjectTree:compile_Android","plugin.misterpah.Compiler",function(){compile_to_target("LIME-ANDROID");});
+		Main.message.listen("plugin.misterpah.Compiler:compile_request","plugin.misterpah.Compiler",function(){compile_project();});
 	}
-	
-	static public function compile_to_target(target:String):Void
+
+	static public function compile_project():Void
 		{
-		var compile_string = "";
-		switch( target ) {
-		case "HXML":
-		    compile_string = "haxe %QUOTE%"+Main.session.project_xml+"%QUOTE%";
-		case "LIME-FLASH":
-		    compile_string = "lime test flash -Dfdb -debug";
-		case "LIME-NEKO":
-		    compile_string = "lime test neko";
-		case "LIME-HTML5":
-		    compile_string = "lime test html5";		    
-		case "LIME-ANDROID":
-		    compile_string = "lime test android";
-		default:
-		    trace("wat?");
-		    return;
-		}		
+		var compile_target = untyped $("#compileTarget").val();
+		var compile_parameter = untyped $("#compileParameter").val();
 		
-		untyped notify("Compiling to "+target,"info");
+		var compile_string = "lime "+compile_parameter+" "+compile_target;
+		
+		if (compile_target == "HXML")
+			{
+			compile_string = "haxe %QUOTE%"+Main.session.project_xml+"%QUOTE%";
+			}
+		
+		trace(compile_string);
+		untyped hs_console("compiling : " +compile_string);
 		Utils.exec(["cd %CD% %QUOTE%"+Main.session.project_folder+"%QUOTE%",
 			compile_string],function(error,stdout,stderr){
 				untyped notify("Compiling complete","success");
@@ -60,11 +63,8 @@ import Main;
 				trace(error);
 				trace(stdout);
 				trace(stderr);
-
-
-			});		
-		
-		
+			});	
 		}
+	
 	
 }

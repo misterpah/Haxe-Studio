@@ -146,7 +146,7 @@ function build_list(obj)
 
 function create_haxestudio_plugin(projectName)
 	{
-	if (!projectName.startsWith("plugin."))
+	if (!projectName.startsWith("plugin"))
 		{
 		notify("please follow the format : plugin.name.PluginName ","danger");
 		return;
@@ -160,9 +160,10 @@ function create_haxestudio_plugin(projectName)
 		}
 	var className = temp.pop();
 	var name = temp.pop();
+	var plugin_prefix = "../plugin/";
 	try
 		{
-		fs.mkdirSync("../plugin-3rd-party/"+projectName);
+		fs.mkdirSync(plugin_prefix+projectName);
 		}
 	catch(e)
 		{
@@ -170,31 +171,32 @@ function create_haxestudio_plugin(projectName)
 		return;		
 		}
 		
-	fs.mkdirSync("../plugin-3rd-party/"+projectName+"/bin");
-	fs.mkdirSync("../plugin-3rd-party/"+projectName+"/source");
-	fs.mkdirSync("../plugin-3rd-party/"+projectName+"/source/plugin");
-	fs.mkdirSync("../plugin-3rd-party/"+projectName+"/source/plugin/"+name);
+
+	fs.mkdirSync(plugin_prefix+projectName+"/bin");
+	fs.mkdirSync(plugin_prefix+projectName+"/source");
+	fs.mkdirSync(plugin_prefix+projectName+"/source/plugin");
+	fs.mkdirSync(plugin_prefix+projectName+"/source/plugin/"+name);
 
 
 	// create plugin.json
-	Utils.newFile("../plugin-3rd-party/"+projectName+"/bin/plugin.json");
+	Utils.newFile(plugin_prefix+projectName+"/bin/plugin.json");
 	var plugin_dot_json = ['{',
 	'"name":"'+className+'",',
 	'"actualName":"'+projectName+'",',
 	'"author":"'+name+'",',
 	'"version":0.1,',
-	'"description":"Edit this in /plugin-3rd-party/'+projectName+'/bin/plugin.json",',
+	'"description":"Edit this in /plugin/'+projectName+'/bin/plugin.json",',
 	'"website":"http://haxestudio.com/",',
 	'"dependency":[],',
 	'"configuration":{',
 	'	"default":0',
 	'	}',
 	'}'].join("\n");
-	Utils.saveFile("../plugin-3rd-party/"+projectName+"/bin/plugin.json",plugin_dot_json);
+	Utils.saveFile(plugin_prefix+projectName+"/bin/plugin.json",plugin_dot_json);
 
 	
 	// create build.xml
-	Utils.newFile("../plugin-3rd-party/"+projectName+"/source/build.hxml");
+	Utils.newFile(plugin_prefix+projectName+"/source/build.hxml");
 	var build_dot_xml = ["-cp ../../../source/externs/haxestudio",
 	"-cp ../../../source/externs/nodejs-std/src",
 	"-lib jQueryExtern",
@@ -202,11 +204,11 @@ function create_haxestudio_plugin(projectName)
 	"-main "+projectName,
 	"-dce full",
 	"-debug"].join("\n");
-	Utils.saveFile("../plugin-3rd-party/"+projectName+"/source/build.hxml",build_dot_xml);
+	Utils.saveFile(plugin_prefix+projectName+"/source/build.hxml",build_dot_xml);
 
 
 	// create ClassName.hx
-	Utils.newFile("../plugin-3rd-party/"+projectName+"/source/plugin/"+name+"/"+className+".hx");
+	Utils.newFile(plugin_prefix+projectName+"/source/plugin/"+name+"/"+className+".hx");
 	var ClassName_dot_hx = ["package plugin."+name+";",
 	"import jQuery.*;",
 	"import js.Browser;",
@@ -216,7 +218,7 @@ function create_haxestudio_plugin(projectName)
 	"",	
 	"	private static function plugin_path():String",
 	"	{",
-	'	return "../plugin-3rd-party/" + Type.getClassName('+className+') +"/bin";',
+	'	return "'+plugin_prefix+'" + Type.getClassName('+className+') +"/bin";',
 	"	}",
 	"",
 	"	static public function main():Void",
@@ -233,11 +235,11 @@ function create_haxestudio_plugin(projectName)
 	"	{",
 	"	}",
 	"}"].join("\n");
-	Utils.saveFile("../plugin-3rd-party/"+projectName+"/source/plugin/"+name+"/"+className+".hx",ClassName_dot_hx);
+	Utils.saveFile(plugin_prefix+projectName+"/source/plugin/"+name+"/"+className+".hx",ClassName_dot_hx);
 
 	notify("project Created !","success");
 	//win.emit("plugin.misterpah.NewProject:project_created",fs.realpathSync("../plugin-3rd-party"),projectName,"build.hxml");
-	win.emit("plugin.misterpah.NewProject:setProjectXML",fs.realpathSync("../plugin-3rd-party/"+projectName+"/source/build.hxml"));
+	win.emit("plugin.misterpah.NewProject:setProjectXML",fs.realpathSync(plugin_prefix+projectName+"/source/build.hxml"));
 	win.emit("plugin.misterpah.NewProject:autoOpenProject");
 	}
 

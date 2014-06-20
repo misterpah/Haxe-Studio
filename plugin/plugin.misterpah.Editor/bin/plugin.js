@@ -98,6 +98,7 @@ plugin.misterpah.Editor.register_hooks = function() {
 	Main.message.listen("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.Editor",function() {
 		new $("#editor_position").css("display","block");
 		plugin.misterpah.Editor.make_tab();
+		resize_codemirror();
 	});
 	Main.message.listen("plugin.misterpah.FileAccess:close_file.complete","plugin.misterpah.Editor",plugin.misterpah.Editor.close_tab);
 	Main.message.listen("plugin.misterpah.Completion:static_completion.complete","plugin.misterpah.Editor",plugin.misterpah.Editor.handle_static_completion);
