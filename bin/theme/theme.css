@@ -135,17 +135,18 @@ padding: 5px 10px;
 text-shadow: 0px 2px 1px rgba(0, 0, 0, 0.8);
 }
 
-#misterpah_editor_tabs_position ul 
+#plugin_misterpah_CodemirrorEditor_tab ul 
 {
 border-color:#d35400;
 }
 
-#misterpah_editor_tabs_position ul li
+#plugin_misterpah_CodemirrorEditor_tab ul li
 {
+display:inline;
 height:30px;
 }
 
-#misterpah_editor_tabs_position ul li.active a
+#plugin_misterpah_CodemirrorEditor_tab ul li.active a
 {
 color:#ffffff;
 background:#d35400;
@@ -153,7 +154,7 @@ text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8);
 border-color:#d35400;
 }
 
-#misterpah_editor_tabs_position ul li a:hover
+#plugin_misterpah_CodemirrorEditor_tab ul li a:hover
 {
 color:#ffffff;
 background:#f5af8c;
@@ -163,7 +164,7 @@ height:37px;
 }
 
 
-#misterpah_editor_tabs_position ul li a
+#plugin_misterpah_CodemirrorEditor_tab ul li a
 {
 top:-7px;
 color:#d35400;

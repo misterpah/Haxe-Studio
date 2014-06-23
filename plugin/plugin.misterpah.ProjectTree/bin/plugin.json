@@ -5,7 +5,7 @@
 "version":0.1,
 "description":"Project Tree for Haxe",
 "website":"http://haxestudio.com",
-"dependency":["plugin.misterpah.ProjectAccess","plugin.misterpah.FileAccess","plugin.misterpah.Editor"],
+"dependency":["plugin.misterpah.ProjectAccess","plugin.misterpah.FileAccess"],
 "configuration":{
 	"default":0
 	}

@@ -5,7 +5,7 @@ var folder_content = Utils.readDir(Main.session.project_folder);
 function openMe(obj)
 	{
 	var path = $(obj).attr('data-path');
-	console.dir(path);
+	//console.dir(path);
 	Main.message.broadcast("plugin.misterpah.FileAccess:OpenFileDirectly","plugin.misterpah.ProjectTree",path);
 	}
 
@@ -35,7 +35,7 @@ function openFolder(obj)
 
 	if (userwantsto == "open")
 		{
-		console.dir(path);
+		//console.dir(path);
 		var folder_content = Utils.readDir(path);
 	
 	

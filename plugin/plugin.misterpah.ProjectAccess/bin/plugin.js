@@ -52,13 +52,9 @@ plugin.misterpah.ProjectAccess.parse_project = function() {
 	var projectFolder = filename.split(Utils.path.sep);
 	projectFolder.pop();
 	Main.session.project_folder = projectFolder.join(Utils.path.sep);
-	console.log(filename_ext);
 	var compiler = "";
 	if(filename_ext == "xml") compiler = "lime display -hxml flash"; else if(filename_ext == "hxml") compiler = "%CAT% \"" + filename + "\"";
 	Utils.exec(["cd %CD% \"" + Main.session.project_folder + "\"",compiler],function(error,stdout,stderr) {
-		console.log(error);
-		console.log(stdout);
-		console.log(stderr);
 		if(error != null) {
 			notify(stderr,"danger");
 			Main.session.project_xml = "";

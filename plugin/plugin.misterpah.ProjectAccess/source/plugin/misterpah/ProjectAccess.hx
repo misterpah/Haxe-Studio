@@ -72,7 +72,7 @@ import js.Browser;
 	    projectFolder.pop();
 	    Main.session.project_folder = projectFolder.join(Utils.path.sep);		
 
-		trace(filename_ext);
+		//trace(filename_ext);
 	    
 	    var compiler = "";
 	    if (filename_ext == "xml")
@@ -85,7 +85,7 @@ import js.Browser;
 	    	}
 		Utils.exec(["cd %CD% \""+Main.session.project_folder+"\"",compiler],function(error,stdout,stderr)
 			{
-				trace(error);trace(stdout);trace(stderr);
+				//trace(error);trace(stdout);trace(stderr);
 				if (error != null) // error 
 				{
 					untyped notify(stderr,"danger");

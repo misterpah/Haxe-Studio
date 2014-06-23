@@ -64,8 +64,6 @@ import js.Browser;
         var find = Main.file_stack.find(path);
         if (find[0] == "null" || find[0] == "not found")
         {
-		
-		
             var content = Utils.readFile(path);
             var filename_split = path.split(Utils.path.sep);
             var className = filename_split[filename_split.length-1].split('.')[0];
@@ -85,6 +83,11 @@ import js.Browser;
                 {
                 Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess",null);
                 }
+        }
+        else // file already opened.
+        {
+        Main.session.active_file = path;
+        Main.message.broadcast("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.FileAccess",null);
         }
     }
 

@@ -74,6 +74,9 @@ plugin.misterpah.FileAccess.openFileHandler = function(path,newFile) {
 		Main.session.active_file = path;
 		Main.message.broadcast("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.FileAccess",null);
 		if(newFile == true) Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess",null);
+	} else {
+		Main.session.active_file = path;
+		Main.message.broadcast("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.FileAccess",null);
 	}
 };
 plugin.misterpah.FileAccess.save_file = function() {
