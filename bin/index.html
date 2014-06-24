@@ -10,8 +10,11 @@
 		<script src="./js/bootstrap/bootstrap.min.js"></script>	
 		<script src="./js/bootstrap/bootstrap-select.min.js"></script>
 		<script src="./js/bootstrap/bootstrap-notify.js"></script>
+		<script src="./js/bootstrap/bootstrap-contextmenu.js"></script>
 		<script src="./js/jquery-ui-latest.js"></script>				
 		<script src="./js/jquery.layout-latest.js"></script>
+		
+		
 		
 		
 		<link href="./css/bootstrap-select.min.css" rel="stylesheet" media="screen">		
@@ -106,6 +109,7 @@
 				var layout;
 				$(document).ready(function()
 					{
+					$('a[data-toggle="context"]').contextmenu();
 					layout = $('body').layout({ 
 						resizable:	true, 
 						applyDemoStyles: false,
