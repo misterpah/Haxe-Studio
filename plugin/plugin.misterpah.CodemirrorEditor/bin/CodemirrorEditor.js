@@ -22,25 +22,22 @@ plugin.misterpah.CodemirrorEditor.cm = CodeMirror.fromTextArea( $("#cm_textarea"
 	});
 
 
-		/// resize mechanism
+/// resize mechanism
 
-		gui.Window.get().on("resize",function(){resize_codemirror();});	
-		gui.Window.get().on("maximize",function(){resize_codemirror();});
-		gui.Window.get().on("unmaximize",function(){resize_codemirror();});
+gui.Window.get().on("resize",function(){resize_codemirror();});	
+gui.Window.get().on("maximize",function(){resize_codemirror();});
+gui.Window.get().on("unmaximize",function(){resize_codemirror();});
 
-		Main.message.listen("core:center_resized","plugin.misterpah.Editor:js_file:editor_resizer",function()
-			{
-			resize_codemirror();
-			});
-		function resize_codemirror()
-			{
-			$(".CodeMirror").height($(".ui-layout-center").height() -30 +"px") // -30 is for the tab
-			}
+Main.message.listen("core:center_resized","plugin.misterpah.Editor:js_file:editor_resizer",function()
+	{
+	resize_codemirror();
+	});
+function resize_codemirror()
+	{
+	$(".CodeMirror").height($(".ui-layout-center").height() -30 +"px") // -30 is for the tab
+	}
 
-		/// resize mechanism ends
-
-
-
+/// resize mechanism ends
 
 
 	
@@ -105,11 +102,25 @@ plugin.misterpah.CodemirrorEditor.show_me_tab = function (name,mode){
 	}
 
 
+// save changes made into the Main.file_stack before saving it
+Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",function(){
+	// get changes from cm_buffer
+	var content_from_buffer = plugin.misterpah.CodemirrorEditor.cm_buffer[encodeURIComponent(Main.session.active_file)].cm.getValue();
 
+	// get active_file 's file_obj
+	var file_obj = Main.file_stack.find(Main.session.active_file);
+
+	// update content of active_file
+	Main.file_stack.update_content(Main.session.active_file,content_from_buffer);
+	
+	// trigger active file to save
+	Main.message.broadcast("plugin.misterpah.FileAccess:saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
+});
 
 
 // this function will listen for opened files and will display in the Editor
 Main.message.listen("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",function(){
+	console.log("opening console");
 	// display editor if it's not visible
 	if ($("#plugin_misterpah_CodemirrorEditor_editor").css("display") == "none")
 		{

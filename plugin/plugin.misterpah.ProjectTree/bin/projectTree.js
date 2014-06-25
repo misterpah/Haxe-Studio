@@ -1,6 +1,7 @@
 (function(){
 	$("#tree_position").html("");
 	plugin.misterpah.ProjectTree.projectFolder = "";
+	plugin.misterpah.ProjectTree.context_menu_target = "";
 
     plugin.misterpah.ProjectTree.contextMenu_file = ['<div style="position:absolute;" id="test">',
     '<ul class="dropdown-menu" role="menu">',
@@ -74,10 +75,47 @@
 					}
 				}
 			}
+		plugin.misterpah.ProjectTree.set_context_menu();
 		}
 
 
+var folder_menu = new gui.Menu();
+folder_menu.append(new gui.MenuItem(
+	{ 
+	label: 'Show this folder',  
+	click: function() 
+		{
+		var path = $(plugin.misterpah.ProjectTree.context_menu_target[1]).attr("data-path");
+		plugin.misterpah.ProjectTree.show_project_tree(path);
+ 		}
+	}
+));
 
+
+
+
+
+var file_menu = new gui.Menu();
+file_menu.append(new gui.MenuItem({ label: 'Set as Project File' }));
+
+
+
+	plugin.misterpah.ProjectTree.set_context_menu = function ()
+		{
+			
+		$("a.folder").on("contextmenu", function(e) {
+		folder_menu.popup(e.originalEvent.x + 1, e.originalEvent.y +1);
+		plugin.misterpah.ProjectTree.context_menu_target = ['folder',e.target]
+		//e.preventDefault();
+		});
+
+		$("a.file").on("contextmenu", function(e) {
+		file_menu.popup(e.originalEvent.x + 1, e.originalEvent.y +1);
+		plugin.misterpah.ProjectTree.context_menu_target = ['file',e.target]
+		//e.preventDefault();
+		});
+			
+		}
 
 	plugin.misterpah.ProjectTree.show_project_tree = function (project_folder)
 		{
@@ -107,16 +145,10 @@
 				}
 			}
 			
-
-      			
+		plugin.misterpah.ProjectTree.set_context_menu();
 		}
 		
 	plugin.misterpah.ProjectTree.show_project_tree(Main.session.project_folder);
 })();
 
-		$('body').contextmenu({
-			target: '#test',
-			onItem: function (context, e) {
-			  alert($(e.target).text());
-			}
-		});
+

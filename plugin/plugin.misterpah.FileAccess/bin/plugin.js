@@ -35,7 +35,7 @@ plugin.misterpah.FileAccess.register_shortcutkey = function() {
 plugin.misterpah.FileAccess.register_listener = function() {
 	Main.message.listen("core:FileMenu.newFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.new_file);
 	Main.message.listen("core:FileMenu.openFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.open_file);
-	Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.save_file);
+	Main.message.listen("plugin.misterpah.FileAccess:saveFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.save_file);
 	Main.message.listen("core:FileMenu.closeFile","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.close_file);
 	Main.message.listen("plugin.misterpah.FileAccess:OpenFileDirectly","plugin.misterpah.FileAccess",plugin.misterpah.FileAccess.openFileDirectly);
 };
@@ -56,6 +56,7 @@ plugin.misterpah.FileAccess.open_file = function() {
 };
 plugin.misterpah.FileAccess.openFileDirectly = function(event,path) {
 	console.log(path);
+	path = fs.realpathSync(path);
 	plugin.misterpah.FileAccess.openFileHandler(path,false);
 };
 plugin.misterpah.FileAccess.openFileHandler = function(path,newFile) {
@@ -71,11 +72,11 @@ plugin.misterpah.FileAccess.openFileHandler = function(path,newFile) {
 			content = new_content;
 		}
 		Main.file_stack.add(path,content,className);
-		Main.session.active_file = path;
+		Main.session.active_file = fs.realpathSync(path);
 		Main.message.broadcast("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.FileAccess",null);
 		if(newFile == true) Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.FileAccess",null);
 	} else {
-		Main.session.active_file = path;
+		Main.session.active_file = fs.realpathSync(path);
 		Main.message.broadcast("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.FileAccess",null);
 	}
 };

@@ -20,7 +20,9 @@ import js.Browser;
 	{
 	Main.message.listen("core:FileMenu.newFile","plugin.misterpah.FileAccess",new_file);
 	Main.message.listen("core:FileMenu.openFile","plugin.misterpah.FileAccess",open_file);
-	Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.FileAccess",save_file);
+	//Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.FileAccess",save_file);
+	Main.message.listen("plugin.misterpah.FileAccess:saveFile","plugin.misterpah.FileAccess",save_file);	
+	
 	Main.message.listen("core:FileMenu.closeFile","plugin.misterpah.FileAccess",close_file);
 	Main.message.listen("plugin.misterpah.FileAccess:OpenFileDirectly","plugin.misterpah.FileAccess",openFileDirectly);
 
@@ -53,6 +55,7 @@ import js.Browser;
 	static private function openFileDirectly(event:Dynamic,path:String):Void
 	{
 	trace(path);
+    path = untyped fs.realpathSync(path);
 	openFileHandler(path,false);
 	}
 
@@ -77,7 +80,7 @@ import js.Browser;
                 content = new_content;                  
                 }
             Main.file_stack.add(path,content,className);
-            Main.session.active_file = path;
+            Main.session.active_file = untyped fs.realpathSync(path);
 			Main.message.broadcast("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.FileAccess",null);
 	        if (newFile == true)
                 {
@@ -86,7 +89,7 @@ import js.Browser;
         }
         else // file already opened.
         {
-        Main.session.active_file = path;
+        Main.session.active_file = untyped fs.realpathSync(path);
         Main.message.broadcast("plugin.misterpah.FileAccess:open_file.complete","plugin.misterpah.FileAccess",null);
         }
     }
