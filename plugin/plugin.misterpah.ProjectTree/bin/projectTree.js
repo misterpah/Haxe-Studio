@@ -3,26 +3,6 @@
 	plugin.misterpah.ProjectTree.projectFolder = "";
 	plugin.misterpah.ProjectTree.context_menu_target = "";
 
-    plugin.misterpah.ProjectTree.contextMenu_file = ['<div style="position:absolute;" id="test">',
-    '<ul class="dropdown-menu" role="menu">',
-    '<li><a tabindex="-1" href="#">Set this as Project File</a></li>',
-    '</ul>',
-    '</div>'].join("\n");
-
-
-	
-    plugin.misterpah.ProjectTree.contextMenu_folder = ['<div id="plugin-misterpah-ProjectTree-contextMenu-folder">',
-    '<ul class="dropdown-menu" role="menu">',
-    '<li><a tabindex="-1" href="#">Enter this folder</a></li>',
-    '</ul>',
-    '</div>'].join("\n");
-
-	$("#temp").append(plugin.misterpah.ProjectTree.contextMenu_file);
-	$("#temp").append(plugin.misterpah.ProjectTree.contextMenu_folder);
-
-
-
-
 
 	// open file if it's clicked
 	plugin.misterpah.ProjectTree.openMe = function (obj)
@@ -79,26 +59,28 @@
 		}
 
 
-var folder_menu = new gui.Menu();
-folder_menu.append(new gui.MenuItem(
-	{ 
-	label: 'Show this folder',  
-	click: function() 
-		{
-		var path = $(plugin.misterpah.ProjectTree.context_menu_target[1]).attr("data-path");
-		plugin.misterpah.ProjectTree.show_project_tree(path);
- 		}
-	}
-));
+	var folder_menu = new gui.Menu();
+	folder_menu.append(new gui.MenuItem(
+		{ 
+			label: 'Show this folder',  
+			click: function() 
+			{
+				var path = $(plugin.misterpah.ProjectTree.context_menu_target[1]).attr("data-path");
+				plugin.misterpah.ProjectTree.show_project_tree(path);
+			}
+		}
+	));
 
-
-
-
-
-var file_menu = new gui.Menu();
-file_menu.append(new gui.MenuItem({ label: 'Set as Project File' }));
-
-
+	
+	var file_menu = new gui.Menu();
+	file_menu.append(new gui.MenuItem(
+		{ 
+			label: 'nothing yet',  
+			click: function() 
+			{
+			}
+		}
+	));
 
 	plugin.misterpah.ProjectTree.set_context_menu = function ()
 		{
