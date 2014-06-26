@@ -1,43 +1,30 @@
 // no DOM leaking, no worries
 (function(){
-$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_tab'><ul class='nav nav-tabs'></ul></div>");
-$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_editor'><textarea id='cm_textarea'></textarea></div>");
-$("#plugin_misterpah_CodemirrorEditor_editor").css("display","none");
-plugin.misterpah.CodemirrorEditor.cm_buffer = {};
-plugin.misterpah.CodemirrorEditor.cm = CodeMirror.fromTextArea( $("#cm_textarea")[0],
-	{
-	lineNumbers:true,
-    indentUnit:4,
-    tabSize:4,     	
-    indentWithTabs:true,
-   	cursorHeight:0.85,
-    mode:'haxe', 
-    theme:'base16-dark',
-    viewportMargin: Infinity,
-    matchBrackets:true,
-    autoCloseBrackets:true,
-    foldCode:true,
-    foldGutter:true,
-    styleActiveLine:true 
-	});
+	$("body").append("<style>.CodeMirror-dialog-top { position:absolute;right:0px;}</style>");
+	$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_tab'><ul class='nav nav-tabs'></ul></div>");
+	$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_editor'><textarea id='cm_textarea'></textarea></div>");
+	$("#plugin_misterpah_CodemirrorEditor_editor").css("display","none");
+	plugin.misterpah.CodemirrorEditor.cm_buffer = {};
+	plugin.misterpah.CodemirrorEditor.cm = CodeMirror.fromTextArea( $("#cm_textarea")[0],
+																   {
+																	   keyMap : "sublime",
+																	   lineNumbers:true,
+																	   indentUnit:4,
+																	   tabSize:4,     	
+																	   indentWithTabs:true,
+																	   cursorHeight:0.85,
+																	   mode:'haxe', 
+																	   theme:'base16-dark',
+																	   viewportMargin: Infinity,
+																	   matchBrackets:true,
+																	   autoCloseBrackets:true,
+																	   foldCode:true,
+																	   foldGutter:true,
+																	   styleActiveLine:true,
+																	   showCursorWhenSelecting: true
+																   });
 
-
-/// resize mechanism
-
-gui.Window.get().on("resize",function(){resize_codemirror();});	
-gui.Window.get().on("maximize",function(){resize_codemirror();});
-gui.Window.get().on("unmaximize",function(){resize_codemirror();});
-
-Main.message.listen("core:center_resized","plugin.misterpah.Editor:js_file:editor_resizer",function()
-	{
-	resize_codemirror();
-	});
-function resize_codemirror()
-	{
-	$(".CodeMirror").height($(".ui-layout-center").height() -30 +"px") // -30 is for the tab
-	}
-
-/// resize mechanism ends
+	
 
 
 	
@@ -83,7 +70,7 @@ function display_buffer(name)
 	plugin.misterpah.CodemirrorEditor.cm.refresh();
 	
 }
-
+	
 // show tab and set it as active file
 plugin.misterpah.CodemirrorEditor.show_me_tab = function (name,mode){
 	//console.log("executed!");

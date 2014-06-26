@@ -21,6 +21,24 @@ plugin.misterpah.CodemirrorEditor.main = function() {
 plugin.misterpah.CodemirrorEditor.create_ui = function() {
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/lib/codemirror.js",function() {
 	});
+	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/search/searchcursor.js",function() {
+	});
+	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/search/search.js",function() {
+	});
+	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/edit/matchbrackets.js",function() {
+	});
+	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/edit/closebrackets.js",function() {
+	});
+	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/fold/brace-fold.js",function() {
+	});
+	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/fold/foldcode.js",function() {
+	});
+	Utils.loadCSS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/fold/foldgutter.css");
+	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/dialog/dialog.js",function() {
+	});
+	Utils.loadCSS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/dialog/dialog.css");
+	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/keymap/sublime.js",function() {
+	});
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/mode/haxe/haxe.js",function() {
 	});
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/mode/javascript/javascript.js",function() {
@@ -30,6 +48,8 @@ plugin.misterpah.CodemirrorEditor.create_ui = function() {
 	Utils.loadCSS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/lib/codemirror.css");
 	Utils.loadCSS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/theme/base16-dark.css");
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + "/CodemirrorEditor.js",function() {
+	});
+	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + "/CodemirrorEditor_resizer.js",function() {
 	});
 };
 plugin.misterpah.CodemirrorEditor.register_listener = function() {
