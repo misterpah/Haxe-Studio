@@ -8,6 +8,7 @@ import js.Browser;
 
     static public function main():Void
     {
+	    create_ui();
 		register_listener();
     }
     

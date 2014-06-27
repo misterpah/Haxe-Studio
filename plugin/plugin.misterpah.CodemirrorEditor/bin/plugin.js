@@ -46,7 +46,7 @@ plugin.misterpah.CodemirrorEditor.create_ui = function() {
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/mode/xml/xml.js",function() {
 	});
 	Utils.loadCSS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/lib/codemirror.css");
-	Utils.loadCSS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/theme/base16-dark.css");
+	Utils.loadCSS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/theme/monokai.css");
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + "/CodemirrorEditor.js",function() {
 	});
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + "/CodemirrorEditor_resizer.js",function() {

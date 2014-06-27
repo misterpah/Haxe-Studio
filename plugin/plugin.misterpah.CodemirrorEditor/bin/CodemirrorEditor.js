@@ -14,7 +14,7 @@
 																	   indentWithTabs:true,
 																	   cursorHeight:0.85,
 																	   mode:'haxe', 
-																	   theme:'base16-dark',
+																	   theme:'monokai',
 																	   viewportMargin: Infinity,
 																	   matchBrackets:true,
 																	   autoCloseBrackets:true,

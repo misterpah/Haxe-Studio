@@ -71,7 +71,7 @@ Main.__name__ = true;
 Main.main = function() {
 };
 Main.run_haxe_studio = function() {
-	Main.version = "0.3.5";
+	Main.version = "0.3.6";
 	Main.session = new Session();
 	Main.file_stack = new FileObject();
 	Main.message = new Message();

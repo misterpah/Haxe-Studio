@@ -38,11 +38,7 @@ import js.Browser;
 		Utils.loadJS(plugin_path() +cm_folder+"/addon/dialog/dialog.js",function(){});
 		Utils.loadCSS(plugin_path() +cm_folder+"/addon/dialog/dialog.css");
 		
-		
-
-		
-
-		
+			
 		// keymap
 		Utils.loadJS(plugin_path() +cm_folder+"/keymap/sublime.js",function(){});		
 		
@@ -52,9 +48,10 @@ import js.Browser;
 		Utils.loadJS(plugin_path() +cm_folder+"/mode/xml/xml.js",function(){});
 
 		Utils.loadCSS(plugin_path()+cm_folder+"/lib/codemirror.css");
-		Utils.loadCSS(plugin_path() +cm_folder+"/theme/base16-dark.css");
+		Utils.loadCSS(plugin_path() +cm_folder+"/theme/monokai.css");
 		Utils.loadJS(plugin_path()+"/CodemirrorEditor.js",function(){});
 		Utils.loadJS(plugin_path()+"/CodemirrorEditor_resizer.js",function(){});
+		//Utils.loadJS(plugin_path()+"/jshint.js",function(){});
 	}
 
 	static public function register_listener():Void

@@ -152,6 +152,9 @@ import haxe.macro.Expr;
 					untyped notify(stdout,"danger");
 					}
 				}
+			//trace(error);
+			//trace(stdout);
+			//trace(stderr);
 			callback(error, stdout,stderr);
 			});
 		}	

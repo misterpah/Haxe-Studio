@@ -21,6 +21,7 @@ plugin.misterpah = {};
 plugin.misterpah.ProjectTree = $hx_exports.plugin.misterpah.ProjectTree = function() { };
 plugin.misterpah.ProjectTree.__name__ = ["plugin","misterpah","ProjectTree"];
 plugin.misterpah.ProjectTree.main = function() {
+	plugin.misterpah.ProjectTree.create_ui();
 	plugin.misterpah.ProjectTree.register_listener();
 };
 plugin.misterpah.ProjectTree.plugin_path = function() {

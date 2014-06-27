@@ -1,4 +1,3 @@
-(function(){
 	$("#tree_position").html("");
 	plugin.misterpah.ProjectTree.projectFolder = "";
 	plugin.misterpah.ProjectTree.context_menu_target = "";
@@ -59,8 +58,8 @@
 		}
 
 
-	var folder_menu = new gui.Menu();
-	folder_menu.append(new gui.MenuItem(
+	plugin.misterpah.ProjectTree.folder_menu = new gui.Menu();
+	plugin.misterpah.ProjectTree.folder_menu.append(new gui.MenuItem(
 		{ 
 			label: 'Show this folder',  
 			click: function() 
@@ -72,8 +71,8 @@
 	));
 
 	
-	var file_menu = new gui.Menu();
-	file_menu.append(new gui.MenuItem(
+	plugin.misterpah.ProjectTree.file_menu = new gui.Menu();
+	plugin.misterpah.ProjectTree.file_menu.append(new gui.MenuItem(
 		{ 
 			label: 'nothing yet',  
 			click: function() 
@@ -86,13 +85,13 @@
 		{
 			
 		$("a.folder").on("contextmenu", function(e) {
-		folder_menu.popup(e.originalEvent.x + 1, e.originalEvent.y +1);
+		plugin.misterpah.ProjectTree.folder_menu.popup(e.originalEvent.x + 1, e.originalEvent.y +1); // offset 1px to fix bug
 		plugin.misterpah.ProjectTree.context_menu_target = ['folder',e.target]
 		//e.preventDefault();
 		});
 
 		$("a.file").on("contextmenu", function(e) {
-		file_menu.popup(e.originalEvent.x + 1, e.originalEvent.y +1);
+		plugin.misterpah.ProjectTree.file_menu.popup(e.originalEvent.x + 1, e.originalEvent.y +1); // offset 1px to fix bug
 		plugin.misterpah.ProjectTree.context_menu_target = ['file',e.target]
 		//e.preventDefault();
 		});
@@ -131,6 +130,4 @@
 		}
 		
 	plugin.misterpah.ProjectTree.show_project_tree(Main.session.project_folder);
-})();
-
 
