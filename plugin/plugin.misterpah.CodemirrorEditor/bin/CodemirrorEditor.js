@@ -329,6 +329,10 @@
 				{
 				new_completion.push(cur_completion);
 				}
+			else if (cur_completion.indexOf(value) !== -1)
+				{
+				new_completion.push(cur_completion);
+				}
 				
 			}  
 
