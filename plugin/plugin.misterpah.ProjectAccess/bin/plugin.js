@@ -31,6 +31,7 @@ plugin.misterpah.ProjectAccess.open_project = function() {
 };
 plugin.misterpah.ProjectAccess.openProjectHandler = function(path,newFile) {
 	if(newFile == null) newFile = false;
+	plugin.misterpah.ProjectAccess.previous_project_xml = Main.session.project_xml;
 	Main.session.project_xml = path;
 	plugin.misterpah.ProjectAccess.parse_project();
 };
@@ -53,8 +54,15 @@ plugin.misterpah.ProjectAccess.parse_project = function() {
 	projectFolder.pop();
 	Main.session.project_folder = projectFolder.join(Utils.path.sep);
 	var compiler = "";
-	if(filename_ext == "xml") compiler = "lime display -hxml flash"; else if(filename_ext == "hxml") compiler = "%CAT% \"" + filename + "\"";
+	if(filename_ext == "xml") compiler = "lime display -hxml flash"; else if(filename_ext == "hxml") compiler = "%CAT% \"" + filename + "\""; else {
+		console.log("unknown filetype. discard");
+		Main.session.project_xml = plugin.misterpah.ProjectAccess.previous_project_xml;
+		return;
+	}
 	Utils.exec(["cd %CD% \"" + Main.session.project_folder + "\"",compiler],function(error,stdout,stderr) {
+		console.log(error);
+		console.log(stdout);
+		console.log(stderr);
 		if(error != null) {
 			notify(stderr,"danger");
 			Main.session.project_xml = "";

@@ -51,7 +51,7 @@ import js.Browser;
 		Utils.loadCSS(plugin_path() +cm_folder+"/theme/monokai.css");
 		Utils.loadJS(plugin_path()+"/CodemirrorEditor.js",function(){});
 		Utils.loadJS(plugin_path()+"/CodemirrorEditor_resizer.js",function(){});
-		//Utils.loadJS(plugin_path()+"/jshint.js",function(){});
+		Utils.loadJS(plugin_path()+"/jshint.js",function(){});
 	}
 
 	static public function register_listener():Void

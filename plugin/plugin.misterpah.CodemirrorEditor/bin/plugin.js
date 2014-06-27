@@ -51,6 +51,8 @@ plugin.misterpah.CodemirrorEditor.create_ui = function() {
 	});
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + "/CodemirrorEditor_resizer.js",function() {
 	});
+	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + "/jshint.js",function() {
+	});
 };
 plugin.misterpah.CodemirrorEditor.register_listener = function() {
 };

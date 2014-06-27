@@ -5,6 +5,7 @@ import js.Browser;
 @:keep @:expose class ProjectAccess
 {
 	static private var plugin:Map<String,String>;
+	static private var previous_project_xml:String;
 
     static public function main():Void
     {
@@ -40,6 +41,7 @@ import js.Browser;
 
     static private function openProjectHandler(path:String,newFile:Bool=false):Void
     {
+		previous_project_xml = Main.session.project_xml;
         Main.session.project_xml = path;
         parse_project();
     }	
@@ -83,9 +85,15 @@ import js.Browser;
 	    	{
 	    	compiler = "%CAT% \""+filename+"\"";
 	    	}
+		else
+			{
+				trace("unknown filetype. discard");
+				Main.session.project_xml = previous_project_xml;
+				return;
+			}
 		Utils.exec(["cd %CD% \""+Main.session.project_folder+"\"",compiler],function(error,stdout,stderr)
 			{
-				//trace(error);trace(stdout);trace(stderr);
+				trace(error);trace(stdout);trace(stderr);
 				if (error != null) // error 
 				{
 					untyped notify(stderr,"danger");

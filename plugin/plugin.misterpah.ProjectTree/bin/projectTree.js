@@ -74,9 +74,20 @@
 	plugin.misterpah.ProjectTree.file_menu = new gui.Menu();
 	plugin.misterpah.ProjectTree.file_menu.append(new gui.MenuItem(
 		{ 
-			label: 'nothing yet',  
+			label: 'Open File',
 			click: function() 
 			{
+				plugin.misterpah.ProjectTree.openMe($(plugin.misterpah.ProjectTree.context_menu_target[1]));
+			}
+		}
+	));
+	plugin.misterpah.ProjectTree.file_menu.append(new gui.MenuItem(
+		{ 
+			label: 'Set as Project File',
+			click: function() 
+			{
+				var path = $(plugin.misterpah.ProjectTree.context_menu_target[1]).attr("data-path");
+				plugin.misterpah.ProjectAccess.openProjectHandler(Utils.fs.realpathSync(path));
 			}
 		}
 	));
