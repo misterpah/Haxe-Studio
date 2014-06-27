@@ -10,7 +10,7 @@
 						});
 	function resize_codemirror()
 	{
-		$(".CodeMirror").height($(".ui-layout-center").height() -30 +"px") // -30 is for the tab
+		$(".CodeMirror").height($(".ui-layout-center").height() -30 +"px"); // -30 is for the tab
 	}
 	/// resize mechanism ends
 })();

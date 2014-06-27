@@ -8,7 +8,7 @@ import js.Browser;
 
     static public function main():Void
     {
-	    create_ui();
+	    //create_ui(); -- no need because it already listened to system_parse_project.complete
 		register_listener();
     }
     

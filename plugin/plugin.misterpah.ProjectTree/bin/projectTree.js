@@ -1,30 +1,29 @@
+(function(){
 	$("#tree_position").html("");
 	plugin.misterpah.ProjectTree.projectFolder = "";
 	plugin.misterpah.ProjectTree.context_menu_target = "";
-
 
 	// open file if it's clicked
 	plugin.misterpah.ProjectTree.openMe = function (obj)
 		{
 		var path = $(obj).attr('data-path');
 		Main.message.broadcast("plugin.misterpah.FileAccess:OpenFileDirectly","plugin.misterpah.ProjectTree",path);
-		}
-
+		};
+ 
 	// open/close folder & show it's content once clicked
 	plugin.misterpah.ProjectTree.openFolder = function (obj)
 		{
 		var html = $(obj).html();
 		var userwantsto = "";
-		if (html[0] == "+")	 // user want to open folder
+		if (html[0] == "+")	// user want to open folder
 			{
 			html = html.replace("+","-");	
 			userwantsto = "open";
 			}
-		else if (html[0] == "-")	 // user want to close folder
+		else if (html[0] == "-")	// user want to close folder
 			{
 			html = html.replace("-","+");	
 			userwantsto = "close";
-		
 			}
 		$(obj).html(html);
 	
@@ -55,8 +54,7 @@
 				}
 			}
 		plugin.misterpah.ProjectTree.set_context_menu();
-		}
-
+		};
 
 	plugin.misterpah.ProjectTree.folder_menu = new gui.Menu();
 	plugin.misterpah.ProjectTree.folder_menu.append(new gui.MenuItem(
@@ -96,18 +94,16 @@
 		{
 			
 		$("a.folder").on("contextmenu", function(e) {
-		plugin.misterpah.ProjectTree.folder_menu.popup(e.originalEvent.x + 1, e.originalEvent.y +1); // offset 1px to fix bug
-		plugin.misterpah.ProjectTree.context_menu_target = ['folder',e.target]
-		//e.preventDefault();
-		});
+			plugin.misterpah.ProjectTree.folder_menu.popup(e.originalEvent.x + 1, e.originalEvent.y +1); // offset 1px to fix bug
+			plugin.misterpah.ProjectTree.context_menu_target = ['folder',e.target];
+			});
 
 		$("a.file").on("contextmenu", function(e) {
-		plugin.misterpah.ProjectTree.file_menu.popup(e.originalEvent.x + 1, e.originalEvent.y +1); // offset 1px to fix bug
-		plugin.misterpah.ProjectTree.context_menu_target = ['file',e.target]
-		//e.preventDefault();
-		});
+			plugin.misterpah.ProjectTree.file_menu.popup(e.originalEvent.x + 1, e.originalEvent.y +1); // offset 1px to fix bug
+			plugin.misterpah.ProjectTree.context_menu_target = ['file',e.target];
+			});
 			
-		}
+		};
 
 	plugin.misterpah.ProjectTree.show_project_tree = function (project_folder)
 		{
@@ -138,7 +134,8 @@
 			}
 			
 		plugin.misterpah.ProjectTree.set_context_menu();
-		}
+		};
 		
 	plugin.misterpah.ProjectTree.show_project_tree(Main.session.project_folder);
-
+	
+})();

@@ -4,5 +4,5 @@
 "sourceRoot":"file://",
 "sources":["/usr/lib/haxe/std/js/_std/Type.hx","/media/pah/0b1255a9-a89e-4e77-9f71-1328332818c9/pah/github/Haxe-Studio/plugin/plugin.misterpah.ProjectTree/source/plugin/misterpah/ProjectTree.hx","/usr/lib/haxe/std/js/_std/Std.hx"],
 "names":[],
-"mappings":";;;;;;;;;oBAoDc,RAAqD;CAClC;CACzB,AAAO;;;;;;;;;;;oCC9CE,zBACd;CACC;CACH;;2CAGc,hCAEf;CAAO,EAAe,FAAkB,EAAc;;iDAIxC,tCACd;CACC,AAAoB,AAA+D,AAA+B;CAClH,AAAoB,AAAwD,AAA+B;;0CAI9F,/BAEN;CAAE,AAAuB;;yCAGnB,9BACd;CACA,AAAa,EAAgB,FAAkB,UAAU;;CACzD,AAAc,EAAgB;;AC2BC,GAAkB,AAAgC,FAAC;AAEnD,GAAiB,AAAgC,FAAC;;;;"
+"mappings":";;;;;;;;;oBAoDc,RAAqD;CAClC;CACzB,AAAO;;;;;;;;;;;oCC9CE,zBAGhB;;;2CAGc,hCAEf;CAAO,EAAe,FAAkB,EAAc;;iDAIxC,tCACd;CACC,AAAoB,AAA+D,AAA+B;CAClH,AAAoB,AAAwD,AAA+B;;0CAI9F,/BAEN;CAAE,AAAuB;;yCAGnB,9BACd;CACA,AAAa,EAAgB,FAAkB,UAAU;;CACzD,AAAc,EAAgB;;AC2BC,GAAkB,AAAgC,FAAC;AAEnD,GAAiB,AAAgC,FAAC;;;;"
 }

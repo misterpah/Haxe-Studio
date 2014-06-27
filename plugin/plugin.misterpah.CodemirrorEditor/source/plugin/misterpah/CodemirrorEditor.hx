@@ -23,7 +23,6 @@ import js.Browser;
 	private static function create_ui():Void
 	{
 		Utils.loadJS(plugin_path()+cm_folder+"/lib/codemirror.js",function(){});
-		
 		// addons
 		
 		Utils.loadJS(plugin_path() +cm_folder+"/addon/search/searchcursor.js",function(){});
