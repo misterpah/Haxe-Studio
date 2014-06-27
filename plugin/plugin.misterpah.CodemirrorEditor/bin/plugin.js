@@ -37,6 +37,9 @@ plugin.misterpah.CodemirrorEditor.create_ui = function() {
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/dialog/dialog.js",function() {
 	});
 	Utils.loadCSS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/dialog/dialog.css");
+	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/hint/show-hint.js",function() {
+	});
+	Utils.loadCSS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/hint/show-hint.css");
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/keymap/sublime.js",function() {
 	});
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/mode/haxe/haxe.js",function() {

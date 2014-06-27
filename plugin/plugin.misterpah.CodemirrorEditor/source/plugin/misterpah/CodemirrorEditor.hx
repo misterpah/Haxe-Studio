@@ -37,6 +37,9 @@ import js.Browser;
 		Utils.loadJS(plugin_path() +cm_folder+"/addon/dialog/dialog.js",function(){});
 		Utils.loadCSS(plugin_path() +cm_folder+"/addon/dialog/dialog.css");
 		
+		Utils.loadJS(plugin_path() +cm_folder+"/addon/hint/show-hint.js",function(){});
+		Utils.loadCSS(plugin_path()+cm_folder+"/addon/hint/show-hint.css");
+		
 			
 		// keymap
 		Utils.loadJS(plugin_path() +cm_folder+"/keymap/sublime.js",function(){});		

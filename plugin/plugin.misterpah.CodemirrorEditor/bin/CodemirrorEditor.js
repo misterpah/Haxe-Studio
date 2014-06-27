@@ -12,7 +12,7 @@
 	$("#plugin_misterpah_CodemirrorEditor_editor").css("display","none");
 	plugin.misterpah.CodemirrorEditor.cm_buffer = {};
 	plugin.misterpah.CodemirrorEditor.inline_widget_stack = [];
-	
+	plugin.misterpah.CodemirrorEditor.hx_completion_list = [];
 	plugin.misterpah.CodemirrorEditor.cm = CodeMirror.fromTextArea($("#cm_textarea")[0],
 			{
 			keyMap : "sublime",
@@ -37,6 +37,10 @@
 			{
 			plugin.misterpah.CodemirrorEditor.cmOnChangeJS();
 			}
+		else if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "haxe")
+			{
+			plugin.misterpah.CodemirrorEditor.cmOnChangeHaxe();
+			}		
 		});	
 	
 	
@@ -91,6 +95,10 @@
 		plugin.misterpah.CodemirrorEditor.cm.refresh();
 		}
 
+	
+	
+	
+	
 	// show tab and set it as active file
 	plugin.misterpah.CodemirrorEditor.show_me_tab = function (name,mode)
 		{
@@ -108,6 +116,9 @@
 		Main.message.broadcast("core:center_resized","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
 		};
 
+	
+	
+	
 
 	// save changes made into the Main.file_stack before saving it
 	Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",function()
@@ -179,6 +190,9 @@
 		Main.message.broadcast("plugin.misterpah.CodemirrorEditor:file_displayed.complete","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
 	});
 	
+	
+	
+	
 
 	// listen for close file	
 	Main.message.listen("plugin.misterpah.FileAccess:close_file.complete","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",function()
@@ -197,6 +211,211 @@
 		Main.session.active_file = "";
 		Main.message.broadcast("plugin.misterpah.CodemirrorEditor:file_closed.complete","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
 		});	
+	
+	
+	
+	
+	plugin.misterpah.CodemirrorEditor.handleCompletion = function(p1,p2,p3)
+	{
+		if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "haxe")
+			{
+			plugin.misterpah.CodemirrorEditor.haxe_handleCompletion(p1,p2);
+			}		
+	};
+	
+// ---------------------------------------------------------------------------------------------------------------------------------	
+// ---------------------------------------------------------------------------------------------------------------------------------
+// BLOCK : Codemirror as a Haxe editor
+// ---------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------
+
+	
+	
+	
+	plugin.misterpah.CodemirrorEditor.haxe_handleCompletion = function (p1,p2)
+		{
+		// prepare completion to add into hx_completion_list
+		var completion_temp = [];
+		if (p2 === ".") // dot completion
+			{
+			try
+				{
+				for (count = 0 ; count < p1.i.length;count++)
+					{
+					completion_temp.push(p1.i[count].n);
+					}
+				plugin.misterpah.CodemirrorEditor.hx_completion_list = completion_temp;
+				CodeMirror.showHint(plugin.misterpah.CodemirrorEditor.cm, plugin.misterpah.CodemirrorEditor.haxeHint);
+				}
+			catch(err)
+				{
+				console.error('malformed code. halt completion.');
+				}			
+			}
+		else if (p2 === "(")
+			{
+			try
+				{	
+				completion_temp.push("/* function parameter */");
+				completion_temp.push(p1);
+				plugin.misterpah.CodemirrorEditor.hx_completion_list = completion_temp;
+				CodeMirror.showHint(plugin.misterpah.CodemirrorEditor.cm, plugin.misterpah.CodemirrorEditor.haxeHint);					
+				}
+			catch(err)
+				{
+					console.error('malformed code. halt completion.');
+				}
+			}
+		else if (p2 === ":")
+			{
+			try
+				{	
+					console.log(p1);
+				/*
+				completion_temp.push(" function parameter ");
+				completion_temp.push(p1);
+				plugin.misterpah.CodemirrorEditor.hx_completion_list = completion_temp;
+				CodeMirror.showHint(plugin.misterpah.CodemirrorEditor.cm, plugin.misterpah.CodemirrorEditor.haxeHint);					
+				*/
+				}
+			catch(err)
+				{
+					console.error('malformed code. halt completion.');
+				}
+			}		
+		};
+
+	
+	
+	
+	
+	plugin.misterpah.CodemirrorEditor.haxeHint = function (cm,options)
+		{
+		var haxe_completion = plugin.misterpah.CodemirrorEditor.hx_completion_list;
+		var cur = cm.getCursor();
+
+		var updated_completion = plugin.misterpah.CodemirrorEditor.haxeHint_update(cm,haxe_completion);
+		return updated_completion;
+		};
+
+
+	
+	
+	
+	
+	plugin.misterpah.CodemirrorEditor.haxeHint_update = function(cm,completion_array)
+		{
+		var cur = cm.getCursor();
+
+		var start = plugin.misterpah.CodemirrorEditor.cursor_position;
+		var end = CodeMirror.Pos(cur.line,cur.ch);
+		//console.log(start);
+		//console.log(end);
+
+		var value = cm.getRange(start,end);
+
+		var new_completion = [];
+		for (var i = 0;i < completion_array.length;i++)
+			{
+			var cur_completion = completion_array[i];
+			var clone = cur_completion;
+			clone1 = clone.toLowerCase();
+			clone2 = clone.toUpperCase();
+			if (clone1.indexOf(value) !== -1)
+				{
+				new_completion.push(cur_completion);
+				}
+			else if (clone2.indexOf(value) !== -1)
+				{
+				new_completion.push(cur_completion);
+				}
+				
+			}  
+
+		return {list:new_completion,from:start,to:end};
+		};
+
+	CodeMirror.registerHelper("hint","haxe", plugin.misterpah.CodemirrorEditor.haxeHint);	
+
+
+	
+	
+	
+	
+	
+	
+	plugin.misterpah.CodemirrorEditor.cmOnChangeHaxe = function()
+		{
+		var pos = plugin.misterpah.CodemirrorEditor.cm.getCursor();
+		var index = plugin.misterpah.CodemirrorEditor.cm.indexFromPos(pos);
+
+		// automatic top level completion 
+		var line_content = plugin.misterpah.CodemirrorEditor.cm.getLine(pos.line);	
+		if (line_content.trim() === "") // top level completion only works on the blank line
+			{
+
+				Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
+				Main.message.broadcast(
+					"plugin.misterpah.CodemirrorEditor.hxCompletion_topLevel",
+					"plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",
+					[
+						index,
+						plugin.misterpah.CodemirrorEditor.handleCompletion
+					]
+				);
+			}
+
+		else if (plugin.misterpah.CodemirrorEditor.cm.getValue().charAt(index - 1) == ".")
+			{
+				plugin.misterpah.CodemirrorEditor.cursor_position = plugin.misterpah.CodemirrorEditor.cm.getCursor();
+				Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
+				Main.message.broadcast(
+					"plugin.misterpah.CodemirrorEditor.hxCompletion_positional",
+					"plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",
+					[
+						index,
+						plugin.misterpah.CodemirrorEditor.handleCompletion,
+						"."
+					]
+				);
+
+
+			}
+		
+		else if (plugin.misterpah.CodemirrorEditor.cm.getValue().charAt(index - 1) == "(")
+			{
+				plugin.misterpah.CodemirrorEditor.cursor_position = plugin.misterpah.CodemirrorEditor.cm.getCursor();
+				Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
+				Main.message.broadcast(
+					"plugin.misterpah.CodemirrorEditor.hxCompletion_positional",
+					"plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",
+					[
+						index,
+						plugin.misterpah.CodemirrorEditor.handleCompletion,
+						"("
+					]
+				);
+
+
+			}		
+		
+		else if (plugin.misterpah.CodemirrorEditor.cm.getValue().charAt(index - 1) == ":")
+			{
+				plugin.misterpah.CodemirrorEditor.cursor_position = plugin.misterpah.CodemirrorEditor.cm.getCursor();
+				Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
+				Main.message.broadcast(
+					"plugin.misterpah.CodemirrorEditor.hxCompletion_positional",
+					"plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",
+					[
+						index,
+						plugin.misterpah.CodemirrorEditor.handleCompletion,
+						":"
+					]
+				);
+
+
+			}			
+		};
 	
 	
 // ---------------------------------------------------------------------------------------------------------------------------------	
