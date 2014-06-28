@@ -18,7 +18,7 @@ import jQuery.*;
 
 	static public function run_haxe_studio():Void
 		{
-		version = "0.3.6";
+		version = "0.3.7";
 		session = new Session();
 		file_stack = new FileObject();
 		message = new Message();
@@ -27,13 +27,12 @@ import jQuery.*;
 		new ui.Notify();
 		new ui.FileDialog();
     	new ui.ModalDialog();
-		
-		
-		
+		//Main.file_stack.find()
+
 		var root_path = untyped root;
 		
-		
 		var filename = "./hs-plugin.json";
+			
 		var data = untyped {};
 		var ret = "";
 		// load plugin from config file

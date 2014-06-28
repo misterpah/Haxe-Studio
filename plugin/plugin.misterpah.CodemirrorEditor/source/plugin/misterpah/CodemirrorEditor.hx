@@ -8,7 +8,6 @@ import js.Browser;
 	private static var cm_buffer:Dynamic;
 	private static var cm_folder = "/codemirror-4.2";
 
-
 	private static function plugin_path():String
 	{
 		return "../plugin/" + Type.getClassName(CodemirrorEditor) +"/bin";

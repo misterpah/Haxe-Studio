@@ -14,7 +14,7 @@ var compile_target = ['<select id="compileTarget" class="btn-group-sm">',
 '<option>webos</option>',
 '<option>blackberry</option>',
 '<option>HXML</option>',
-'</select>'].join('\n')
+'</select>'].join('\n');
 
 
 var compile_parameter = ['<select id="compileParameter" class="btn-group-sm">',
@@ -33,5 +33,3 @@ $("#compiler_position").append("&nbsp;&nbsp;");
 $("#compiler_position").append(compile_parameter);
 $("#compiler_position").append("&nbsp;&nbsp;");
 $("#compiler_position").append('<button type="button" onclick="compile_request()" class="btn btn-danger btn-xs shadowme">Compile</button>');
-
-

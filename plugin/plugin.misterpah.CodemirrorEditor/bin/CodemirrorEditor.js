@@ -13,6 +13,7 @@
 	plugin.misterpah.CodemirrorEditor.cm_buffer = {};
 	plugin.misterpah.CodemirrorEditor.inline_widget_stack = [];
 	plugin.misterpah.CodemirrorEditor.hx_completion_list = [];
+	plugin.misterpah.CodemirrorEditor.anywordHint_opened = false;
 	plugin.misterpah.CodemirrorEditor.cm = CodeMirror.fromTextArea($("#cm_textarea")[0],
 			{
 			keyMap : "sublime",
@@ -24,19 +25,94 @@
 			mode:'haxe', 
 			theme:'monokai',
 			viewportMargin: Infinity,
-			matchBrackets:true,
-			autoCloseBrackets:true,
+			/*matchBrackets:true,
+			autoCloseBrackets:true,*/
 			foldCode:true,
 			foldGutter:true,
 			styleActiveLine:true,
-			showCursorWhenSelecting: true
+			showCursorWhenSelecting: true,
+			extraKeys: {"Ctrl-Space": "anywordCompletion"}
 			});
+	
+	CodeMirror.commands.anywordCompletion = function(cm) {
+		plugin.misterpah.CodemirrorEditor.cursor_position = plugin.misterpah.CodemirrorEditor.cm.getCursor();
+		cm.showHint({hint: plugin.misterpah.CodemirrorEditor.anywordHint});
+	};
+	
+	
+	
+	
+	CodeMirror.on(plugin.misterpah.CodemirrorEditor.cm,"cursorActivity",function(cm){
+		var pos = plugin.misterpah.CodemirrorEditor.cm.getCursor();
+		var line = plugin.misterpah.CodemirrorEditor.cm.getLine(pos.line);
+		var index = plugin.misterpah.CodemirrorEditor.cm.indexFromPos(pos);
+		var char = plugin.misterpah.CodemirrorEditor.cm.getValue().charAt(index - 1)[0];
+		var pos_minus1 = plugin.misterpah.CodemirrorEditor.cm.posFromIndex(index -1);
+		
+		var splitter = [];
+		if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "javascript")
+			{
+				splitter.push(".");
+				splitter.push(" ");
+				splitter.push("(");
+				splitter.push(")");
+				splitter.push("\"");
+				splitter.push("'");
+				splitter.push(":");
+			}
+		else if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "haxe")
+			{
+				splitter.push(" ");
+				splitter.push("\"");
+				splitter.push("'");
+				splitter.push(":");
+			}		
+		
+		
+		for (var each in splitter)
+			{
+				if ( char == splitter[each])
+					{
+						plugin.misterpah.CodemirrorEditor.anywordHint_opened = false;
+						break;
+					}
+			}
 
+		if (line === "") // will open once blank line clicked. not good enough
+			{
+			//plugin.misterpah.CodemirrorEditor.anywordHint_opened = false;
+			}		
+	});
+	
+	
+	
+	
+	
+	
+	
 	CodeMirror.on(plugin.misterpah.CodemirrorEditor.cm,"change",function(cm){
+		
+		var pos = plugin.misterpah.CodemirrorEditor.cm.getCursor();
+		var line = plugin.misterpah.CodemirrorEditor.cm.getLine(pos.line);
+		var index = plugin.misterpah.CodemirrorEditor.cm.indexFromPos(pos);
+		var char = plugin.misterpah.CodemirrorEditor.cm.getValue().charAt(index - 1)[0];
+		var pos_minus1 = plugin.misterpah.CodemirrorEditor.cm.posFromIndex(index -1);
+
+		
+		if (plugin.misterpah.CodemirrorEditor.anywordHint_opened === false)
+			{
+			plugin.misterpah.CodemirrorEditor.cursor_position = pos_minus1;
+			plugin.misterpah.CodemirrorEditor.anywordHint_opened = true;
+			cm.showHint({hint: plugin.misterpah.CodemirrorEditor.anywordHint});						
+			}
+		
+		// js hint		
 		if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "javascript")
 			{
 			plugin.misterpah.CodemirrorEditor.cmOnChangeJS();
 			}
+		
+		// haxe completion
 		else if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "haxe")
 			{
 			plugin.misterpah.CodemirrorEditor.cmOnChangeHaxe();
@@ -44,12 +120,13 @@
 		});	
 	
 	
+	
+	
 	plugin.misterpah.CodemirrorEditor.create_inline_hint = function (line, msg)
 		{
 		msg = $('<div class="CodeMirror-linewidget"><div class="lint-error">'+msg+'</div></div>')[0];
 		return plugin.misterpah.CodemirrorEditor.cm.addLineWidget(line,msg);
 		};	
-	
 	
 	
 	// codemirror uses buffer to keep track document.
@@ -95,7 +172,6 @@
 		plugin.misterpah.CodemirrorEditor.cm.refresh();
 		}
 
-	
 	
 	
 	
@@ -214,6 +290,146 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+// ---------------------------------------------------------------------------------------------------------------------------------	
+// ---------------------------------------------------------------------------------------------------------------------------------
+// BLOCK : Codemirror anyword completion
+// ---------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------
+	
+	
+	plugin.misterpah.CodemirrorEditor.anywordHint = function (cm,options)
+		{
+		var anyword_completion = plugin.misterpah.CodemirrorEditor.scanWordsInEditor();
+		var updated_completion = plugin.misterpah.CodemirrorEditor.anywordHint_update(cm,anyword_completion);
+		return updated_completion;
+		};
+
+	
+
+	
+	
+	
+	
+	plugin.misterpah.CodemirrorEditor.anywordHint_update = function(cm,completion_array)
+		{
+		var cur = cm.getCursor();
+		var curLine = cm.getLine(cur.line);
+		var start = plugin.misterpah.CodemirrorEditor.cursor_position.ch;
+		end = cur.ch;
+		
+		
+		var value = cm.getRange(CodeMirror.Pos(cur.line,start),CodeMirror.Pos(cur.line,end));
+		console.log(start+"-"+end + ":"+value);
+		var new_completion = [];
+		for (var i = 0;i < completion_array.length;i++)
+			{
+			var cur_completion = completion_array[i];
+			
+			var clone = cur_completion;
+			clone1 = clone.toLowerCase();
+			clone2 = clone.toUpperCase();
+			if (clone1.indexOf(value) === 0)
+				{
+				new_completion.push(cur_completion);
+				}
+			else if (clone2.indexOf(value) === 0)
+				{
+				new_completion.push(cur_completion);
+				}
+			else if (cur_completion.indexOf(value) === 0)
+				{
+				new_completion.push(cur_completion);
+				}								
+			}  
+
+		return {list:new_completion,from:CodeMirror.Pos(cur.line,start),to:CodeMirror.Pos(cur.line,end)};
+		};
+
+	CodeMirror.registerHelper("hint","anyword", plugin.misterpah.CodemirrorEditor.anywordHint);	
+
+	
+	
+	
+	
+	
+	plugin.misterpah.CodemirrorEditor.scanWordsInEditor = function()
+	{
+		var content = plugin.misterpah.CodemirrorEditor.cm.getValue();
+		if (content === "")
+			{
+			return;
+			}
+		var content_array = content.split("\n");
+		
+		var completion_array = [];
+		for (var each in content_array)
+			{
+				var curline = content_array[each];
+				curline = curline.replace(/\=/g," ");
+				curline = curline.replace(/\[/g," ");
+				curline = curline.replace(/\]/g," ");
+				curline = curline.replace(/\(/g," ");
+				curline = curline.replace(/\)/g," ");
+				curline = curline.replace(/"/g," ");
+				curline = curline.replace(/'/g," ");
+				curline = curline.replace(/;/g," ");
+				curline = curline.replace(/\//g," ");
+				curline = curline.replace(/</g," ");
+				curline = curline.replace(/>/g," ");
+				curline = curline.replace(/\{/g," ");
+				curline = curline.replace(/\}/g," ");
+				curline = curline.replace(/\t/g," ");
+				curline = curline.replace(/\@/g," ");
+				
+				// remove arithmetic 
+				curline = curline.replace(/\+/g," ");
+				curline = curline.replace(/\-/g," ");
+				curline = curline.replace(/\*/g," ");
+				// divide already above
+				
+				
+				
+				// smart replacing so we can get words
+				curline = curline.replace(/\:/g," "); 
+				curline = curline.replace(/\./g," "); 
+				curline = curline.replace(/\,/g," "); 
+				
+				var curline_array = curline.split(" ");
+				//console.log(curline_array);
+				for (var each2 in curline_array)
+					{
+						if (!isNaN(parseInt(curline_array[each2])))
+							{
+								continue;
+							}
+						if(curline_array[each2] !== "") // (!== operator) doesnt work!
+							{
+								completion_array.push(curline_array[each2]);
+							}
+					}
+			}
+		
+		var names = completion_array;
+		var uniqueNames = [];
+		$.each(names, function(i, el){
+			if($.inArray(el, uniqueNames) === -1) uniqueNames.push(el);
+		});
+		completion_array = uniqueNames;
+		delete names;
+		delete uniqueNames;
+		
+		return completion_array;
+	};
 	
 	plugin.misterpah.CodemirrorEditor.handleCompletion = function(p1,p2,p3)
 	{
@@ -353,12 +569,14 @@
 		var pos = plugin.misterpah.CodemirrorEditor.cm.getCursor();
 		var index = plugin.misterpah.CodemirrorEditor.cm.indexFromPos(pos);
 
+		/*
 		// automatic top level completion 
 		var line_content = plugin.misterpah.CodemirrorEditor.cm.getLine(pos.line);	
 		if (line_content.trim() === "") // top level completion only works on the blank line
 			{
 
-				Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
+				//Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
+				
 				Main.message.broadcast(
 					"plugin.misterpah.CodemirrorEditor.hxCompletion_topLevel",
 					"plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",
@@ -367,9 +585,10 @@
 						plugin.misterpah.CodemirrorEditor.handleCompletion
 					]
 				);
+				
 			}
-
-		else if (plugin.misterpah.CodemirrorEditor.cm.getValue().charAt(index - 1) == ".")
+		*/
+		if (plugin.misterpah.CodemirrorEditor.cm.getValue().charAt(index - 1) == ".")
 			{
 				plugin.misterpah.CodemirrorEditor.cursor_position = plugin.misterpah.CodemirrorEditor.cm.getCursor();
 				Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
@@ -434,7 +653,7 @@
 	plugin.misterpah.CodemirrorEditor.cmOnChangeJS = function()
 		{
 		clearTimeout(plugin.misterpah.CodemirrorEditor.updateHintsTimeout);
-		plugin.misterpah.CodemirrorEditor.updateHintsTimeout = setTimeout(plugin.misterpah.CodemirrorEditor.updateJSHints, 500);		
+		plugin.misterpah.CodemirrorEditor.updateHintsTimeout = setTimeout(plugin.misterpah.CodemirrorEditor.updateJSHints, 1000);		
 		};
 	
 	// apply hint on the first run
