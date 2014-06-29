@@ -7,6 +7,8 @@
 	plugin.misterpah.ProjectTree.openMe = function (obj)
 		{
 		var path = $(obj).attr('data-path');
+		path = decodeURIComponent(path);
+		path = Utils.fs.realpathSync(path);
 		Main.message.broadcast("plugin.misterpah.FileAccess:OpenFileDirectly","plugin.misterpah.ProjectTree",path);
 		};
  
@@ -28,15 +30,16 @@
 		$(obj).html(html);
 	
 		var path = $(obj).attr('data-path');
-	
+		path = decodeURIComponent(path);
+		console.log(path);
 		if (userwantsto == "close")
 			{
-			$("ul[data-path='"+path+"']").html("");
+			$("ul[data-path='"+encodeURIComponent(path)+"']").html("");
 			}
 
 		if (userwantsto == "open")
 			{
-			var folder_content = Utils.readDir(path);
+			var folder_content = Utils.readDir( path);
 	
 			for (i = 0;i< folder_content.length;i++)
 				{
@@ -45,11 +48,11 @@
 					{
 					var _temp= folder_content[i];
 					var _ext = _temp.split(".").pop();
-					$("ul[data-path='"+path+"'").append("<li><a class='file "+_ext+"' data-toggle='context' data-target='#plugin-misterpah-ProjectTree-contextMenu-file' onclick='plugin.misterpah.ProjectTree.openMe($(this));'   data-path='"+path + Utils.path.sep + folder_content[i]+"' href='#'><span class='glyphicon glyphicon-file'></span> &nbsp;"+folder_content[i] +"</a></li>");
+					$("ul[data-path='"+encodeURIComponent(path)+"'").append("<li><a class='file "+_ext+"' data-toggle='context' data-target='#plugin-misterpah-ProjectTree-contextMenu-file' onclick='plugin.misterpah.ProjectTree.openMe($(this));'   data-path='"+encodeURIComponent(path + Utils.path.sep + folder_content[i])+"' href='#'><span class='glyphicon glyphicon-file'></span> &nbsp;"+folder_content[i] +"</a></li>");
 					}
 				else
 					{
-					$("ul[data-path='"+path+"'").append("<li><a class='folder' data-toggle='context' data-target='#plugin-misterpah-ProjectTree-contextMenu-folder' onclick='plugin.misterpah.ProjectTree.openFolder($(this));'   data-path='"+path + Utils.path.sep + folder_content[i]+"' href='#'>+ <span class='glyphicon glyphicon-folder-open'></span> &nbsp;"+folder_content[i] +"</a><ul data-path='"+path + Utils.path.sep + folder_content[i]+"'></ul></li>");
+					$("ul[data-path='"+encodeURIComponent(path)+"'").append("<li><a class='folder' data-toggle='context' data-target='#plugin-misterpah-ProjectTree-contextMenu-folder' onclick='plugin.misterpah.ProjectTree.openFolder($(this));'   data-path='"+encodeURIComponent(path + Utils.path.sep + folder_content[i])+"' href='#'>+ <span class='glyphicon glyphicon-folder-open'></span> &nbsp;"+folder_content[i] +"</a><ul data-path='"+encodeURIComponent(path + Utils.path.sep + folder_content[i])+"'></ul></li>");
 					}
 				}
 			}
@@ -105,11 +108,19 @@
 			
 		};
 
-	plugin.misterpah.ProjectTree.show_project_tree = function (project_folder)
+	plugin.misterpah.ProjectTree.show_project_tree = function (project_folder,encoded)
 		{
+		
 		//var folder_content = Utils.readDir(Main.session.project_folder);
 		plugin.misterpah.ProjectTree.projectFolder = project_folder;
-		var folder_content = Utils.readDir(project_folder);
+		var folder_content;
+		
+		if (typeof encoded == "undefined")
+		{
+			project_folder = decodeURIComponent(project_folder);
+		}
+		
+		folder_content = Utils.readDir(project_folder);
 		
 		$("#tree_position").html("<br/><div id='file_tree_path'></div><ul id='file_tree'></ul>");
 		$("#file_tree_path").html("<a onClick='plugin.misterpah.ProjectTree.show_project_tree(plugin.misterpah.ProjectTree.projectFolder+Utils.path.sep+\"..\")'><span class=\"glyphicon glyphicon-upload\"></span>&nbsp;Go up one folder</a>");
@@ -125,17 +136,17 @@
 				{
 				var _temp= folder_content[i];
 				var _ext = _temp.split(".").pop();		
-				$("#file_tree").append("<li><a class='file "+_ext+"'  onclick='plugin.misterpah.ProjectTree.openMe($(this));'  data-path='"+project_folder + Utils.path.sep + folder_content[i]+"' href='#'><span class='glyphicon glyphicon-file'></span> &nbsp;"+folder_content[i] +"</a></li>");
+				$("#file_tree").append("<li><a class='file "+_ext+"'  onclick='plugin.misterpah.ProjectTree.openMe($(this));'  data-path='"+encodeURIComponent(project_folder + Utils.path.sep + folder_content[i])+"' href='#'><span class='glyphicon glyphicon-file'></span> &nbsp;"+folder_content[i] +"</a></li>");
 				}
 			else
 				{
-				$("#file_tree").append("<li><a class='folder'  onClick='plugin.misterpah.ProjectTree.openFolder($(this))'  data-path='"+project_folder + Utils.path.sep + folder_content[i]+"'>+ <span class='glyphicon glyphicon-folder-open'></span> &nbsp;"+folder_content[i] +"</a><ul data-path='"+project_folder + Utils.path.sep + folder_content[i]+"'></ul></li>");	
+				$("#file_tree").append("<li><a class='folder'  onClick='plugin.misterpah.ProjectTree.openFolder($(this))'  data-path='"+encodeURIComponent(project_folder + Utils.path.sep + folder_content[i])+"'>+ <span class='glyphicon glyphicon-folder-open'></span> &nbsp;"+folder_content[i] +"</a><ul data-path='"+encodeURIComponent(project_folder + Utils.path.sep + folder_content[i])+"'></ul></li>");	
 				}
 			}
 			
 		plugin.misterpah.ProjectTree.set_context_menu();
 		};
 		
-	plugin.misterpah.ProjectTree.show_project_tree(Main.session.project_folder);
+	plugin.misterpah.ProjectTree.show_project_tree(Main.session.project_folder,false);
 	
 })();

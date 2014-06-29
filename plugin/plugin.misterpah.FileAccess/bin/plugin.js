@@ -1,24 +1,8 @@
 (function ($hx_exports) { "use strict";
 $hx_exports.plugin = $hx_exports.plugin || {};
 $hx_exports.plugin.misterpah = $hx_exports.plugin.misterpah || {};
-var HxOverrides = function() { };
-HxOverrides.substr = function(s,pos,len) {
-	if(pos != null && pos != 0 && len != null && len < 0) return "";
-	if(len == null) len = s.length;
-	if(pos < 0) {
-		pos = s.length + pos;
-		if(pos < 0) pos = 0;
-	} else if(len < 0) len = s.length + len - pos;
-	return s.substr(pos,len);
-};
 var IMap = function() { };
 var Session = $hx_exports.Session = function() { };
-var StringTools = function() { };
-StringTools.endsWith = function(s,end) {
-	var elen = end.length;
-	var slen = s.length;
-	return slen >= elen && HxOverrides.substr(s,slen - elen,elen) == end;
-};
 var haxe = {};
 haxe.ds = {};
 haxe.ds.StringMap = function() { };
@@ -44,8 +28,6 @@ plugin.misterpah.FileAccess.new_file = function() {
 	file_dialog.show(plugin.misterpah.FileAccess.newFileHandler,true);
 };
 plugin.misterpah.FileAccess.newFileHandler = function(path) {
-	console.log(path);
-	if(StringTools.endsWith(path,"hx") == false) path += ".hx";
 	Utils.newFile(path);
 	plugin.misterpah.FileAccess.openFileHandler(path,true);
 	Main.message.broadcast("plugin.misterpah.FileAccess:new_file.complete","plugin.misterpah.FileAccess",null);
@@ -55,13 +37,14 @@ plugin.misterpah.FileAccess.open_file = function() {
 	filedialog.show(plugin.misterpah.FileAccess.openFileHandler);
 };
 plugin.misterpah.FileAccess.openFileDirectly = function(event,path) {
-	console.log(path);
+	console.log("open directly detected. redirected to plugin.misterpah.FileAccess.openFileHandler");
 	path = fs.realpathSync(path);
 	plugin.misterpah.FileAccess.openFileHandler(path,false);
 };
 plugin.misterpah.FileAccess.openFileHandler = function(path,newFile) {
 	if(newFile == null) newFile = false;
-	path = Utils.repair_path(path);
+	path = fs.realpathSync(path);
+	console.log("open file : " + path);
 	var find = Main.file_stack.find(path);
 	if(find[0] == "null" || find[0] == "not found") {
 		var content = Utils.readFile(path);

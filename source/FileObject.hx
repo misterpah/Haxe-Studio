@@ -16,6 +16,7 @@ package ;
 	public function add(path:String,content:String,className:String)
 		{
 		var a = new Array();
+		path = Utils.encodeString(path);
 		a[0] = path;
 		a[1] = content;
 		a[2] = className;
@@ -25,6 +26,7 @@ package ;
 
 	public function find(path:String):Array<String>
 		{
+		path = Utils.encodeString(path);
 		if (file_stack.length > 0)
 			{
 			var position = 0;
@@ -39,7 +41,7 @@ package ;
 					position += 1;	
 					}			
 				}
-				return ["not found"];
+			return ["not found"];
 			}
 		else
 			{
@@ -49,6 +51,7 @@ package ;
 
 	public function update_content(path:String,new_content:String)
 		{
+		path = StringTools.urlEncode(path);
 		if (file_stack.length > 0)
 			{			
 			var position = 0;
@@ -68,6 +71,7 @@ package ;
 
 	public function remove(path:String)
 		{
+		path = StringTools.urlEncode(path);
 		if (file_stack.length > 0)
 			{			
 			var position = 0;

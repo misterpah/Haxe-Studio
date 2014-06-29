@@ -32,11 +32,12 @@ import jQuery.*;
 		var root_path = untyped root;
 		
 		var filename = "./hs-plugin.json";
-			
+
 		var data = untyped {};
 		var ret = "";
 		// load plugin from config file
 		var scan_plugin = true;
+			
 		if (Utils.checkFileExist(filename)) 
 			{ 
 			ret = Utils.readFile(filename);
@@ -57,20 +58,16 @@ import jQuery.*;
 			
 		if (scan_plugin == true) // must refresh the plugin
 			{ 
-			var available_plugin = Utils.readDir("../plugin"); 
+			var available_plugin = Utils.readDir("../plugin");
 			untyped data.load_plugin = available_plugin;
 			var saveThis = untyped JSON.stringify(data);
-			//trace(saveThis);
 			Utils.saveFile(root_path+Utils.path.sep+"bin"+Utils.path.sep+ "hs-plugin.json", saveThis);
 			}
-			
-		
 
 		plugin_solve_dependency(data.load_plugin);
 		plugin_loading_sequence.reverse();
 		untyped localStorage.plugin_loading_sequence = JSON.stringify(plugin_loading_sequence);
 		plugin_load_all(root_path+"/plugin",plugin_loading_sequence);
-
 		}
 	
 	
@@ -92,8 +89,6 @@ import jQuery.*;
 	
 	static public function plugin_solve_dependency(available_plugin:Array<String>)
 		{
-		//var available_plugin = Utils.readDir(path);
-		
 		var plugin = new Array();
 		for (each in available_plugin)
 			{

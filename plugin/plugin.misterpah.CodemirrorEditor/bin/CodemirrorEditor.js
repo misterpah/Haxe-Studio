@@ -63,19 +63,24 @@
 		else if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "haxe")
 			{
 				splitter.push(" ");
-				splitter.push("\"");
-				splitter.push("'");
 				splitter.push(":");
+				splitter.push("/");
+				splitter.push("\\");
+				splitter.push("-");
+				splitter.push("+");
+				splitter.push("'");
+				splitter.push("]");
+				splitter.push("[");
 			}		
 		
 		
 		for (var each in splitter)
 			{
-				if ( char == splitter[each])
-					{
-						plugin.misterpah.CodemirrorEditor.anywordHint_opened = false;
-						break;
-					}
+			if ( char == splitter[each])
+				{
+					plugin.misterpah.CodemirrorEditor.anywordHint_opened = false;
+					break;
+				}
 			}
 
 		if (line === "") // will open once blank line clicked. not good enough
@@ -163,13 +168,20 @@
 	// codemirror uses buffer to keep track document
 	function display_buffer(name)
 		{
-		var buf = plugin.misterpah.CodemirrorEditor.cm_buffer[encodeURIComponent(name)];
-		plugin.misterpah.CodemirrorEditor.cm.swapDoc(buf);
-		if ($("#plugin_misterpah_CodemirrorEditor_editor").css("display") == "none")
+		var buf = plugin.misterpah.CodemirrorEditor.cm_buffer[name];
+		if (buf)
 			{
-			$("#plugin_misterpah_CodemirrorEditor_editor").css("display","block");
+			plugin.misterpah.CodemirrorEditor.cm.swapDoc(buf);
+			if ($("#plugin_misterpah_CodemirrorEditor_editor").css("display") == "none")
+				{
+				$("#plugin_misterpah_CodemirrorEditor_editor").css("display","block");
+				}
+			plugin.misterpah.CodemirrorEditor.cm.refresh();
 			}
-		plugin.misterpah.CodemirrorEditor.cm.refresh();
+		else
+			{
+			console.log("no buffer found");
+			}
 		}
 
 	
@@ -178,15 +190,16 @@
 	// show tab and set it as active file
 	plugin.misterpah.CodemirrorEditor.show_me_tab = function (name,mode)
 		{
+		
 		display_buffer(name);
 		
 		// makes the active tab not-active
 		$("#plugin_misterpah_CodemirrorEditor_tab a").each(function(){$(this).parent().removeClass("active");});
 
-		Main.session.active_file = name;	
+		Main.session.active_file = decodeURIComponent(name);	
 
 		// add active class to user-chosen
-		$("#plugin_misterpah_CodemirrorEditor_tab a[data-path='"+encodeURIComponent(name)+"']").parent().addClass("active");
+		$("#plugin_misterpah_CodemirrorEditor_tab a[data-path='"+name+"']").parent().addClass("active");
 
 		// resize codemirror to ensure size is correct
 		Main.message.broadcast("core:center_resized","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
@@ -231,7 +244,7 @@
 
 		// get extension to get mode (which helps syntax highlighting)
 		var filename_cp = filename;
-		var ext = filename_cp.split("/").pop().split(".").pop();
+		var ext = filename_cp.split(Utils.path.sep).pop().split(".").pop();
 		var mode = "";
 		if (ext == "hx")
 			{
@@ -256,11 +269,10 @@
 		if (not_opened_yet === true)
 			{
 			hs_console("open : "+filename);
-			$("#plugin_misterpah_CodemirrorEditor_tab ul").append("<li><a onclick='plugin.misterpah.CodemirrorEditor.show_me_tab(\""+filename+"\",\""+mode+"\");' data-path='"+ encodeURIComponent(filename)+"'>"+file_obj[2] +"."+ext+"</a></li>");
+			$("#plugin_misterpah_CodemirrorEditor_tab ul").append("<li><a onclick='plugin.misterpah.CodemirrorEditor.show_me_tab(\""+encodeURIComponent(filename)+"\",\""+mode+"\");' data-path='"+ encodeURIComponent(filename)+"'>"+file_obj[2] +"."+ext+"</a></li>");
 			}
-
 		// display the tab
-		plugin.misterpah.CodemirrorEditor.show_me_tab(filename,mode);
+		plugin.misterpah.CodemirrorEditor.show_me_tab(encodeURIComponent(filename),mode);
 
 		// always broadcast event after function complete. this will encourage people to expand this plugin
 		Main.message.broadcast("plugin.misterpah.CodemirrorEditor:file_displayed.complete","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");

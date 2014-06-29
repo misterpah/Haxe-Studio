@@ -20,6 +20,8 @@ import js.Browser;
 	{
 	Main.message.listen("core:FileMenu.newFile","plugin.misterpah.FileAccess",new_file);
 	Main.message.listen("core:FileMenu.openFile","plugin.misterpah.FileAccess",open_file);
+	
+	// prevent direct file access to save, because editor wants to save it's changes first
 	//Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.FileAccess",save_file);
 	Main.message.listen("plugin.misterpah.FileAccess:saveFile","plugin.misterpah.FileAccess",save_file);	
 	
@@ -36,11 +38,13 @@ import js.Browser;
 
     static private function newFileHandler(path:String):Void
     {
-        trace(path);
+        //trace(path);
+		/*
         if (StringTools.endsWith(path,"hx") == false)
         {
             path += ".hx";
         }
+		*/
         Utils.newFile(path);
         openFileHandler(path,true);
 		Main.message.broadcast("plugin.misterpah.FileAccess:new_file.complete","plugin.misterpah.FileAccess",null);
@@ -54,22 +58,26 @@ import js.Browser;
 
 	static private function openFileDirectly(event:Dynamic,path:String):Void
 	{
-	trace(path);
+	trace("open directly detected. redirected to plugin.misterpah.FileAccess.openFileHandler");
+	//trace(path);
     path = untyped fs.realpathSync(path);
 	openFileHandler(path,false);
 	}
 
     static private function openFileHandler(path:String,newFile:Bool=false):Void
     {
-		path = untyped Utils.repair_path(path);
+		//path = untyped Utils.repair_path(path);
+		path = untyped fs.realpathSync(path);
+		trace("open file : " + path);
 
-		//trace(path);
         var find = Main.file_stack.find(path);
         if (find[0] == "null" || find[0] == "not found")
         {
             var content = Utils.readFile(path);
             var filename_split = path.split(Utils.path.sep);
+			//trace(filename_split);
             var className = filename_split[filename_split.length-1].split('.')[0];
+			//trace(className);
             if (newFile == true)
                 {
                 var new_content = ["package;",

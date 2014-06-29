@@ -50,8 +50,15 @@ import haxe.macro.Expr;
 			}
 		return ret;
 		}
-
-
+	public static function encodeString(input:String):String
+		{
+			return StringTools.urlEncode(input);
+		}
+		
+	public static function decodeString(input:String):String
+		{
+			return StringTools.urlDecode(input);
+		}
 
 	// folder manipulation
     public static function readDir(path:String):Array<String>
@@ -82,6 +89,9 @@ import haxe.macro.Expr;
 		
 	public static function repair_path(path:String):String
 		{
+			trace("depecrated. don't use Utils.repair_path anymore!");
+			return path;
+			/*
 		if (node_os.type() == "Windows_NT")
 			{
 			path = StringTools.replace(path,"\\", "\\\\");		
@@ -90,6 +100,7 @@ import haxe.macro.Expr;
 			{
 			}
 		return path;
+			*/
 		}		
 		
 	public static function exec(lines_to_exec:Array<String>,callback:Dynamic)

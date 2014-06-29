@@ -26,6 +26,8 @@ package;
     public static function loadJS(script:String,callback:Dynamic):Dynamic;
     public static function loadCSS(css:String):Dynamic;
     public static function isFile(filename:String):Bool;
+    public static function encodeString(input:String):String;
+    public static function decodeString(input:String):String;
     
     //public static function getClassName():String;
     //public static function system_get_completion(position:Int,callback:Dynamic):Dynamic;

@@ -7,12 +7,14 @@ FileObject.__name__ = true;
 FileObject.prototype = {
 	add: function(path,content,className) {
 		var a = new Array();
+		path = Utils.encodeString(path);
 		a[0] = path;
 		a[1] = content;
 		a[2] = className;
 		return this.file_stack.push(a);
 	}
 	,find: function(path) {
+		path = Utils.encodeString(path);
 		if(this.file_stack.length > 0) {
 			var position = 0;
 			var _g = 0;
@@ -26,6 +28,7 @@ FileObject.prototype = {
 		} else return ["null"];
 	}
 	,update_content: function(path,new_content) {
+		path = encodeURIComponent(path);
 		if(this.file_stack.length > 0) {
 			var position = 0;
 			var _g = 0;
@@ -38,6 +41,7 @@ FileObject.prototype = {
 		}
 	}
 	,remove: function(path) {
+		path = encodeURIComponent(path);
 		if(this.file_stack.length > 0) {
 			var position = 0;
 			var _g = 0;
@@ -312,6 +316,12 @@ Utils.isFile = function(filename) {
 	if(stats.isFile()) ret = true;
 	return ret;
 };
+Utils.encodeString = function(input) {
+	return encodeURIComponent(input);
+};
+Utils.decodeString = function(input) {
+	return decodeURIComponent(input.split("+").join(" "));
+};
 Utils.readDir = function(path) {
 	return Utils.fs.readdirSync(path);
 };
@@ -324,8 +334,7 @@ Utils.loadCSS = function(css) {
 	new $("head").append("<link rel='stylesheet' type='text/css' href='" + css + "'/>");
 };
 Utils.repair_path = function(path) {
-	if(Utils.node_os.type() == "Windows_NT") path = StringTools.replace(path,"\\","\\\\"); else {
-	}
+	console.log("depecrated. don't use Utils.repair_path anymore!");
 	return path;
 };
 Utils.exec = function(lines_to_exec,callback) {
