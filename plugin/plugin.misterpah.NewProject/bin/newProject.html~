@@ -218,7 +218,7 @@ function create_haxestudio_plugin(projectName)
 	"",	
 	"	private static function plugin_path():String",
 	"	{",
-	'	return "'+plugin_prefix+'" + Type.getClassName('+className+') +"/bin";',
+	'	return "'+plugin_prefix+'"/plugin.'+name+'.'+className+'"/bin";',
 	"	}",
 	"",
 	"	static public function main():Void",

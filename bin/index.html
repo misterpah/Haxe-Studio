@@ -13,7 +13,8 @@
 		<script src="./js/bootstrap/bootstrap-contextmenu.js"></script>
 		<script src="./js/jquery-ui-latest.js"></script>				
 		<script src="./js/jquery.layout-latest.js"></script>
-		
+		<script src="./js/restify-server.js"></script>
+		<script src="./js/watch.min.js"></script>
 		
 		
 		
@@ -33,6 +34,7 @@
 		<link href="./css/layout-default-latest.css" rel="stylesheet" media="screen">
 
 		<script>
+		
 		var root = path.resolve("../");
 		localStorage.clear();
 		$("body").on("plugin_loaded",function()
@@ -130,11 +132,9 @@
 						});
 					
 
-
-					Main.run_haxe_studio();
-					$("title").html( $("title").html() +" v"+Main.version); $(".hs_version").html(Main.version);			
-					Utils.loadJS("./js/defaultMenu.js",function(){});					
-					
+						Main.run_haxe_studio();
+						$("title").html( $("title").html() +" v"+Main.version); $(".hs_version").html(Main.version);
+						Utils.loadJS("./js/defaultMenu.js",function(){});
 					});
 
 				// prevent drag & drop
