@@ -31,8 +31,19 @@
 			foldGutter:true,
 			styleActiveLine:true,
 			showCursorWhenSelecting: true,
-			extraKeys: {"Ctrl-Space": "anywordCompletion"}
+			extraKeys: {
+				"Ctrl-Space": "anywordCompletion"
+				}
 			});
+			/*
+      extraKeys:{
+        Enter: function(){
+            alert('enter pressed');
+        }			
+	*/
+	
+	CodeMirror.registerHelper("lint", "haxe");
+
 	
 	CodeMirror.commands.anywordCompletion = function(cm) {
 		plugin.misterpah.CodemirrorEditor.cursor_position = plugin.misterpah.CodemirrorEditor.cm.getCursor();
@@ -83,9 +94,11 @@
 				}
 			}
 
-		if (line === "") // will open once blank line clicked. not good enough
+		console.log(line);
+		
+		if (line.replace(/\t/g,"") === "") // will open once blank line clicked. not good enough
 			{
-			//plugin.misterpah.CodemirrorEditor.anywordHint_opened = false;
+			plugin.misterpah.CodemirrorEditor.anywordHint_opened = false;
 			}		
 	});
 	
@@ -478,6 +491,7 @@
 			catch(err)
 				{
 				console.error('malformed code. halt completion.');
+				console.error(err);
 				}			
 			}
 		else if (p2 === "(")
@@ -573,9 +587,7 @@
 	
 	
 	
-	
-	
-	
+		
 	plugin.misterpah.CodemirrorEditor.cmOnChangeHaxe = function()
 		{
 		var pos = plugin.misterpah.CodemirrorEditor.cm.getCursor();

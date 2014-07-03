@@ -66,7 +66,7 @@
 			click: function() 
 			{
 				var path = $(plugin.misterpah.ProjectTree.context_menu_target[1]).attr("data-path");
-				plugin.misterpah.ProjectTree.show_project_tree(path);
+				plugin.misterpah.ProjectTree.show_project_tree(decodeURIComponent(path));
 			}
 		}
 	));
@@ -88,7 +88,7 @@
 			click: function() 
 			{
 				var path = $(plugin.misterpah.ProjectTree.context_menu_target[1]).attr("data-path");
-				plugin.misterpah.ProjectAccess.openProjectHandler(Utils.fs.realpathSync(path));
+				plugin.misterpah.ProjectAccess.openProjectHandler(Utils.fs.realpathSync(decodeURIComponent(path)));
 			}
 		}
 	));
