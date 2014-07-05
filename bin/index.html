@@ -4,6 +4,9 @@
 		<title>Haxe Studio</title>
 		<meta charset="utf-8">
 		<script>tsort = require('gaia-tsort');</script>
+
+		<script src="./hs-config.js"></script>
+
 		
 		<script src="./js/jquery-2.0.3.min.js"></script>
 		<script src="./js/jquery.keystroke.min.js"></script>
@@ -33,6 +36,30 @@
 		<link href="./css/bootstrap-notify.css" rel="stylesheet" media="screen">
 		<link href="./css/layout-default-latest.css" rel="stylesheet" media="screen">
 
+
+
+		<link rel="stylesheet/less" type="text/css" href="./theme/theme.less" />
+		
+		<script>
+		  less = {
+			env: "development",
+			async: false,
+			fileAsync: false,
+			poll: 1000,
+			functions: {},
+			dumpLineNumbers: "comments",
+			relativeUrls: false,
+			rootpath: ":/a.com/"
+		  };
+		  
+        process.on('uncaughtException', function(e) {
+        	hs_reload();
+        });		  
+		  
+		  
+		</script>		
+		<script src="./js/less.min.js"></script>
+
 		<script>
 		
 		var root = path.resolve("../");
@@ -56,11 +83,9 @@
 
 	
 	
-<div class="ui-layout-north buttonMenu" style="overflow:hidden;padding:5px !important;">
-	<div class="row">
-		<div id="compiler_position" class="col-xs-6">
+<div class="ui-layout-east" style="">
+		<div id="compiler_position">
 		</div>
-	</div>
 </div>
 <div id="content_position"  class="ui-layout-center ui-layout-wrapper"><div id='editor_position' ></div></div>
 <div class="ui-layout-west">
@@ -76,16 +101,17 @@
 		</p>
 		</div>
 </div>	
+<script>
+/*
 <div class="ui-layout-south"><div id="bottom_position"></div></div>
-
-	
+*/
+</script>
 	
 	<div id='temp' style='display:none'></div>	
 	</body>
 	
 	
-			<link href="./css/index.css" rel="stylesheet" media="screen">
-			<link href="./theme/theme.css" rel="stylesheet" media="screen">
+
 			<script src="./js/menu.js"></script>
 			<script src="./js/haxestudio.js"></script>
 			<script src="./js/error_code.js"></script>
@@ -122,7 +148,8 @@
 						north__spacing_open: 0, // north can't be resized
 						north__size:32,
 						south__size:0.2,
-						west__size:0.2,
+						west__size:0.15,
+						east__size:0.15,
 						south__close:true,
 						south__initClosed:true,
 						center__onresize_end: "center_has_been_resized",

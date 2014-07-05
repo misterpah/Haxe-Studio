@@ -1,0 +1,73 @@
+@textColor:#eeeeee;
+@bgColor:#151515;
+
+@prettyBlue:#3d81c6;
+@orange:#f39c12;
+@red:#e74c3c;
+@editorBg:#272822;
+
+
+@folderColor:lighten(#6d787a,5%);
+@darkWhite:darken(#f3f3f3,10%);
+
+
+
+
+
+* { cursor:default; 
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+
+}
+body { background:@bgColor; }
+
+.padding { margin-right:10px; }
+
+
+/* projectTree */
+#tree_position a.folder {color: darken(@orange,10%); text-shadow: 0px 1px 1px darken(#6d787a,10%);}
+#tree_position a.file { color: darken(@darkWhite,50%);}
+#tree_position a.xml,#tree_position a.hx,#tree_position a.hxml,#tree_position a.txt { color: @darkWhite; }
+
+
+
+/* scrollbar */
+::-webkit-scrollbar {  width: 7px;  height:7px; }  
+::-webkit-scrollbar-track {  /*background-color: #eaeaea;  border-left: 1px solid #ccc;  */ }  
+::-webkit-scrollbar-thumb {   background-color: #3f4449;   -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; }  
+/*::-webkit-scrollbar-thumb:hover {  background-color: @prettyBlue; }  */
+
+
+/* tab */
+#plugin_misterpah_CodemirrorEditor_tab { background:@bgColor;}
+#plugin_misterpah_CodemirrorEditor_tab ul {border:0px; border-color:#d35400; }
+#plugin_misterpah_CodemirrorEditor_tab ul li { display:inline; height:30px;}
+#plugin_misterpah_CodemirrorEditor_tab ul li.active a { color:#ffffff; background:@editorBg; text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8); border-color:@editorBg; }
+#plugin_misterpah_CodemirrorEditor_tab ul li a:hover { color:#ffffff; background:lighten(@editorBg,10%); text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8); border-color:@editorBg; height:37px; }
+#plugin_misterpah_CodemirrorEditor_tab ul li a { color:@darkWhite; font-family:"Ubuntu"; font-size:15px; text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8); padding-top:3px;   }
+
+
+
+/* layout */
+
+.ui-layout-pane { padding:	0px !important;   border:0px !important} /* all 'panes' */ 
+.ui-layout-center {background:@editorBg;}
+/*
+.ui-layout-north {border:0px;}
+.ui-layout-south { border:0px; }
+.ui-layout-center {border:0px;}
+.ui-layout-resizer-south{border-bottom:1px solid  @prettyBlue;}
+*/
+.ui-layout-west{ background:@bgColor; border:0px;}
+
+.ui-layout-resizer-open-hover{background:@bgColor;};
+.ui-layout-toggler{background:@bgColor;border:0px;}
+
+
+.shadowme { text-shadow: 0px 1px 1px #000000;}
+
+

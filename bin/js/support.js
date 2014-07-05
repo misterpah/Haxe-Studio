@@ -13,7 +13,14 @@ if ( typeof String.prototype.endsWith != 'function' ) {
 
 function hs_reload()
 {
-hs_server.close();
+try
+	{
+	hs_server.close();
+	}
+catch(err)
+	{
+	//console.dir(err);
+	}
 window.menubar = null;
 gui.Window.get().reload();
 }

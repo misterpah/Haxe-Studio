@@ -1,4 +1,4 @@
-plugin-3rd-party/*/*
+plugin/plugin.paharif.*
 dist/*
 runtime/linux-32/*
 runtime/linux-64/*

@@ -1,4 +1,14 @@
 (function(){
+	
+	
+	Main.message.listen("plugin.misterpah.ProjectAccess:close_project.complete","plugin.misterpah.ProjectTree:js:projectTree.js",function()
+		{
+
+		});
+	
+
+
+
 	$("#tree_position").html("");
 	plugin.misterpah.ProjectTree.projectFolder = "";
 	plugin.misterpah.ProjectTree.context_menu_target = "";
@@ -122,8 +132,8 @@
 		
 		folder_content = Utils.readDir(project_folder);
 		
-		$("#tree_position").html("<br/><div id='file_tree_path'></div><ul id='file_tree'></ul>");
-		$("#file_tree_path").html("<a onClick='plugin.misterpah.ProjectTree.show_project_tree(plugin.misterpah.ProjectTree.projectFolder+Utils.path.sep+\"..\")'><span class=\"glyphicon glyphicon-upload\"></span>&nbsp;Go up one folder</a>");
+		$("#tree_position").html("<div id='file_tree_path'></div><ul id='file_tree'></ul>");
+		$("#file_tree_path").html("<a class='folder' onClick='plugin.misterpah.ProjectTree.show_project_tree(plugin.misterpah.ProjectTree.projectFolder+Utils.path.sep+\"..\")'><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;../</a>");
 		
 		//Utils.fs.realpathSync("/home/pah/temporary/abc/..")
 		

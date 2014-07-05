@@ -49,7 +49,7 @@ import js.Browser;
 		Utils.loadJS(plugin_path() +cm_folder+"/mode/xml/xml.js",function(){});
 
 		Utils.loadCSS(plugin_path()+cm_folder+"/lib/codemirror.css");
-		Utils.loadCSS(plugin_path() +cm_folder+"/theme/monokai.css");
+		//Utils.loadCSS(plugin_path() +cm_folder+"/theme/3024-night.css");
 		Utils.loadJS(plugin_path()+"/CodemirrorEditor.js",function(){});
 		Utils.loadJS(plugin_path()+"/CodemirrorEditor_resizer.js",function(){});
 		Utils.loadJS(plugin_path()+"/jshint.js",function(){});

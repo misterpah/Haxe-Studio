@@ -6,6 +6,12 @@
 // ---------------------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------------------
 	
+	var prefix = plugin.misterpah.CodemirrorEditor;
+	
+	// theme config.theme;
+	
+	Utils.loadCSS(prefix.plugin_path() + prefix.cm_folder +"/theme/"+config.theme+".css");
+	
 	$("body").append("<style>.CodeMirror-dialog-top { position:absolute;right:0px;}</style>");
 	$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_tab'><ul class='nav nav-tabs'></ul></div>");
 	$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_editor'><textarea id='cm_textarea'></textarea></div>");
@@ -23,7 +29,7 @@
 			indentWithTabs:true,
 			cursorHeight:0.85,
 			mode:'haxe', 
-			theme:'monokai',
+			theme: config.theme,
 			viewportMargin: Infinity,
 			/*matchBrackets:true,
 			autoCloseBrackets:true,*/
@@ -94,7 +100,7 @@
 				}
 			}
 
-		console.log(line);
+		//console.log(line);
 		
 		if (line.replace(/\t/g,"") === "") // will open once blank line clicked. not good enough
 			{
@@ -354,7 +360,7 @@
 		
 		
 		var value = cm.getRange(CodeMirror.Pos(cur.line,start),CodeMirror.Pos(cur.line,end));
-		console.log(start+"-"+end + ":"+value);
+		//console.log(start+"-"+end + ":"+value);
 		var new_completion = [];
 		for (var i = 0;i < completion_array.length;i++)
 			{
@@ -512,7 +518,7 @@
 			{
 			try
 				{	
-					console.log(p1);
+					//console.log(p1);
 				/*
 				completion_temp.push(" function parameter ");
 				completion_temp.push(p1);

@@ -5,7 +5,7 @@ hs_server = require('restify').createServer({
 		  version: '1.0.0'
 		});
 
-hs_server_port = 8080;
+hs_server_port = config.restify_port;
 
 
 
@@ -36,17 +36,22 @@ isPortTaken(hs_server_port,start_hs_server);
 
 function start_hs_server(p1,p2)
 {
+//console.log(p1);
+//console.log(p2);
 	if (p2 == false)
 		{
 		hs_server.listen(hs_server_port, function () {
 		  console.log('%s listening at %s', hs_server.name, hs_server.url);
 		});
 		}
+	else
+		{
+		console.log("port already used by someone. check if other application is using it. if none, try close haxe studio and open it again.");
+		}
 }
 
 
 hs_server.get('/', function (req, res, next) {
-  data['result'] = req.params;
   res.setHeader('content-type', 'text/txt');
   res.end("This is a server spawned by Haxe Studio. ");
   return next();

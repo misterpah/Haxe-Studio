@@ -28,6 +28,25 @@ import js.Browser;
 	static public function reset_tree():Void
 	{
 	untyped $("#tree_position").html("<br/><ul id='file_tree'></ul>");
+		/*
+	if (Main.session.project_xml != "")
+		{
+		var ret = ['<p style="color:#ffffff" class="shadowme">Haxe Studio v<span class="hs_version"></span>',
+		'<br/>',
+		'===========<br/>',
+		'how to use Haxe Studio (correctly) : <br/>',
+		'<ol>',
+		'<li style="color:#ffffff">Create a New Project or Open Project. </li>',
+		'<li style="color:#ffffff">Then open the desired file(s)</li>',
+		'</ol>',
+		'</p>'].join("\n");		
+	
+	
+		untyped $("#tree_position").html(ret);	
+		untyped $(".hs_version").html(Main.version);
+		}
+		*/
+	
 	}
 	
 	static public function create_ui():Void

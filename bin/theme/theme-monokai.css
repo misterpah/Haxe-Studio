@@ -243,6 +243,10 @@ color:#ffffff;
 
 /* project Tree */
 
+#tree_position {
+font-size:12px;
+}
+
 
 #tree_position a {
 color: #ffffff;

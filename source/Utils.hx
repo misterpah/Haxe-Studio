@@ -146,8 +146,10 @@ import haxe.macro.Expr;
 		var exec_str = "";
 		var temp = "";
 		var exec_array:Array<String> = [];
+		
 		for (each in lines_to_exec)
 			{
+			//trace(each);
 			temp = StringTools.replace(each,"%CD%", join_str_cd);
 			temp = StringTools.replace(temp,"%CAT%", cat_service);
 			temp = StringTools.replace(temp,"%QUOTE%", quote);
