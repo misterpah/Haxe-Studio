@@ -16,11 +16,11 @@
 	$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_tab'><ul class='nav nav-tabs'></ul></div>");
 	$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_editor'><textarea id='cm_textarea'></textarea></div>");
 	$("#plugin_misterpah_CodemirrorEditor_editor").css("display","none");
-	plugin.misterpah.CodemirrorEditor.cm_buffer = {};
-	plugin.misterpah.CodemirrorEditor.inline_widget_stack = [];
-	plugin.misterpah.CodemirrorEditor.hx_completion_list = [];
-	plugin.misterpah.CodemirrorEditor.anywordHint_opened = false;
-	plugin.misterpah.CodemirrorEditor.cm = CodeMirror.fromTextArea($("#cm_textarea")[0],
+	prefix.cm_buffer = {};
+	prefix.inline_widget_stack = [];
+	prefix.hx_completion_list = [];
+	prefix.anywordHint_opened = false;
+	prefix.cm = CodeMirror.fromTextArea($("#cm_textarea")[0],
 			{
 			keyMap : "sublime",
 			indentUnit:4,
@@ -52,22 +52,22 @@
 
 	
 	CodeMirror.commands.anywordCompletion = function(cm) {
-		plugin.misterpah.CodemirrorEditor.cursor_position = plugin.misterpah.CodemirrorEditor.cm.getCursor();
-		cm.showHint({hint: plugin.misterpah.CodemirrorEditor.anywordHint});
+		prefix.cursor_position = prefix.cm.getCursor();
+		cm.showHint({hint: prefix.anywordHint});
 	};
 	
 	
 	
 	
-	CodeMirror.on(plugin.misterpah.CodemirrorEditor.cm,"cursorActivity",function(cm){
-		var pos = plugin.misterpah.CodemirrorEditor.cm.getCursor();
-		var line = plugin.misterpah.CodemirrorEditor.cm.getLine(pos.line);
-		var index = plugin.misterpah.CodemirrorEditor.cm.indexFromPos(pos);
-		var char = plugin.misterpah.CodemirrorEditor.cm.getValue().charAt(index - 1)[0];
-		var pos_minus1 = plugin.misterpah.CodemirrorEditor.cm.posFromIndex(index -1);
+	CodeMirror.on(prefix.cm,"cursorActivity",function(cm){
+		var pos = prefix.cm.getCursor();
+		var line = prefix.cm.getLine(pos.line);
+		var index = prefix.cm.indexFromPos(pos);
+		var char = prefix.cm.getValue().charAt(index - 1)[0];
+		var pos_minus1 = prefix.cm.posFromIndex(index -1);
 		
 		var splitter = [];
-		if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "javascript")
+		if (prefix.cm.getMode().name == "javascript")
 			{
 				splitter.push(".");
 				splitter.push(" ");
@@ -77,7 +77,7 @@
 				splitter.push("'");
 				splitter.push(":");
 			}
-		else if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "haxe")
+		else if (prefix.cm.getMode().name == "haxe")
 			{
 				splitter.push(" ");
 				splitter.push(":");
@@ -95,7 +95,7 @@
 			{
 			if ( char == splitter[each])
 				{
-					plugin.misterpah.CodemirrorEditor.anywordHint_opened = false;
+					prefix.anywordHint_opened = false;
 					break;
 				}
 			}
@@ -104,7 +104,7 @@
 		
 		if (line.replace(/\t/g,"") === "") // will open once blank line clicked. not good enough
 			{
-			plugin.misterpah.CodemirrorEditor.anywordHint_opened = false;
+			prefix.anywordHint_opened = false;
 			}		
 	});
 	
@@ -114,42 +114,42 @@
 	
 	
 	
-	CodeMirror.on(plugin.misterpah.CodemirrorEditor.cm,"change",function(cm){
+	CodeMirror.on(prefix.cm,"change",function(cm){
 		
-		var pos = plugin.misterpah.CodemirrorEditor.cm.getCursor();
-		var line = plugin.misterpah.CodemirrorEditor.cm.getLine(pos.line);
-		var index = plugin.misterpah.CodemirrorEditor.cm.indexFromPos(pos);
-		var char = plugin.misterpah.CodemirrorEditor.cm.getValue().charAt(index - 1)[0];
-		var pos_minus1 = plugin.misterpah.CodemirrorEditor.cm.posFromIndex(index -1);
+		var pos = prefix.cm.getCursor();
+		var line = prefix.cm.getLine(pos.line);
+		var index = prefix.cm.indexFromPos(pos);
+		var char = prefix.cm.getValue().charAt(index - 1)[0];
+		var pos_minus1 = prefix.cm.posFromIndex(index -1);
 
 		
-		if (plugin.misterpah.CodemirrorEditor.anywordHint_opened === false)
+		if (prefix.anywordHint_opened === false)
 			{
-			plugin.misterpah.CodemirrorEditor.cursor_position = pos_minus1;
-			plugin.misterpah.CodemirrorEditor.anywordHint_opened = true;
-			cm.showHint({hint: plugin.misterpah.CodemirrorEditor.anywordHint});						
+			prefix.cursor_position = pos_minus1;
+			prefix.anywordHint_opened = true;
+			cm.showHint({hint: prefix.anywordHint});						
 			}
 		
 		// js hint		
-		if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "javascript")
+		if (prefix.cm.getMode().name == "javascript")
 			{
-			plugin.misterpah.CodemirrorEditor.cmOnChangeJS();
+			prefix.cmOnChangeJS();
 			}
 		
 		// haxe completion
-		else if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "haxe")
+		else if (prefix.cm.getMode().name == "haxe")
 			{
-			plugin.misterpah.CodemirrorEditor.cmOnChangeHaxe();
+			prefix.cmOnChangeHaxe();
 			}		
 		});	
 	
 	
 	
 	
-	plugin.misterpah.CodemirrorEditor.create_inline_hint = function (line, msg)
+	prefix.create_inline_hint = function (line, msg)
 		{
 		msg = $('<div class="CodeMirror-linewidget"><div class="lint-error">'+msg+'</div></div>')[0];
-		return plugin.misterpah.CodemirrorEditor.cm.addLineWidget(line,msg);
+		return prefix.cm.addLineWidget(line,msg);
 		};	
 	
 	
@@ -159,9 +159,9 @@
 	function make_cm_buffer(name,text,mode)
 		{
 		name = encodeURIComponent(name);
-		if (plugin.misterpah.CodemirrorEditor.cm_buffer[name] === undefined)
+		if (prefix.cm_buffer[name] === undefined)
 			{
-			plugin.misterpah.CodemirrorEditor.cm_buffer[name] = CodeMirror.Doc(text,mode);
+			prefix.cm_buffer[name] = CodeMirror.Doc(text,mode);
 			return true;
 			}
 		return false; 
@@ -173,10 +173,10 @@
 	function remove_cm_buffer(name)
 		{
 		name = encodeURIComponent(name);
-		if (plugin.misterpah.CodemirrorEditor.cm_buffer[name] !== null)
+		if (prefix.cm_buffer[name] !== null)
 			{
-			plugin.misterpah.CodemirrorEditor.cm_buffer[name] = null;
-			delete plugin.misterpah.CodemirrorEditor.cm_buffer[name];
+			prefix.cm_buffer[name] = null;
+			delete prefix.cm_buffer[name];
 			return true;
 			}
 		return false;
@@ -187,15 +187,15 @@
 	// codemirror uses buffer to keep track document
 	function display_buffer(name)
 		{
-		var buf = plugin.misterpah.CodemirrorEditor.cm_buffer[name];
+		var buf = prefix.cm_buffer[name];
 		if (buf)
 			{
-			plugin.misterpah.CodemirrorEditor.cm.swapDoc(buf);
+			prefix.cm.swapDoc(buf);
 			if ($("#plugin_misterpah_CodemirrorEditor_editor").css("display") == "none")
 				{
 				$("#plugin_misterpah_CodemirrorEditor_editor").css("display","block");
 				}
-			plugin.misterpah.CodemirrorEditor.cm.refresh();
+			prefix.cm.refresh();
 			}
 		else
 			{
@@ -207,7 +207,7 @@
 	
 	
 	// show tab and set it as active file
-	plugin.misterpah.CodemirrorEditor.show_me_tab = function (name,mode)
+	prefix.show_me_tab = function (name,mode)
 		{
 		
 		display_buffer(name);
@@ -232,7 +232,7 @@
 	Main.message.listen("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",function()
 		{
 		// get changes from cm_buffer
-		var content_from_buffer = plugin.misterpah.CodemirrorEditor.cm_buffer[encodeURIComponent(Main.session.active_file)].cm.getValue();
+		var content_from_buffer = prefix.cm_buffer[encodeURIComponent(Main.session.active_file)].cm.getValue();
 
 		// get active_file 's file_obj
 		var file_obj = Main.file_stack.find(Main.session.active_file);
@@ -291,7 +291,7 @@
 			$("#plugin_misterpah_CodemirrorEditor_tab ul").append("<li><a onclick='plugin.misterpah.CodemirrorEditor.show_me_tab(\""+encodeURIComponent(filename)+"\",\""+mode+"\");' data-path='"+ encodeURIComponent(filename)+"'>"+file_obj[2] +"."+ext+"</a></li>");
 			}
 		// display the tab
-		plugin.misterpah.CodemirrorEditor.show_me_tab(encodeURIComponent(filename),mode);
+		prefix.show_me_tab(encodeURIComponent(filename),mode);
 
 		// always broadcast event after function complete. this will encourage people to expand this plugin
 		Main.message.broadcast("plugin.misterpah.CodemirrorEditor:file_displayed.complete","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
@@ -338,10 +338,10 @@
 // ---------------------------------------------------------------------------------------------------------------------------------
 	
 	
-	plugin.misterpah.CodemirrorEditor.anywordHint = function (cm,options)
+	prefix.anywordHint = function (cm,options)
 		{
-		var anyword_completion = plugin.misterpah.CodemirrorEditor.scanWordsInEditor();
-		var updated_completion = plugin.misterpah.CodemirrorEditor.anywordHint_update(cm,anyword_completion);
+		var anyword_completion = prefix.scanWordsInEditor();
+		var updated_completion = prefix.anywordHint_update(cm,anyword_completion);
 		return updated_completion;
 		};
 
@@ -351,11 +351,11 @@
 	
 	
 	
-	plugin.misterpah.CodemirrorEditor.anywordHint_update = function(cm,completion_array)
+	prefix.anywordHint_update = function(cm,completion_array)
 		{
 		var cur = cm.getCursor();
 		var curLine = cm.getLine(cur.line);
-		var start = plugin.misterpah.CodemirrorEditor.cursor_position.ch;
+		var start = prefix.cursor_position.ch;
 		end = cur.ch;
 		
 		
@@ -393,9 +393,9 @@
 	
 	
 	
-	plugin.misterpah.CodemirrorEditor.scanWordsInEditor = function()
+	prefix.scanWordsInEditor = function()
 	{
-		var content = plugin.misterpah.CodemirrorEditor.cm.getValue();
+		var content = prefix.cm.getValue();
 		if (content === "")
 			{
 			return;
@@ -462,11 +462,11 @@
 		return completion_array;
 	};
 	
-	plugin.misterpah.CodemirrorEditor.handleCompletion = function(p1,p2,p3)
+	prefix.handleCompletion = function(p1,p2,p3)
 	{
-		if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "haxe")
+		if (prefix.cm.getMode().name == "haxe")
 			{
-			plugin.misterpah.CodemirrorEditor.haxe_handleCompletion(p1,p2);
+			prefix.haxe_handleCompletion(p1,p2);
 			}		
 	};
 	
@@ -479,7 +479,7 @@
 	
 	
 	
-	plugin.misterpah.CodemirrorEditor.haxe_handleCompletion = function (p1,p2)
+	prefix.haxe_handleCompletion = function (p1,p2)
 		{
 		// prepare completion to add into hx_completion_list
 		var completion_temp = [];
@@ -491,8 +491,8 @@
 					{
 					completion_temp.push(p1.i[count].n);
 					}
-				plugin.misterpah.CodemirrorEditor.hx_completion_list = completion_temp;
-				CodeMirror.showHint(plugin.misterpah.CodemirrorEditor.cm, plugin.misterpah.CodemirrorEditor.haxeHint);
+				prefix.hx_completion_list = completion_temp;
+				CodeMirror.showHint(prefix.cm, prefix.haxeHint);
 				}
 			catch(err)
 				{
@@ -506,8 +506,8 @@
 				{	
 				completion_temp.push("/* function parameter */");
 				completion_temp.push(p1);
-				plugin.misterpah.CodemirrorEditor.hx_completion_list = completion_temp;
-				CodeMirror.showHint(plugin.misterpah.CodemirrorEditor.cm, plugin.misterpah.CodemirrorEditor.haxeHint);					
+				prefix.hx_completion_list = completion_temp;
+				CodeMirror.showHint(prefix.cm, prefix.haxeHint);					
 				}
 			catch(err)
 				{
@@ -537,12 +537,12 @@
 	
 	
 	
-	plugin.misterpah.CodemirrorEditor.haxeHint = function (cm,options)
+	prefix.haxeHint = function (cm,options)
 		{
-		var haxe_completion = plugin.misterpah.CodemirrorEditor.hx_completion_list;
+		var haxe_completion = prefix.hx_completion_list;
 		var cur = cm.getCursor();
 
-		var updated_completion = plugin.misterpah.CodemirrorEditor.haxeHint_update(cm,haxe_completion);
+		var updated_completion = prefix.haxeHint_update(cm,haxe_completion);
 		return updated_completion;
 		};
 
@@ -551,11 +551,11 @@
 	
 	
 	
-	plugin.misterpah.CodemirrorEditor.haxeHint_update = function(cm,completion_array)
+	prefix.haxeHint_update = function(cm,completion_array)
 		{
 		var cur = cm.getCursor();
 
-		var start = plugin.misterpah.CodemirrorEditor.cursor_position;
+		var start = prefix.cursor_position;
 		var end = CodeMirror.Pos(cur.line,cur.ch);
 		//console.log(start);
 		//console.log(end);
@@ -587,17 +587,17 @@
 		return {list:new_completion,from:start,to:end};
 		};
 
-	CodeMirror.registerHelper("hint","haxe", plugin.misterpah.CodemirrorEditor.haxeHint);	
+	CodeMirror.registerHelper("hint","haxe", prefix.haxeHint);	
 
 
 	
 	
 	
 		
-	plugin.misterpah.CodemirrorEditor.cmOnChangeHaxe = function()
+	prefix.cmOnChangeHaxe = function()
 		{
-		var pos = plugin.misterpah.CodemirrorEditor.cm.getCursor();
-		var index = plugin.misterpah.CodemirrorEditor.cm.indexFromPos(pos);
+		var pos = prefix.cm.getCursor();
+		var index = prefix.cm.indexFromPos(pos);
 
 		/*
 		// automatic top level completion 
@@ -618,16 +618,16 @@
 				
 			}
 		*/
-		if (plugin.misterpah.CodemirrorEditor.cm.getValue().charAt(index - 1) == ".")
+		if (prefix.cm.getValue().charAt(index - 1) == ".")
 			{
-				plugin.misterpah.CodemirrorEditor.cursor_position = plugin.misterpah.CodemirrorEditor.cm.getCursor();
+				prefix.cursor_position = prefix.cm.getCursor();
 				Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
 				Main.message.broadcast(
 					"plugin.misterpah.CodemirrorEditor.hxCompletion_positional",
 					"plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",
 					[
 						index,
-						plugin.misterpah.CodemirrorEditor.handleCompletion,
+						prefix.handleCompletion,
 						"."
 					]
 				);
@@ -635,16 +635,16 @@
 
 			}
 		
-		else if (plugin.misterpah.CodemirrorEditor.cm.getValue().charAt(index - 1) == "(")
+		else if (prefix.cm.getValue().charAt(index - 1) == "(")
 			{
-				plugin.misterpah.CodemirrorEditor.cursor_position = plugin.misterpah.CodemirrorEditor.cm.getCursor();
+				prefix.cursor_position = prefix.cm.getCursor();
 				Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
 				Main.message.broadcast(
 					"plugin.misterpah.CodemirrorEditor.hxCompletion_positional",
 					"plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",
 					[
 						index,
-						plugin.misterpah.CodemirrorEditor.handleCompletion,
+						prefix.handleCompletion,
 						"("
 					]
 				);
@@ -652,16 +652,16 @@
 
 			}		
 		
-		else if (plugin.misterpah.CodemirrorEditor.cm.getValue().charAt(index - 1) == ":")
+		else if (prefix.cm.getValue().charAt(index - 1) == ":")
 			{
-				plugin.misterpah.CodemirrorEditor.cursor_position = plugin.misterpah.CodemirrorEditor.cm.getCursor();
+				prefix.cursor_position = prefix.cm.getCursor();
 				Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
 				Main.message.broadcast(
 					"plugin.misterpah.CodemirrorEditor.hxCompletion_positional",
 					"plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",
 					[
 						index,
-						plugin.misterpah.CodemirrorEditor.handleCompletion,
+						prefix.handleCompletion,
 						":"
 					]
 				);
@@ -680,48 +680,48 @@
 
 	// execute every cm.on(change) triggered
 	// only if the file is javascript
-	plugin.misterpah.CodemirrorEditor.cmOnChangeJS = function()
+	prefix.cmOnChangeJS = function()
 		{
-		clearTimeout(plugin.misterpah.CodemirrorEditor.updateHintsTimeout);
-		plugin.misterpah.CodemirrorEditor.updateHintsTimeout = setTimeout(plugin.misterpah.CodemirrorEditor.updateJSHints, 1000);		
+		clearTimeout(prefix.updateHintsTimeout);
+		prefix.updateHintsTimeout = setTimeout(prefix.updateJSHints, 1000);		
 		};
 	
 	// apply hint on the first run
 	// only if the file is Javascript
 	Main.message.listen("plugin.misterpah.CodemirrorEditor:file_displayed.complete","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",function(){	
-		if (plugin.misterpah.CodemirrorEditor.cm.getMode().name == "javascript")
+		if (prefix.cm.getMode().name == "javascript")
 			{
-			setTimeout(plugin.misterpah.CodemirrorEditor.updateJSHints, 100);		
+			setTimeout(prefix.updateJSHints, 100);		
 			}		
 		});
 	
 	
 	// clear old hint and draw new hint
-	plugin.misterpah.CodemirrorEditor.updateJSHints = function()
+	prefix.updateJSHints = function()
 		{
 		// clear all hint
-		plugin.misterpah.CodemirrorEditor.clear_hint();
+		prefix.clear_hint();
 		
 		// call hint for javascript
-		if(JSHINT(plugin.misterpah.CodemirrorEditor.cm.getValue()) === false) // get all error for javascript
+		if(JSHINT(prefix.cm.getValue()) === false) // get all error for javascript
 			{
 			JSHINT.errors.forEach(function(each)
 				{
 				var line = each.line -1;
 				var msg =  each.reason;
-				plugin.misterpah.CodemirrorEditor.inline_widget_stack.push(plugin.misterpah.CodemirrorEditor.create_inline_hint(line,msg));
+				prefix.inline_widget_stack.push(prefix.create_inline_hint(line,msg));
 				});
 			}
 		};
 
-	plugin.misterpah.CodemirrorEditor.clear_hint = function()
+	prefix.clear_hint = function()
 		{
-		var len = plugin.misterpah.CodemirrorEditor.inline_widget_stack.length;
+		var len = prefix.inline_widget_stack.length;
 		for (i = 0; i < len;i++)
 			{
-			plugin.misterpah.CodemirrorEditor.cm.removeLineWidget(plugin.misterpah.CodemirrorEditor.inline_widget_stack[i]);
+			prefix.cm.removeLineWidget(prefix.inline_widget_stack[i]);
 			}
-		plugin.misterpah.CodemirrorEditor.inline_widget_stack = [];
+		prefix.inline_widget_stack = [];
 		};
 	
 })();	

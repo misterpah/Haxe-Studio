@@ -14,7 +14,7 @@
 
 
 
-* { cursor:default; 
+* {
 -webkit-touch-callout: none;
 -webkit-user-select: none;
 -khtml-user-select: none;
@@ -28,8 +28,12 @@ body { background:@bgColor; }
 .padding { margin-right:10px; }
 
 
+/* CodemirrorEditor */
+#plugin_misterpah_CodemirrorEditor_editor {cursor:text;}
+
+
 /* projectTree */
-#tree_position a.folder {color: darken(@orange,10%); text-shadow: 0px 1px 1px darken(#6d787a,10%);}
+#tree_position a.folder {color: darken(@orange,10%); text-shadow: 0px 1px 1px darken(#6d787a,10%); }
 #tree_position a.file { color: darken(@darkWhite,50%);}
 #tree_position a.xml,#tree_position a.hx,#tree_position a.hxml,#tree_position a.txt { color: @darkWhite; }
 
