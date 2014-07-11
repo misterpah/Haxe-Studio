@@ -5,7 +5,7 @@
 "version":0.4,
 "description":"introduce Compile facilities. ",
 "website":"http://haxestudio.com",
-"dependency":["plugin.misterpah.Console"],
+"dependency":["plugin.misterpah.Console","plugin.misterpah.HaxeServer"],
 "configuration":{
 	"default":0
 	}

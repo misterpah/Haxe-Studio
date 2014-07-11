@@ -7,7 +7,7 @@
 // ---------------------------------------------------------------------------------------------------------------------------------
 	
 	var prefix = plugin.misterpah.CodemirrorEditor;
-	
+	prefix.shortform = false;
 	// theme config.theme;
 	
 	Utils.loadCSS(prefix.plugin_path() + prefix.cm_folder +"/theme/"+config.theme+".css");
@@ -66,6 +66,10 @@
 		var char = prefix.cm.getValue().charAt(index - 1)[0];
 		var pos_minus1 = prefix.cm.posFromIndex(index -1);
 		
+		
+
+		
+		
 		var splitter = [];
 		if (prefix.cm.getMode().name == "javascript")
 			{
@@ -100,11 +104,13 @@
 				}
 			}
 
-		//console.log(line);
+
+		
+			
 		
 		if (line.replace(/\t/g,"") === "") // will open once blank line clicked. not good enough
 			{
-			prefix.anywordHint_opened = false;
+			//prefix.anywordHint_opened = false;
 			}		
 	});
 	
@@ -121,14 +127,16 @@
 		var index = prefix.cm.indexFromPos(pos);
 		var char = prefix.cm.getValue().charAt(index - 1)[0];
 		var pos_minus1 = prefix.cm.posFromIndex(index -1);
-
 		
-		if (prefix.anywordHint_opened === false)
+		
+
+		if (prefix.anywordHint_opened === false )
 			{
 			prefix.cursor_position = pos_minus1;
 			prefix.anywordHint_opened = true;
 			cm.showHint({hint: prefix.anywordHint});						
 			}
+
 		
 		// js hint		
 		if (prefix.cm.getMode().name == "javascript")
@@ -141,6 +149,77 @@
 			{
 			prefix.cmOnChangeHaxe();
 			}		
+			
+		
+			
+		// shortform
+		if (prefix.shortform == false)
+			{
+			var tabsize = plugin.misterpah.CodemirrorEditor.cm.getOption("tabSize");
+			var tabCount = Math.round(pos.ch / tabsize);
+			var tabSpace = "";
+			for (i=0; i<tabCount; i++)
+				{
+				tabSpace+="\t";
+				}
+			}
+		var curline = line.replace(/\t/g,"");
+		if (curline == ":IF:" | curline == ":if:")
+			{
+			prefix.shortform = true;
+			var prev_pos = pos;
+				if (prefix.cm.getMode().name == "haxe")
+				{
+				prefix.cm.replaceRange("if(  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n"+tabSpace+"else\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-4),pos); // -4 because :IF: is 4 character
+				}
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch));
+			prefix.shortform = false;
+			}
+		if (curline == ":FOR:" | curline == ":for:")
+			{
+			prefix.shortform = true;
+			var prev_pos = pos;
+				if (prefix.cm.getMode().name == "haxe")
+				{			
+				prefix.cm.replaceRange("for(  in 0...  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-5),pos);  // -5 because :FOR: is 5 character
+				}
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch));
+			prefix.shortform = false;
+			}		
+		if (curline == ":F:" | curline == ":f:")
+			{
+			prefix.shortform = true;
+			var prev_pos = pos;
+				if (prefix.cm.getMode().name == "haxe")
+				{			
+				prefix.cm.replaceRange("public function  (  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-3),pos);  // -3 because :F: is 3 character
+				}
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch+13));
+			prefix.shortform = false;
+			}		
+		if (curline == ":PF:" | curline == ":pf:")
+			{
+			prefix.shortform = true;
+			var prev_pos = pos;
+				if (prefix.cm.getMode().name == "haxe")
+				{			
+				prefix.cm.replaceRange("private function  (  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-4),pos);  // -4 because :PF: is 4 character
+				}
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch+13));
+			prefix.shortform = false;
+			}				
+		if (curline == ":TRY:" | curline == ":try:")
+			{
+			prefix.shortform = true;
+			var prev_pos = pos;
+				if (prefix.cm.getMode().name == "haxe")
+				{
+				prefix.cm.replaceRange("try\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n"+tabSpace+"catch(e)\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-5),pos);  // -5 because :PF: is 5 character
+				}
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line+2,prev_pos.ch+1));
+			prefix.shortform = false;
+			}				
+			
 		});	
 	
 	
@@ -322,6 +401,72 @@
 	
 	
 	
+
+
+
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------	
+// ---------------------------------------------------------------------------------------------------------------------------------
+// BLOCK : Codemirror shortform completion (%)
+// ---------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------
+	
+	
+	prefix.shortformHint = function (cm,options)
+		{
+		//var shortform_completion = prefix.scanWordsInEditor();
+		var shortform_completion = ['if','while','for'];
+		var updated_completion = prefix.shortformHint_update(cm,shortform_completion);
+		return updated_completion;
+		};
+
+	
+
+	
+	
+	
+	
+	prefix.shortformHint_update = function(cm,completion_array)
+		{
+		var cur = cm.getCursor();
+		var curLine = cm.getLine(cur.line);
+		var start = prefix.cursor_position.ch;
+		end = cur.ch;
+		
+		
+		var value = cm.getRange(CodeMirror.Pos(cur.line,start),CodeMirror.Pos(cur.line,end));
+		//console.log(start+"-"+end + ":"+value);
+		var new_completion = [];
+		for (var i = 0;i < completion_array.length;i++)
+			{
+			var cur_completion = completion_array[i];
+			
+			var clone = cur_completion;
+			clone1 = clone.toLowerCase();
+			clone2 = clone.toUpperCase();
+			if (clone1.indexOf(value) === 0)
+				{
+				new_completion.push(cur_completion);
+				}
+			else if (clone2.indexOf(value) === 0)
+				{
+				new_completion.push(cur_completion);
+				}
+			else if (cur_completion.indexOf(value) === 0)
+				{
+				new_completion.push(cur_completion);
+				}								
+			}  
+
+		return {list:new_completion,from:CodeMirror.Pos(cur.line,start),to:CodeMirror.Pos(cur.line,end)};
+		};
+
+	CodeMirror.registerHelper("hint","shortform", prefix.shortformHint);	
+
+
+
+
 	
 	
 	

@@ -2,10 +2,10 @@
 "name":"Completion",
 "actualName":"plugin.misterpah.Completion",
 "author":"misterpah",
-"version":0.1,
-"description":"Edit this in /plugin/plugin.misterpah.Completion/bin/plugin.json",
+"version":0.3,
+"description":"Provide haxe completion",
 "website":"http://haxestudio.com/",
-"dependency":[],
+"dependency":["plugin.misterpah.HaxeServer"],
 "configuration":{
 	"default":0
 	}

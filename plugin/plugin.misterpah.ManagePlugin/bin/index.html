@@ -136,9 +136,13 @@ function display_plugin(i,data)
 		plugin_on_off = '<button class="btn btn-warning btn-block" disabled="disabled" name="'+data.actualName+'" >CORE</button>';
 		}
 	
-	
+	/*
 var ret = ['<div class="col-xs-4 clearfix" style="margin-bottom:10px;height:250px;">',
 '<div class="container">',
+
+
+
+
 '<div class="col-xs-4">',
 	plugin_on_off,
 '</div>',
@@ -147,6 +151,17 @@ var ret = ['<div class="col-xs-4 clearfix" style="margin-bottom:10px;height:250p
 '</div>',
 '<div class="col-xs-12"> <p>'+data.description+'</p><p><b>Depends on : </b>'+data.dependency.join(" ") +'</p> <b>actual name :</b> '+data.actualName+' <br/><br/> <b>Developer :</b> '+data.author+'</small><p></p></div>',
 '</div>'].join("\n");
+*/
+	
+var ret = ['<tr>',
+'<td>',
+	plugin_on_off,
+'</td>',
+
+'<td>'+data.name+'<br/><small><i>'+data.actualName+'</i></small></td><td>'+data.version+'</td>',
+'<td>'+data.description+'</td><td><small><i>'+data.dependency.join("<br/>\n") +'</i></small></td>'
+].join("\n");	
+	
 	
 	$("#table_content").append(ret);
 	}
@@ -168,8 +183,26 @@ var template = {}
 		</div>
 	</div>
 	<hr>
+<div class="table-responsive">	
+<table class="table">
+<thead>
+<tr>
+<th>ON/OFF</th>
+<th>Name</th>
+<th>Version</th>
+<th>Description</th>
+<th>Dependency</th>
+</tr>
+</thead>
+<tbody id="table_content">
+
+</tbody>
+</table>
+</div>
+<!--	
 	<div id="table_content">
 
 	</div>
+-->
 </div>
 
