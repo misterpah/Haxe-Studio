@@ -30,12 +30,13 @@ body { background:@bgColor; }
 
 /* CodemirrorEditor */
 #plugin_misterpah_CodemirrorEditor_editor {cursor:text;}
-
+.lint-error {font-size: 70%;background: #ffa;color: #a00;padding: 2px 5px 3px;}
+.glyphicon-record{color:@red;}
 
 /* projectTree */
-#tree_position a.folder {color: darken(@orange,10%); text-shadow: 0px 1px 1px darken(#6d787a,10%); }
-#tree_position a.file { color: darken(@darkWhite,50%);}
-#tree_position a.xml,#tree_position a.hx,#tree_position a.hxml,#tree_position a.txt { color: @darkWhite; }
+#tree_position a.folder {color: darken(@orange,10%);  }
+#tree_position a.file { color: darken(@darkWhite,70%);}
+#tree_position a.xml,#tree_position a.hx,#tree_position a.hxml,#tree_position a.txt,#tree_position a.js { color: darken(@darkWhite,20%); }
 
 
 
@@ -58,20 +59,15 @@ body { background:@bgColor; }
 
 /* layout */
 
-.ui-layout-pane { padding:	0px !important;   border:0px !important} /* all 'panes' */ 
-.ui-layout-center {background:@editorBg;}
-/*
-.ui-layout-north {border:0px;}
-.ui-layout-south { border:0px; }
-.ui-layout-center {border:0px;}
-.ui-layout-resizer-south{border-bottom:1px solid  @prettyBlue;}
-*/
-.ui-layout-west{ background:@bgColor; border:0px;}
 
-.ui-layout-resizer-open-hover{background:@bgColor;};
-.ui-layout-toggler{background:@bgColor;border:0px;}
+.right_part{background:@darkWhite;}
+#right_part_buttons{margin-left:15px;margin-top:15px;}
+.btn-right-part{background:lighten(@bgColor,70%);border:0px;border-bottom-left-radius:0px;border-bottom-right-radius:0px;}
+.btn-right-part.active{background:@bgColor;color:#ffffff;}
 
 
-.shadowme { text-shadow: 0px 1px 1px #000000;}
+#right_part_content{background:@bgColor;padding:7px 10px;-webkit-border-radius: 5px;border-radius: 5px;overflow:auto;border-top-left-radius:0px;}
+
+
 
 

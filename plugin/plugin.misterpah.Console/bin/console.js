@@ -23,3 +23,5 @@ var console_table = ['<table class="table">',
 $("#plugin_misterpah_console").append(console_table);
 hs_console("Starts Haxe Studio");
 })();
+
+

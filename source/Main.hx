@@ -18,7 +18,7 @@ import jQuery.*;
 
 	static public function run_haxe_studio():Void
 		{
-		version = "0.3.7";
+		version = "0.3.8";
 		session = new Session();
 		file_stack = new FileObject();
 		message = new Message();
@@ -26,6 +26,7 @@ import jQuery.*;
 		// init ui
 		new ui.Notify();
 		new ui.FileDialog();
+		new ui.FolderDialog();
     	new ui.ModalDialog();
 		//Main.file_stack.find()
 

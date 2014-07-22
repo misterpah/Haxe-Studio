@@ -8,7 +8,7 @@ import js.Browser;
 
     static public function main():Void
     {
-	    //create_ui(); -- no need because it already listened to system_parse_project.complete
+	    create_ui(); //-- no need because it already listened to system_parse_project.complete
 		register_listener();
     }
     
@@ -17,12 +17,37 @@ import js.Browser;
 	return "../plugin/" + Type.getClassName(ProjectTree) +"/bin";
 	}
     
+	public function  (  )
+	{
+		
+	}
+	
+	private function  (  )
+	{
+		
+	}
+	
+	static private function  (  )
+	{
+		
+	}
+	
+	:spf:
+
+
+
 
 	static public function register_listener():Void
 	{
-		Main.message.listen("plugin.misterpah.ProjectAccess:system_parse_project.complete","plugin.misterpah.ProjectTree",create_ui);
+		//Main.message.listen("plugin.misterpah.ProjectAccess:system_parse_project.complete","plugin.misterpah.ProjectTree",create_ui);
 		Main.message.listen("plugin.misterpah.ProjectAccess:close_project.complete","plugin.misterpah.ProjectTree",reset_tree);
+		//Main.message.listen("core:FileMenu.openFolder.complete","plugin.misterpah.ProjectTree:js:projectTree.js",_openFolder_complete);
 	}
+	
+	static public function _openFolder_complete():Void
+		{
+		untyped ProjectTree.show_project_tree(Main.session.project_folder,false);
+		}
 	
 	
 	static public function reset_tree():Void

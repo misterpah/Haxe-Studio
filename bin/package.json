@@ -6,8 +6,8 @@
     "title": "Haxe Studio",
     "toolbar": false,
     "frame": true,
-    "width": 800,
-    "height": 600,
+    "min_width": 1000,
+    "min_height": 600,
     "position": "center",
 	"show": true
   }  

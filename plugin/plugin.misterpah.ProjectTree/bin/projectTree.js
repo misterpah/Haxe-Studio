@@ -1,17 +1,26 @@
 (function(){
-	
+
+	plugin.misterpah.ProjectTree.projectFolder = "";
+	plugin.misterpah.ProjectTree.context_menu_target = "";
 	
 	Main.message.listen("plugin.misterpah.ProjectAccess:close_project.complete","plugin.misterpah.ProjectTree:js:projectTree.js",function()
 		{
 
 		});
 	
+	Main.message.listen("plugin.misterpah.ProjectAccess:system_parse_project.complete","plugin.misterpah.ProjectTree:js:projectTree.js",function()
+		{
+		$("#tree_position").html("");
+		plugin.misterpah.ProjectTree.show_project_tree(Main.session.project_folder,false);
+		});	
+	Main.message.listen("core:FileMenu.openFolder.complete","plugin.misterpah.ProjectTree:js:projectTree.js",function()
+		{
+		$("#tree_position").html("");
+		plugin.misterpah.ProjectTree.show_project_tree(Main.session.project_folder,false);
+		});		
+	
 
 
-
-	$("#tree_position").html("");
-	plugin.misterpah.ProjectTree.projectFolder = "";
-	plugin.misterpah.ProjectTree.context_menu_target = "";
 
 	// open file if it's clicked
 	plugin.misterpah.ProjectTree.openMe = function (obj)
@@ -118,6 +127,9 @@
 			
 		};
 
+
+	
+
 	plugin.misterpah.ProjectTree.show_project_tree = function (project_folder,encoded)
 		{
 		
@@ -133,7 +145,7 @@
 		folder_content = Utils.readDir(project_folder);
 		
 		$("#tree_position").html("<div id='file_tree_path'></div><ul id='file_tree'></ul>");
-		$("#file_tree_path").html("<a class='folder' onClick='plugin.misterpah.ProjectTree.show_project_tree(plugin.misterpah.ProjectTree.projectFolder+Utils.path.sep+\"..\")'><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;../</a>");
+		$("#file_tree_path").html("<a  onClick='plugin.misterpah.ProjectTree.show_project_tree(plugin.misterpah.ProjectTree.projectFolder+Utils.path.sep+\"..\")'><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;../</a>");
 		
 		//Utils.fs.realpathSync("/home/pah/temporary/abc/..")
 		
@@ -156,7 +168,4 @@
 			
 		plugin.misterpah.ProjectTree.set_context_menu();
 		};
-		
-	plugin.misterpah.ProjectTree.show_project_tree(Main.session.project_folder,false);
-	
 })();

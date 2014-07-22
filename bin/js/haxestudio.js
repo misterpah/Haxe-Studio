@@ -75,12 +75,13 @@ Main.__name__ = true;
 Main.main = function() {
 };
 Main.run_haxe_studio = function() {
-	Main.version = "0.3.7";
+	Main.version = "0.3.8";
 	Main.session = new Session();
 	Main.file_stack = new FileObject();
 	Main.message = new Message();
 	new ui.Notify();
 	new ui.FileDialog();
+	new ui.FolderDialog();
 	new ui.ModalDialog();
 	var root_path = root;
 	var filename = "./hs-plugin.json";
@@ -611,6 +612,20 @@ ui.FileDialog.prototype = {
 		if(saveAs == null) saveAs = false;
 		if(saveAs == false) new $("#temp").html("<input id='temp_fileDialog' type='file' />"); else new $("#temp").html("<input id='temp_fileDialog' type='file' nwsaveas />");
 		var chooser = new $("#temp_fileDialog");
+		chooser.change(function(evt) {
+			var filepath = chooser.val();
+			function_name(filepath);
+		});
+		chooser.trigger("click");
+	}
+};
+ui.FolderDialog = $hx_exports.ui.FolderDialog = function() {
+};
+ui.FolderDialog.__name__ = true;
+ui.FolderDialog.prototype = {
+	show: function(function_name) {
+		new $("#temp").html("<input id='temp_folderDialog' type='file' nwdirectory />");
+		var chooser = new $("#temp_folderDialog");
 		chooser.change(function(evt) {
 			var filepath = chooser.val();
 			function_name(filepath);

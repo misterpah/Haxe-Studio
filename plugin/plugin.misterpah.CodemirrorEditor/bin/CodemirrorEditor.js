@@ -9,7 +9,6 @@
 	var prefix = plugin.misterpah.CodemirrorEditor;
 	prefix.shortform = false;
 	// theme config.theme;
-	
 	Utils.loadCSS(prefix.plugin_path() + prefix.cm_folder +"/theme/"+config.theme+".css");
 	
 	$("body").append("<style>.CodeMirror-dialog-top { position:absolute;right:0px;}</style>");
@@ -50,7 +49,6 @@
 	
 	CodeMirror.registerHelper("lint", "haxe");
 
-	
 	CodeMirror.commands.anywordCompletion = function(cm) {
 		prefix.cursor_position = prefix.cm.getCursor();
 		cm.showHint({hint: prefix.anywordHint});
@@ -67,31 +65,30 @@
 		var pos_minus1 = prefix.cm.posFromIndex(index -1);
 		
 		
-
-		
-		
+		// reset mechanism for anywordHint
 		var splitter = [];
+		splitter.push(" ");
+		splitter.push("\"");
+		splitter.push("'");
+		splitter.push(":");
+		splitter.push("\t");
+		splitter.push("/");
+		splitter.push("\\");
+		splitter.push("-");
+		splitter.push("+");
+		splitter.push("'");
+		splitter.push("]");
+		splitter.push("[");
+		splitter.push("(");
+		splitter.push(")");
+
+		// special splitter for each languages
 		if (prefix.cm.getMode().name == "javascript")
 			{
-				splitter.push(".");
-				splitter.push(" ");
-				splitter.push("(");
-				splitter.push(")");
-				splitter.push("\"");
-				splitter.push("'");
-				splitter.push(":");
+				splitter.push(".");				
 			}
 		else if (prefix.cm.getMode().name == "haxe")
 			{
-				splitter.push(" ");
-				splitter.push(":");
-				splitter.push("/");
-				splitter.push("\\");
-				splitter.push("-");
-				splitter.push("+");
-				splitter.push("'");
-				splitter.push("]");
-				splitter.push("[");
 			}		
 		
 		
@@ -103,7 +100,7 @@
 					break;
 				}
 			}
-
+		
 
 		
 			
@@ -128,9 +125,15 @@
 		var char = prefix.cm.getValue().charAt(index - 1)[0];
 		var pos_minus1 = prefix.cm.posFromIndex(index -1);
 		
-		
+		//$("#plugin_misterpah_CodemirrorEditor_tab ul").append("<li><a onclick='plugin.misterpah.CodemirrorEditor.show_me_tab(\""+encodeURIComponent(filename)+"\",\""+mode+"\");' data-path='"+ encodeURIComponent(filename)+"'>"+file_obj[2] +"."+ext+"&nbsp;&nbsp;<span class='status_icon glyphicon glyphicon-remove-circle' data-path='"+ encodeURIComponent(filename)+"'></span></a></li>");
+		//encodeURIComponent(filename)
+		$("span[data-path='"+encodeURIComponent(Main.session.active_file)+"']").removeClass("glyphicon-remove-circle");
+		$("span[data-path='"+encodeURIComponent(Main.session.active_file)+"']").addClass("glyphicon-record");
+	
+		var trigger_anywordHint_only_when_see_this = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\t";
 
-		if (prefix.anywordHint_opened === false )
+		console.log(trigger_anywordHint_only_when_see_this.search(char));
+		if (prefix.anywordHint_opened === false && trigger_anywordHint_only_when_see_this.search(char) > -1)
 			{
 			prefix.cursor_position = pos_minus1;
 			prefix.anywordHint_opened = true;
@@ -151,75 +154,118 @@
 			}		
 			
 		
-			
-		// shortform
-		if (prefix.shortform == false)
+		
+		
+		// shortform starts here
+		if (prefix.shortform === false) 
 			{
 			var tabsize = plugin.misterpah.CodemirrorEditor.cm.getOption("tabSize");
 			var tabCount = Math.round(pos.ch / tabsize);
-			var tabSpace = "";
+			tabSpace = "";
 			for (i=0; i<tabCount; i++)
 				{
 				tabSpace+="\t";
 				}
 			}
+		
 		var curline = line.replace(/\t/g,"");
+		
+		if( prefix.cm.getMode().name == "javascript" )
+		{
 		if (curline == ":IF:" | curline == ":if:")
 			{
 			prefix.shortform = true;
-			var prev_pos = pos;
-				if (prefix.cm.getMode().name == "haxe")
-				{
-				prefix.cm.replaceRange("if(  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n"+tabSpace+"else\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-4),pos); // -4 because :IF: is 4 character
-				}
+			prev_pos = pos;
+			prefix.cm.replaceRange("if(  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n"+tabSpace+"else\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-4),pos); // -4 because :IF: is 4 character				
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch));
+			prefix.shortform = false;				
+			}			
+		else if (curline == ":FOR:" | curline == ":for:")
+			{
+			prefix.shortform = true;
+			prev_pos = pos;
+			prefix.cm.replaceRange("for(  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-5),pos);  // -5 because :FOR: is 5 character
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch));
+			prefix.shortform = false;
+			}			
+		else if (curline == ":F:" | curline == ":f:")
+			{
+			prefix.shortform = true;
+			prev_pos = pos;
+			prefix.cm.replaceRange("function  (  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-3),pos);  // -3 because :F: is 3 character
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch+6));
+			prefix.shortform = false;
+			}
+		else if (curline == ":TRY:" | curline == ":try:")
+			{
+			prefix.shortform = true;
+			prev_pos = pos;
+			prefix.cm.replaceRange("try\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n"+tabSpace+"catch(e)\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-5),pos);  // -5 because :PF: is 5 character
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line+2,prev_pos.ch+1));
+			prefix.shortform = false;
+			}
+		}
+		else if( prefix.cm.getMode().name == "haxe" )
+		{
+		if (curline == ":IF:" | curline == ":if:")
+			{
+			prefix.shortform = true;
+			prev_pos = pos;
+			prefix.cm.replaceRange("if(  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n"+tabSpace+"else\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-4),pos); // -4 because :IF: is 4 character
 			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch));
 			prefix.shortform = false;
 			}
-		if (curline == ":FOR:" | curline == ":for:")
+		else if (curline == ":FOR:" | curline == ":for:")
 			{
 			prefix.shortform = true;
-			var prev_pos = pos;
-				if (prefix.cm.getMode().name == "haxe")
-				{			
-				prefix.cm.replaceRange("for(  in 0...  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-5),pos);  // -5 because :FOR: is 5 character
-				}
+			prev_pos = pos;
+			prefix.cm.replaceRange("for(  in 0...  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-5),pos);  // -5 because :FOR: is 5 character
 			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch));
 			prefix.shortform = false;
 			}		
-		if (curline == ":F:" | curline == ":f:")
+		else if (curline == ":F:" | curline == ":f:")
 			{
 			prefix.shortform = true;
-			var prev_pos = pos;
-				if (prefix.cm.getMode().name == "haxe")
-				{			
-				prefix.cm.replaceRange("public function  (  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-3),pos);  // -3 because :F: is 3 character
-				}
-			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch+13));
+			prev_pos = pos;
+			prefix.cm.replaceRange("private function  (  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-3),pos);  // -4 because :PF: is 4 character
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch+14));
 			prefix.shortform = false;
 			}		
-		if (curline == ":PF:" | curline == ":pf:")
+		else if (curline == ":SF:" | curline == ":sf:")
 			{
 			prefix.shortform = true;
-			var prev_pos = pos;
-				if (prefix.cm.getMode().name == "haxe")
-				{			
-				prefix.cm.replaceRange("private function  (  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-4),pos);  // -4 because :PF: is 4 character
-				}
-			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch+13));
+			prev_pos = pos;
+			prefix.cm.replaceRange("static private function  (  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-4),pos);  // -4 because :PF: is 4 character
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch+20));
 			prefix.shortform = false;
-			}				
-		if (curline == ":TRY:" | curline == ":try:")
+			}
+		else if (curline == ":PF:" | curline == ":pf:")
 			{
 			prefix.shortform = true;
-			var prev_pos = pos;
-				if (prefix.cm.getMode().name == "haxe")
-				{
-				prefix.cm.replaceRange("try\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n"+tabSpace+"catch(e)\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-5),pos);  // -5 because :PF: is 5 character
-				}
+			prev_pos = pos;
+			prefix.cm.replaceRange("public function  (  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-4),pos);  // -3 because :F: is 3 character
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch+12));
+			prefix.shortform = false;
+			}
+		else if (curline == ":SPF:" | curline == ":spf:")
+			{
+			prefix.shortform = true;
+			prev_pos = pos;
+			prefix.cm.replaceRange("static public function  (  )\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-5),pos);  // -3 because :F: is 3 character
+			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line,prev_pos.ch+18));
+			prefix.shortform = false;
+			}			
+		else if (curline == ":TRY:" | curline == ":try:")
+			{
+			prefix.shortform = true;
+			prev_pos = pos;
+			prefix.cm.replaceRange("try\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n"+tabSpace+"catch(e)\n"+tabSpace+"{\n"+tabSpace+"\t\n"+tabSpace+"}\n",CodeMirror.Pos(pos.line,pos.ch-5),pos);  // -5 because :PF: is 5 character
 			prefix.cm.setCursor(CodeMirror.Pos(prev_pos.line+2,prev_pos.ch+1));
 			prefix.shortform = false;
-			}				
-			
+			}							
+		}
+
+		
 		});	
 	
 	
@@ -288,23 +334,38 @@
 	// show tab and set it as active file
 	prefix.show_me_tab = function (name,mode)
 		{
-		
+		console.log(name);
 		display_buffer(name);
 		
 		// makes the active tab not-active
 		$("#plugin_misterpah_CodemirrorEditor_tab a").each(function(){$(this).parent().removeClass("active");});
 
-		Main.session.active_file = decodeURIComponent(name);	
-
 		// add active class to user-chosen
 		$("#plugin_misterpah_CodemirrorEditor_tab a[data-path='"+name+"']").parent().addClass("active");
+
+		Main.session.active_file = decodeURIComponent(name);	
 
 		// resize codemirror to ensure size is correct
 		Main.message.broadcast("core:center_resized","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
 		};
 
 	
+	prefix.close_this_tab = function (obj)
+	{
+	//console.dir($(obj).attr("data-path"));
+	var previous_active = encodeURIComponent(Main.session.active_file);
+	var want_to_close = $(obj).attr("data-path");
 	
+	prefix.show_me_tab(want_to_close);
+	Main.message.broadcast("core:FileMenu.closeFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
+
+	if (previous_active != want_to_close)
+		{
+		//console.log(previous_active);
+		//console.log(want_to_close);
+		//prefix.show_me_tab(previous_active);
+		}
+	}
 	
 
 	// save changes made into the Main.file_stack before saving it
@@ -321,6 +382,8 @@
 
 		// trigger active file to save
 		Main.message.broadcast("plugin.misterpah.FileAccess:saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
+		$("span[data-path='"+encodeURIComponent(Main.session.active_file)+"']").removeClass("glyphicon-record");
+		$("span[data-path='"+encodeURIComponent(Main.session.active_file)+"']").addClass("glyphicon-remove-circle");
 		});	
 
 	
@@ -367,7 +430,7 @@
 		if (not_opened_yet === true)
 			{
 			hs_console("open : "+filename);
-			$("#plugin_misterpah_CodemirrorEditor_tab ul").append("<li><a onclick='plugin.misterpah.CodemirrorEditor.show_me_tab(\""+encodeURIComponent(filename)+"\",\""+mode+"\");' data-path='"+ encodeURIComponent(filename)+"'>"+file_obj[2] +"."+ext+"</a></li>");
+			$("#plugin_misterpah_CodemirrorEditor_tab ul").append("<li><a onclick='plugin.misterpah.CodemirrorEditor.show_me_tab(\""+encodeURIComponent(filename)+"\",\""+mode+"\");' data-path='"+ encodeURIComponent(filename)+"'>"+file_obj[2] +"."+ext+"&nbsp;&nbsp;<span onclick='plugin.misterpah.CodemirrorEditor.close_this_tab($(this));' class='status_icon glyphicon glyphicon-remove-circle' data-path='"+ encodeURIComponent(filename)+"'></span></a></li>");
 			}
 		// display the tab
 		prefix.show_me_tab(encodeURIComponent(filename),mode);
@@ -375,6 +438,7 @@
 		// always broadcast event after function complete. this will encourage people to expand this plugin
 		Main.message.broadcast("plugin.misterpah.CodemirrorEditor:file_displayed.complete","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
 	});
+	
 	
 	
 	
@@ -405,7 +469,7 @@
 
 
 
-
+/*
 // ---------------------------------------------------------------------------------------------------------------------------------	
 // ---------------------------------------------------------------------------------------------------------------------------------
 // BLOCK : Codemirror shortform completion (%)
@@ -464,7 +528,7 @@
 
 	CodeMirror.registerHelper("hint","shortform", prefix.shortformHint);	
 
-
+*/
 
 
 	
@@ -581,7 +645,6 @@
 				curline = curline.replace(/\,/g," "); 
 				
 				var curline_array = curline.split(" ");
-				//console.log(curline_array);
 				for (var each2 in curline_array)
 					{
 						if (!isNaN(parseInt(curline_array[each2])))
@@ -744,25 +807,6 @@
 		var pos = prefix.cm.getCursor();
 		var index = prefix.cm.indexFromPos(pos);
 
-		/*
-		// automatic top level completion 
-		var line_content = plugin.misterpah.CodemirrorEditor.cm.getLine(pos.line);	
-		if (line_content.trim() === "") // top level completion only works on the blank line
-			{
-
-				//Main.message.broadcast("core:FileMenu.saveFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
-				
-				Main.message.broadcast(
-					"plugin.misterpah.CodemirrorEditor.hxCompletion_topLevel",
-					"plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",
-					[
-						index,
-						plugin.misterpah.CodemirrorEditor.handleCompletion
-					]
-				);
-				
-			}
-		*/
 		if (prefix.cm.getValue().charAt(index - 1) == ".")
 			{
 				prefix.cursor_position = prefix.cm.getCursor();
@@ -779,7 +823,7 @@
 
 
 			}
-		
+
 		else if (prefix.cm.getValue().charAt(index - 1) == "(")
 			{
 				prefix.cursor_position = prefix.cm.getCursor();
@@ -836,7 +880,7 @@
 	Main.message.listen("plugin.misterpah.CodemirrorEditor:file_displayed.complete","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",function(){	
 		if (prefix.cm.getMode().name == "javascript")
 			{
-			setTimeout(prefix.updateJSHints, 100);		
+			setTimeout(prefix.updateJSHints, 500);		
 			}		
 		});
 	

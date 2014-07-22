@@ -18,12 +18,12 @@ import js.Browser;
 		create_ui();
 		register_listener();
 	}
-
+	
+	
 	private static function create_ui():Void
 	{
 		Utils.loadJS(plugin_path()+cm_folder+"/lib/codemirror.js",function(){});
 		// addons
-		
 		Utils.loadJS(plugin_path() +cm_folder+"/addon/search/searchcursor.js",function(){});
 		Utils.loadJS(plugin_path() +cm_folder+"/addon/search/search.js",function(){});
 		Utils.loadJS(plugin_path() +cm_folder+"/addon/edit/matchbrackets.js",function(){});
@@ -38,7 +38,6 @@ import js.Browser;
 		
 		Utils.loadJS(plugin_path() +cm_folder+"/addon/hint/show-hint.js",function(){});
 		Utils.loadCSS(plugin_path()+cm_folder+"/addon/hint/show-hint.css");
-		
 			
 		// keymap
 		Utils.loadJS(plugin_path() +cm_folder+"/keymap/sublime.js",function(){});		

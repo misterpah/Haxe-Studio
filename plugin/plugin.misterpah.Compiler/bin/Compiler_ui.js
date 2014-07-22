@@ -12,7 +12,6 @@
 		{
 
 		$("#compiler_position").html("");
-
 		prefix.compile_target = ['<select width="100%" style="width:100%;" id="compileTarget" class="btn-group-sm">',
 		'<option>flash</option>',
 		'<option>html5</option>',
@@ -41,8 +40,8 @@
 			{
 			Main.message.broadcast("plugin.misterpah.Compiler:compile_request","plugin.misterpah.Compiler:js:Compiler_ui.js");
 			};
-		$("#compiler_position").attr("style","padding:10px;");
-
+		//$("#compiler_position").attr("style","padding:10px;");
+		$("#compiler_position").append("<br/>");
 		$("#compiler_position").append(prefix.compile_target);
 		$("#compiler_position").append("<br/><br/>");
 		$("#compiler_position").append(prefix.compile_parameter);

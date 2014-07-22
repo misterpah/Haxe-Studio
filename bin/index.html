@@ -78,34 +78,154 @@
 			},5000);
 		</script>
 
-	</head>
-	<body>
 
+	<script>
+	function right_part_content_show_tab(obj)
+		{
+		$("#right_part_buttons div").children().each(function(){$(this).removeClass("active")})
+		//$("#right_part_buttons div")
+		$("#right_part_content").children().each(function(){$(this).css("display","none")});
+		$(obj).addClass("active");
+		$("#"+$(obj).attr("data-refer")).css("display","block");
+		
+		}
+	</script>
 	
 	
-<div class="ui-layout-east" style="">
-		<div id="compiler_position">
-		</div>
-</div>
-<div id="content_position"  class="ui-layout-center ui-layout-wrapper"><div id='editor_position' ></div></div>
-<div class="ui-layout-west">
-	<div style="padding-left:10px;padding-top:10px;" id='tree_position'>
-		<p style="color:#ffffff" class="shadowme">Haxe Studio v<span class="hs_version"></span>
-			<br/>
-			===========<br/>
-			how to use Haxe Studio (correctly) : <br/>
-			<ol>
-				<li style="color:#ffffff">Create a New Project or Open Project. </li>
-				<li style="color:#ffffff">Then open the desired file(s)</li>
-			</ol>
-		</p>
-		</div>
-</div>	
+	
+	
+	
+	
 <script>
-/*
-<div class="ui-layout-south"><div id="bottom_position"></div></div>
-*/
-</script>
+// Load native UI library
+var gui = require('nw.gui');
+
+//Window Controls
+window.frame = gui.Window.get();
+
+//Additional properties for the window frame to match AppJS' window.frame.state
+window.frame.state = 'normal';
+
+
+//Event listeners to capture window state changes and record the state...
+//Available in AppJS, missing in node-webkit...
+window.frame.on('minimize', function(e){window.frame.state = 'minimized';});
+
+window.frame.on('maximize', function(e){window.frame.state = 'maximized'; window.frame.isMaximized = true;});
+
+window.frame.on('unmaximize', function(e){window.frame.state = 'normal'; window.frame.isMaximized = false;});
+
+window.frame.on('restore', function(e){window.frame.isMaximized ? window.frame.state = 'maximized' : window.frame.state = 'normal';});
+
+window.frame.on('enter-fullscreen', function(e){window.frame.state = 'fullscreen';});
+
+window.frame.on('leave-fullscreen', function(e){window.frame.isMaximized ? window.frame.state = 'maximized' : window.frame.state = 'normal';});
+
+//Manage window active state for styling...
+//As I post this in the node-webkit group, I'm not sure why I have both of these variants for active/inactive state
+window.frame.on('blur', function(e){window.frame.active = false; jQuery(document.body).addClass('inactive');});
+
+window.frame.on('focus', function(e){window.frame.active = true; jQuery(document.body).removeClass('inactive');});
+
+window.addEventListener('blur', function(e){window.frame.active = false; jQuery(document.body).addClass('inactive');});
+
+window.addEventListener('focus', function(e){window.frame.active = true; jQuery(document.body).removeClass('inactive');});
+
+//Helper function with logic to toggle the action of the maximize 
+//button between maximize and restore.
+var maximizeWindow = function(event){
+	switch(window.frame.state){
+		case 'maximized' :
+			window.frame.unmaximize();
+			$(document.body).removeClass('maximized');
+		break;
+		
+		case 'normal' :
+			window.frame.maximize();
+			$(document.body).addClass('maximized');
+		break;
+	};		
+};
+
+//Helper function with logic to toggle the action of the fullscreen 
+//button between fullscreen and restore.
+var fullscreenWindow = function(event){
+	switch(window.frame.state){
+		case 'fullscreen' :
+			window.frame.restore();
+			$(document.body).removeClass('fullscreen');
+		break;
+		
+		case 'normal' :
+			window.frame.fullscreen();
+			$(document.body).addClass('fullscreen');
+		break;
+	};		
+};
+
+</script>	
+	
+	
+	
+	
+	
+	</head>
+	<body style="overflow:hidden;">
+
+	<div class="row">
+		<div style="padding-right:0px;" class="col-md-3 right_part">
+			<div id="right_part_buttons" >
+				<div class="btn-group">
+				  <button onclick="right_part_content_show_tab($(this));"  data-refer="tree_position" type="button" class="btn btn-default btn-right-part active"><span class="glyphicon glyphicon-folder-open"></span></button>
+				  <button onclick="right_part_content_show_tab($(this));" data-refer="compiler_position" type="button" class="btn btn-default btn-right-part"><span class="glyphicon glyphicon-play"></span></button>
+				  <!--
+				  <button onclick="right_part_content_show_tab($(this));" data-refer="console_position" type="button" class="btn btn-default btn-right-part"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
+				  -->
+				</div>		
+			</div>		
+		
+			<div class="container">
+				<div id="right_part_content">
+
+					<div id='tree_position' style="display:block;">
+						<p style="color:#ffffff" class="shadowme">Haxe Studio v<span class="hs_version"></span>
+							<br/>
+							===========<br/>
+							how to use Haxe Studio (correctly) : <br/>
+							<ol>
+								<li style="color:#ffffff">Create a New Project or Open Project. </li>
+								<li style="color:#ffffff">Then open the desired file(s)</li>
+							</ol>
+							
+							<br/><br/><br/><br/><br/><br/>
+							<button type="button" class="btn btn-primary btn-block" onclick='Main.message.broadcast("core:FileMenu.newProject","index.html:button:right_part");'>Create New Project</button>
+							<br/>
+							<button type="button" class="btn btn-primary btn-block" onclick='Main.message.broadcast("core:FileMenu.openProject","index.html:button:right_part");'>Open Existing Project</button>
+							<br/>
+							<br/>
+							<button type="button" class="btn btn-warning btn-block" onclick='Main.message.broadcast("core:FileMenu.openFolder","index.html:button:right_part");'>Open Folder</button>							
+						</p>
+					</div>
+					
+					<div id='compiler_position' style="display:none;color:#ffffff">
+						<p>You haven't set the Project file!</p>
+					</div>					
+				
+					<div id='console_position' style="display:none;">
+						<p>Console will be here</p>
+					</div>
+				</div>
+			</div>
+		
+		
+		</div>		
+		
+		<div style="padding-left:0px;" class="col-md-9 left_part">
+			<div id="content_position"  class="ui-layout-center ui-layout-wrapper"><div id='editor_position' ></div></div>
+		</div>		
+		
+	</div>
+
 	
 	<div id='temp' style='display:none'></div>	
 	</body>
@@ -120,6 +240,31 @@
 			</script>
 
 			<script>
+/*
+<div class="ui-layout-east" style="">
+		<div id="compiler_position">
+		</div>
+</div>
+<div id="content_position"  class="ui-layout-center ui-layout-wrapper"><div id='editor_position' ></div></div>
+<div class="ui-layout-west">
+	<div style="padding-left:10px;padding-top:10px;" id='tree_position'>
+		<p style="color:#ffffff" class="shadowme">Haxe Studio v<span class="hs_version"></span>
+			<br>
+			===========<br>
+			how to use Haxe Studio (correctly) : <br>
+			<ol>
+				<li style="color:#ffffff">Create a New Project or Open Project. </li>
+				<li style="color:#ffffff">Then open the desired file(s)</li>
+			</ol>
+		</p>
+		</div>
+</div>
+*/
+			
+			
+			
+			
+			
 				$.getDocHeight = function () {
 				    return Math.max(
 				        $(document).height(),
@@ -132,7 +277,6 @@
 					
 
 					
-					
 				function center_has_been_resized()
 					{
 					Main.message.broadcast("core:center_resized","index");
@@ -141,7 +285,9 @@
 				var layout;
 				$(document).ready(function()
 					{
+					
 					$('a[data-toggle="context"]').contextmenu();
+					/*
 					layout = $('body').layout({ 
 						resizable:	true, 
 						applyDemoStyles: false,
@@ -157,12 +303,42 @@
 						west__onopen_end: "center_has_been_resized",
 						west__onclose_end: "center_has_been_resized"
 						});
-					
+					*/
 
 						Main.run_haxe_studio();
 						$("title").html( $("title").html() +" v"+Main.version); $(".hs_version").html(Main.version);
 						Utils.loadJS("./js/defaultMenu.js",function(){});
+						center_has_been_resized();
+						gui_resize();
+						
+						Main.message.listen("core:center_resized","index.html",function()
+							{
+							gui_resize();
+							});							
+							
+							
+						Main.message.listen("core:FileMenu.openFolder","index.html",function()
+							{
+							var folder = new ui.FolderDialog()
+							folder.show(function(path)
+								{
+								Main.session.project_folder = path;
+								Main.message.broadcast("core:FileMenu.openFolder.complete","index.html:button:openFolder");
+								});
+							});
 					});
+
+				gui.Window.get().on("resize",function(){gui_resize();});	
+				gui.Window.get().on("maximize",function(){gui_resize(); });
+				gui.Window.get().on("unmaximize",function(){gui_resize();});
+				gui.Window.get().on("restore",function(){gui_resize();});
+
+				function gui_resize()
+				{
+				$(".right_part").height($(window).height() +"px");
+				$("#right_part_content").height($(window).height() - $("#right_part_buttons").height()-64+"px");
+				}
+
 
 				// prevent drag & drop
 				document.body.addEventListener('dragover', function(e){
