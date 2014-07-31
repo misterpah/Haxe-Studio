@@ -60,9 +60,6 @@ plugin.misterpah.ProjectAccess.parse_project = function() {
 		return;
 	}
 	Utils.exec(["cd %CD% \"" + Main.session.project_folder + "\"",compiler],function(error,stdout,stderr) {
-		console.log(error);
-		console.log(stdout);
-		console.log(stderr);
 		if(error != null) {
 			notify(stderr,"danger");
 			Main.session.project_xml = "";

@@ -75,7 +75,7 @@ Main.__name__ = true;
 Main.main = function() {
 };
 Main.run_haxe_studio = function() {
-	Main.version = "0.3.8";
+	Main.version = "0.3.9";
 	Main.session = new Session();
 	Main.file_stack = new FileObject();
 	Main.message = new Message();
@@ -207,6 +207,8 @@ var Session = $hx_exports.Session = function() {
 	this.project_xml_parameter = "";
 	this.project_folder = "";
 	this.active_file = "";
+	this.js_loaded = [];
+	this.css_loaded = [];
 };
 Session.__name__ = true;
 var Std = function() { };
@@ -304,12 +306,11 @@ Utils.newFile = function(filename) {
 	Utils.fs.openSync(filename,"a+");
 };
 Utils.readFile = function(filename) {
-	var ret = Utils.fs.readFileSync(filename,"utf-8");
-	return ret;
+	return Utils.fs.readFileSync(filename,"utf-8");
 };
 Utils.saveFile = function(filename,content) {
 	Utils.fs.writeFileSync(filename,content);
-	console.log("SYSTEM: file saved " + filename);
+	console.log("file saved.");
 };
 Utils.isFile = function(filename) {
 	var stats = Utils.fs.statSync(filename);
@@ -328,10 +329,14 @@ Utils.readDir = function(path) {
 };
 Utils.loadJS = function(script,callback) {
 	$.ajaxSetup({ async : false});
-	$.getScript(script,callback(script));
+	$.getScript(script,function() {
+		Main.session.js_loaded.push(script);
+		callback(script);
+	});
 	$.ajaxSetup({ async : true});
 };
 Utils.loadCSS = function(css) {
+	Main.session.css_loaded.push(css);
 	new $("head").append("<link rel='stylesheet' type='text/css' href='" + css + "'/>");
 };
 Utils.repair_path = function(path) {

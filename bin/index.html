@@ -4,7 +4,9 @@
 		<title>Haxe Studio</title>
 		<meta charset="utf-8">
 		<script>tsort = require('gaia-tsort');</script>
+		<script>
 
+		</script>
 		<script src="./hs-config.js"></script>
 
 		
@@ -18,10 +20,6 @@
 		<script src="./js/jquery.layout-latest.js"></script>
 		<script src="./js/restify-server.js"></script>
 		<script src="./js/watch.min.js"></script>
-		
-		
-		
-		
 		
 		
 		<script src="./js/node.dir.walker.js"></script>
@@ -61,7 +59,6 @@
 		<script src="./js/less.min.js"></script>
 
 		<script>
-		
 		var root = path.resolve("../");
 		localStorage.clear();
 		$("body").on("plugin_loaded",function()
@@ -80,14 +77,14 @@
 
 
 	<script>
-	function right_part_content_show_tab(obj)
+	function option_position_content_show_tab(obj)
 		{
-		$("#right_part_buttons div").children().each(function(){$(this).removeClass("active")})
+		$("#option_position_buttons div").children().each(function(){$(this).removeClass("active")})
 		//$("#right_part_buttons div")
-		$("#right_part_content").children().each(function(){$(this).css("display","none")});
+		$("#option_position_content").children().each(function(){$(this).css("display","none")});
 		$(obj).addClass("active");
 		$("#"+$(obj).attr("data-refer")).css("display","block");
-		
+		Main.message.broadcast("core:option_position_button:"+$(obj).attr("data-refer"),"core:index.html");
 		}
 	</script>
 	
@@ -109,13 +106,13 @@ window.frame.state = 'normal';
 
 //Event listeners to capture window state changes and record the state...
 //Available in AppJS, missing in node-webkit...
-window.frame.on('minimize', function(e){window.frame.state = 'minimized';});
+window.frame.on('minimize', function(e){Main.message.broadcast("core:center_resized","index");window.frame.state = 'minimized';});
 
-window.frame.on('maximize', function(e){window.frame.state = 'maximized'; window.frame.isMaximized = true;});
+window.frame.on('maximize', function(e){Main.message.broadcast("core:center_resized","index");window.frame.state = 'maximized'; window.frame.isMaximized = true;});
 
-window.frame.on('unmaximize', function(e){window.frame.state = 'normal'; window.frame.isMaximized = false;});
+window.frame.on('unmaximize', function(e){Main.message.broadcast("core:center_resized","index");window.frame.state = 'normal'; window.frame.isMaximized = false;});
 
-window.frame.on('restore', function(e){window.frame.isMaximized ? window.frame.state = 'maximized' : window.frame.state = 'normal';});
+window.frame.on('restore', function(e){Main.message.broadcast("core:center_resized","index");window.frame.isMaximized ? window.frame.state = 'maximized' : window.frame.state = 'normal';});
 
 window.frame.on('enter-fullscreen', function(e){window.frame.state = 'fullscreen';});
 
@@ -123,9 +120,9 @@ window.frame.on('leave-fullscreen', function(e){window.frame.isMaximized ? windo
 
 //Manage window active state for styling...
 //As I post this in the node-webkit group, I'm not sure why I have both of these variants for active/inactive state
-window.frame.on('blur', function(e){window.frame.active = false; jQuery(document.body).addClass('inactive');});
+window.frame.on('blur', function(e){Main.message.broadcast("core:center_resized","index");window.frame.active = false; jQuery(document.body).addClass('inactive');});
 
-window.frame.on('focus', function(e){window.frame.active = true; jQuery(document.body).removeClass('inactive');});
+window.frame.on('focus', function(e){Main.message.broadcast("core:center_resized","index");window.frame.active = true; jQuery(document.body).removeClass('inactive');});
 
 window.addEventListener('blur', function(e){window.frame.active = false; jQuery(document.body).addClass('inactive');});
 
@@ -173,11 +170,11 @@ var fullscreenWindow = function(event){
 	<body style="overflow:hidden;">
 
 	<div class="row">
-		<div style="padding-right:0px;" class="col-md-3 right_part">
-			<div id="right_part_buttons" >
+		<div style="padding-right:0px;" class="col-md-3 option_position">
+			<div id="option_position_buttons" class="option_position_buttons">
 				<div class="btn-group">
-				  <button onclick="right_part_content_show_tab($(this));"  data-refer="tree_position" type="button" class="btn btn-default btn-right-part active"><span class="glyphicon glyphicon-folder-open"></span></button>
-				  <button onclick="right_part_content_show_tab($(this));" data-refer="compiler_position" type="button" class="btn btn-default btn-right-part"><span class="glyphicon glyphicon-play"></span></button>
+				  <button onclick="option_position_content_show_tab($(this));"  data-refer="tree_position" type="button" class="btn btn-default btn_option_position active"><span class="glyphicon glyphicon-folder-open"></span></button>
+				  <button onclick="option_position_content_show_tab($(this));" data-refer="compiler_position" type="button" class="btn btn-default btn_option_position"><span class="glyphicon glyphicon-play"></span></button>
 				  <!--
 				  <button onclick="right_part_content_show_tab($(this));" data-refer="console_position" type="button" class="btn btn-default btn-right-part"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
 				  -->
@@ -185,10 +182,14 @@ var fullscreenWindow = function(event){
 			</div>		
 		
 			<div class="container">
-				<div id="right_part_content">
-
+				<div id="option_position_content" class="option_position_content">
+				
 					<div id='tree_position' style="display:block;">
-						<p style="color:#ffffff" class="shadowme">Haxe Studio v<span class="hs_version"></span>
+						
+						<p style="color:#ffffff" class="shadowme">
+							<!--
+							Haxe Studio v<span class="hs_version"></span>
+							
 							<br/>
 							===========<br/>
 							how to use Haxe Studio (correctly) : <br/>
@@ -197,14 +198,16 @@ var fullscreenWindow = function(event){
 								<li style="color:#ffffff">Then open the desired file(s)</li>
 							</ol>
 							
-							<br/><br/><br/><br/><br/><br/>
+							<br/><br/>
+							-->
+							<br/>
 							<button type="button" class="btn btn-primary btn-block" onclick='Main.message.broadcast("core:FileMenu.newProject","index.html:button:right_part");'>Create New Project</button>
 							<br/>
 							<button type="button" class="btn btn-primary btn-block" onclick='Main.message.broadcast("core:FileMenu.openProject","index.html:button:right_part");'>Open Existing Project</button>
 							<br/>
-							<br/>
 							<button type="button" class="btn btn-warning btn-block" onclick='Main.message.broadcast("core:FileMenu.openFolder","index.html:button:right_part");'>Open Folder</button>							
 						</p>
+						
 					</div>
 					
 					<div id='compiler_position' style="display:none;color:#ffffff">
@@ -216,14 +219,17 @@ var fullscreenWindow = function(event){
 					</div>
 				</div>
 			</div>
-		
-		
 		</div>		
 		
-		<div style="padding-left:0px;" class="col-md-9 left_part">
-			<div id="content_position"  class="ui-layout-center ui-layout-wrapper"><div id='editor_position' ></div></div>
+		<div style="padding-left:0px;" class="col-md-9 content_position">
+			<div id="content_position"  class="ui-layout-center ui-layout-wrapper">
+				<div id='editor_position' ></div>
+			</div>
+		</div>
+		<div style="padding-left:0px;" class="col-md-9 content_status_position">
+			<br/>
+			<div style="overflow:auto;color:#ffffff;width:100%;" id='inspector_position' ></div>
 		</div>		
-		
 	</div>
 
 	
@@ -239,40 +245,7 @@ var fullscreenWindow = function(event){
 
 			</script>
 
-			<script>
-/*
-<div class="ui-layout-east" style="">
-		<div id="compiler_position">
-		</div>
-</div>
-<div id="content_position"  class="ui-layout-center ui-layout-wrapper"><div id='editor_position' ></div></div>
-<div class="ui-layout-west">
-	<div style="padding-left:10px;padding-top:10px;" id='tree_position'>
-		<p style="color:#ffffff" class="shadowme">Haxe Studio v<span class="hs_version"></span>
-			<br>
-			===========<br>
-			how to use Haxe Studio (correctly) : <br>
-			<ol>
-				<li style="color:#ffffff">Create a New Project or Open Project. </li>
-				<li style="color:#ffffff">Then open the desired file(s)</li>
-			</ol>
-		</p>
-		</div>
-</div>
-*/
-			
-			
-			
-			
-			
-				$.getDocHeight = function () {
-				    return Math.max(
-				        $(document).height(),
-				        $(window).height(),
-				        document.documentElement.clientHeight
-				    );
-				};
-							
+			<script>		
 
 					
 
@@ -287,56 +260,46 @@ var fullscreenWindow = function(event){
 					{
 					
 					$('a[data-toggle="context"]').contextmenu();
-					/*
-					layout = $('body').layout({ 
-						resizable:	true, 
-						applyDemoStyles: false,
-						north__spacing_open: 0, // north can't be resized
-						north__size:32,
-						south__size:0.2,
-						west__size:0.15,
-						east__size:0.15,
-						south__close:true,
-						south__initClosed:true,
-						center__onresize_end: "center_has_been_resized",
-						west__onresize_end: "center_has_been_resized",
-						west__onopen_end: "center_has_been_resized",
-						west__onclose_end: "center_has_been_resized"
-						});
-					*/
-
-						Main.run_haxe_studio();
-						$("title").html( $("title").html() +" v"+Main.version); $(".hs_version").html(Main.version);
-						Utils.loadJS("./js/defaultMenu.js",function(){});
-						center_has_been_resized();
-						gui_resize();
+					Main.run_haxe_studio();
+					$("title").html( $("title").html() +" v"+Main.version); $(".hs_version").html(Main.version);
+					Utils.loadJS("./js/defaultMenu.js",function(){});
+					center_has_been_resized();
+					gui_resize();
 						
-						Main.message.listen("core:center_resized","index.html",function()
+					Main.message.listen("core:center_resized","index.html",function()
+						{
+						gui_resize();
+						});							
+						
+						
+					Main.message.listen("core:FileMenu.openFolder","index.html",function()
+						{
+						var folder = new ui.FolderDialog()
+						folder.show(function(path)
 							{
-							gui_resize();
-							});							
-							
-							
-						Main.message.listen("core:FileMenu.openFolder","index.html",function()
-							{
-							var folder = new ui.FolderDialog()
-							folder.show(function(path)
-								{
-								Main.session.project_folder = path;
-								Main.message.broadcast("core:FileMenu.openFolder.complete","index.html:button:openFolder");
-								});
+							Main.session.project_folder = path;
+							Main.message.broadcast("core:FileMenu.openFolder.complete","index.html:button:openFolder");
 							});
+						});
+						
+
+
+					$(".content_status_position").removeClass("col-md-9")
+					$(".content_status_position").addClass("col-md-"+config.content_status_position_width);
+					
+					
+					$(".content_position").removeClass("col-md-9")
+					$(".content_position").addClass("col-md-"+config.content_position_width);
+					$(".option_position").removeClass("col-md-3")
+					$(".option_position").addClass("col-md-"+config.option_position_width);					
+					
 					});
-
-				gui.Window.get().on("resize",function(){gui_resize();});	
-				gui.Window.get().on("maximize",function(){gui_resize(); });
-				gui.Window.get().on("unmaximize",function(){gui_resize();});
-				gui.Window.get().on("restore",function(){gui_resize();});
-
 				function gui_resize()
 				{
-				$(".right_part").height($(window).height() +"px");
-				$("#right_part_content").height($(window).height() - $("#right_part_buttons").height()-64+"px");
+				$(".option_position").height($(window).height() +"px");
+				$("#inspector_position").height($(window).height()-20 +"px");
+				//$("#option_position_content").height($(window).height() - $("#right_part_buttons").height()-74+"px");
+				$("#option_position_content").height($(window).height()  -80 +"px");
 				}
 
 
@@ -351,4 +314,5 @@ var fullscreenWindow = function(event){
 			
 	
 </html>
+
 

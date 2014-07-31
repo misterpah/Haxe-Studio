@@ -58,7 +58,7 @@ import js.Browser;
 
 	static private function openFileDirectly(event:Dynamic,path:String):Void
 	{
-	trace("open directly detected. redirected to plugin.misterpah.FileAccess.openFileHandler");
+	//trace("open directly detected. redirected to plugin.misterpah.FileAccess.openFileHandler");
 	//trace(path);
     path = untyped fs.realpathSync(path);
 	openFileHandler(path,false);
@@ -68,7 +68,7 @@ import js.Browser;
     {
 		//path = untyped Utils.repair_path(path);
 		path = untyped fs.realpathSync(path);
-		trace("open file : " + path);
+		//trace("open file : " + path);
 
         var find = Main.file_stack.find(path);
         if (find[0] == "null" || find[0] == "not found")

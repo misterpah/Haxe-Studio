@@ -37,14 +37,12 @@ plugin.misterpah.FileAccess.open_file = function() {
 	filedialog.show(plugin.misterpah.FileAccess.openFileHandler);
 };
 plugin.misterpah.FileAccess.openFileDirectly = function(event,path) {
-	console.log("open directly detected. redirected to plugin.misterpah.FileAccess.openFileHandler");
 	path = fs.realpathSync(path);
 	plugin.misterpah.FileAccess.openFileHandler(path,false);
 };
 plugin.misterpah.FileAccess.openFileHandler = function(path,newFile) {
 	if(newFile == null) newFile = false;
 	path = fs.realpathSync(path);
-	console.log("open file : " + path);
 	var find = Main.file_stack.find(path);
 	if(find[0] == "null" || find[0] == "not found") {
 		var content = Utils.readFile(path);

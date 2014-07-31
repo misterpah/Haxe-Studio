@@ -5,7 +5,10 @@ var sub1 = new gui.Menu();
 var FileMenu = new gui.Menu();
 var ToolsMenu = new gui.Menu();
 var HelpMenu = new gui.Menu();
+FileMenu.append(build_menuitem("Open Folder","core:FileMenu.openFolder","Ctrl+Shift+F"));
+$.keyStroke( 70, { modKeys: ['ctrlKey','shiftKey'] }, function(){  Main.message.broadcast("core:FileMenu.openProject","shortcut_key",null); }); // CTRL + SHIFT + F
 
+FileMenu.append(build_seperator());
 FileMenu.append(build_menuitem("New Project","core:FileMenu.newProject","Ctrl+Shift+N"));
 $.keyStroke( 78, { modKeys: ['ctrlKey','shiftKey'] }, function(){  Main.message.broadcast("core:FileMenu.openProject","shortcut_key",null); }); // CTRL + SHIFT + N
 

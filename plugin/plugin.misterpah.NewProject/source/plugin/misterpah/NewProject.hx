@@ -15,7 +15,7 @@ import js.Browser;
 	
 	private static function create_new_project():Void
 	{
-	new_project_window = untyped gui.Window.open("../plugin/plugin.misterpah.NewProject/bin/newProject.html",{title:"Create New Project",focus:true,nodejs:true,min_width:1024,min_height:500,toolbar:true});
+	new_project_window = untyped gui.Window.open("../plugin/plugin.misterpah.NewProject/bin/newProject.html",{title:"Create New Project",focus:true,nodejs:true,min_width:1024,min_height:500,toolbar:false});
 	untyped __js__("plugin.misterpah.NewProject.new_project_window.on('plugin.misterpah.NewProject:project_created', function(path,folder,name){console.dir(path + Utils.path.sep +folder + Utils.path.sep + name); Main.session.project_xml = path + Utils.path.sep + folder +Utils.path.sep + name; plugin.misterpah.NewProject.new_project_window.close(); Main.message.broadcast('plugin.misterpah.ProjectAccess:open_project_auto');})");
 	
 	

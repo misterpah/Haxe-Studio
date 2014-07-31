@@ -29,15 +29,14 @@ import haxe.macro.Expr;
 
 	public static function readFile(filename:String):String
     	{
-		var ret = fs.readFileSync(filename,"utf-8");
-		return ret;
+		return fs.readFileSync(filename,"utf-8");
     	}
 
 
 	public static function saveFile(filename:String, content:String):Void
     	{
 		fs.writeFileSync(filename, content);
-		trace("SYSTEM: file saved "+filename);
+		trace("file saved.");
     	}
     
 	public static function isFile(filename:String):Bool
@@ -77,12 +76,14 @@ import haxe.macro.Expr;
 	public static function loadJS(script:String,callback:Dynamic):Void
 		{
 		JQueryStatic.ajaxSetup({async:false});
-		JQueryStatic.getScript(script,callback(script));
+		untyped $.getScript(script,function(){Main.session.js_loaded.push(script);callback(script);});
+		//JQueryStatic.getScript(script,function(){/*Main.session.js_loaded.push(script);callback(script);*/});
 		JQueryStatic.ajaxSetup({async:true});
 		}
 		
 	public static function loadCSS(css:String):Void
 		{
+		Main.session.css_loaded.push(css);
 		new JQuery("head").append("<link rel='stylesheet' type='text/css' href='"+css+"'/>");
 		}
 		

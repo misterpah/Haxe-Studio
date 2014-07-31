@@ -21,6 +21,8 @@ plugin.misterpah.CodemirrorEditor.main = function() {
 plugin.misterpah.CodemirrorEditor.create_ui = function() {
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/lib/codemirror.js",function() {
 	});
+	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/selection/active-line.js",function() {
+	});
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/search/searchcursor.js",function() {
 	});
 	Utils.loadJS(plugin.misterpah.CodemirrorEditor.plugin_path() + plugin.misterpah.CodemirrorEditor.cm_folder + "/addon/search/search.js",function() {

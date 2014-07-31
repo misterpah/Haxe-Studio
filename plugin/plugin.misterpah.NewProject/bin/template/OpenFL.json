@@ -6,6 +6,6 @@
 "parameter" : { 
 	"ProjectName":"HelloWorld"
 	},
-"command": "lime create openfl:project %ProjectName%",
+"command": "haxelib run lime create openfl:project %ProjectName%",
 "projectFile":"project.xml"
 }

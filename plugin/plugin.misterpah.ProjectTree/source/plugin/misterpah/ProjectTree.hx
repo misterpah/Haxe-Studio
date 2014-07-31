@@ -16,25 +16,6 @@ import js.Browser;
 	{
 	return "../plugin/" + Type.getClassName(ProjectTree) +"/bin";
 	}
-    
-	public function  (  )
-	{
-		
-	}
-	
-	private function  (  )
-	{
-		
-	}
-	
-	static private function  (  )
-	{
-		
-	}
-	
-	:spf:
-
-
 
 
 	static public function register_listener():Void

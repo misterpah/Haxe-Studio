@@ -10,7 +10,7 @@
 	prefix.shortform = false;
 	// theme config.theme;
 	Utils.loadCSS(prefix.plugin_path() + prefix.cm_folder +"/theme/"+config.theme+".css");
-	
+
 	$("body").append("<style>.CodeMirror-dialog-top { position:absolute;right:0px;}</style>");
 	$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_tab'><ul class='nav nav-tabs'></ul></div>");
 	$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_editor'><textarea id='cm_textarea'></textarea></div>");
@@ -32,6 +32,7 @@
 			viewportMargin: Infinity,
 			/*matchBrackets:true,
 			autoCloseBrackets:true,*/
+			styleActiveLine: true,
 			foldCode:true,
 			foldGutter:true,
 			styleActiveLine:true,
@@ -47,6 +48,161 @@
         }			
 	*/
 	
+	
+	
+// ---------------------------------------------------------------------------------------------------------------------------------	
+// ---------------------------------------------------------------------------------------------------------------------------------
+// BLOCK : Codemirror Haxe Lexer
+// ---------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------
+	
+	// add button to options
+	//$("#option_position_buttons div").append('<button onclick="option_position_content_show_tab($(this));"  data-refer="inspector_position" type="button" class="btn btn-default btn_option_position"><span class="glyphicon glyphicon-book"></span></button>');
+	//$("#option_position_content").append('<div id="inspector_position" style="display:none;color:#ffffff;"><p>inspector were here</p></div>');
+
+
+
+	prefix.gotoline = function(line)
+		{
+		prefix.cm.setCursor(CodeMirror.Pos(line,0));
+		};
+
+	
+	Main.message.listen("core:option_position_button:inspector_position","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",function(){
+		prefix.lexer_object = [];
+		prefix.lexer_line = 0;
+		var obj = prefix.Lex();
+		var len = obj.length;
+		$("#inspector_position").html("");
+		var level = 0;
+		var prev_type = "";
+		var level_prefix = "";
+		$("#inspector_position").append(Main.session.active_file.split(Utils.path.sep).pop()+"<br/>");
+		for (var i = 0; i < len; i++)
+			{
+			var each = prefix.lexer_object[i];
+			if (each.type == "class")
+				{
+				level = 1;
+				level_prefix = '<span class="label label-primary">C</span>';
+				}
+			else if (each.type == "function")
+				{
+				level = 1;
+				level_prefix = '<span class="label label-warning">F</span>';
+				}				
+			else if (each.type == "variable")
+				{
+				level = 2;
+				level_prefix = '<span class="label label-success">V</span>';
+				}
+			else if (each.type == "typedef")
+				{
+				level = 1;
+				level_prefix = '<span class="label label-primary">T</span>';
+				}					
+			var level_prefix2 = "";
+			for (var j = 0;j< level;j++)
+				{
+				level_prefix2 += "&nbsp;&nbsp;&nbsp;&nbsp;";
+				}
+			level_prefix = level_prefix2 +level_prefix;
+			
+			var data = each.data;
+			
+			if (data.indexOf("=") >-1)
+				{
+				data = data.split("=")[0];
+				}
+			if (data.indexOf("(") >-1)
+				{
+				data = data.split("(")[0];
+				}	
+				
+				
+			if (data.indexOf("var ") >-1)
+				{
+				data = data.replace("var "," ");
+				}	
+			if (data.indexOf("class ") >-1)
+				{
+				data = data.replace("class "," ");
+				}							
+			if (data.indexOf("{") >-1)
+				{
+				data = data.replace("{","");
+				}											
+						
+			if (data.indexOf("typedef ") >-1)
+				{
+				data = data.replace("typedef "," ");
+				}					
+			if (data.indexOf("function ") >-1)
+				{
+				data = data.replace("function "," ");
+				}				
+			if (data.indexOf("public") >-1)
+				{
+				data = data.replace("public",'<span class="label label-primary">Public</span> ');
+				}						
+			if (data.indexOf("private") >-1)
+				{
+				data = data.replace("private",'<span class="label label-default">Private</span> ');
+				}
+			if (data.indexOf("macro ") >-1)
+				{
+				data = data.replace("macro ",'<span class="label label-danger">Macro</span> ');
+				}																						
+
+				
+							
+			$("#inspector_position").append(""+level_prefix+" <a onclick='plugin.misterpah.CodemirrorEditor.gotoline("+each.line+");'>"+data+"</a><br/>")
+			}
+		});
+	prefix.Lex = function()
+	{
+		var loop = true;
+		prefix.lexer_line = 0;
+		while (loop)
+			{
+			var input = prefix.cm.getLine(prefix.lexer_line);
+			//console.dir(input);
+			if (input == undefined | input == null)
+				{
+				loop = false;
+				continue;
+				}
+			if(input.match(/(.*)var\s(.*)?(=|;)/))
+				{
+				prefix.lexer_object.push({"type":"variable","data":input.match(/(.*)var\s(.*)?(=|;)/)[0],"line":prefix.lexer_line});
+				}
+			else if(input.match(/(.*)function(.*)/))
+				{
+				prefix.lexer_object.push({"type":"function","data":input.match(/(.*)function(.*)/)[0],"line":prefix.lexer_line});
+				}
+			else if(input.match(/(.*)class(.*)?(\n|{)/))
+				{
+				prefix.lexer_object.push({"type":"class","data":input.match(/(.*)class(.*)?(\n|{)/)[0],"line":prefix.lexer_line});
+				}				
+			else if(input.match(/(.*)typedef\s(.*)?(=|;)/))
+				{
+				prefix.lexer_object.push({"type":"typedef","data":input.match(/(.*)typedef\s(.*)?(=|;)/)[0],"line":prefix.lexer_line});
+				}				
+			prefix.lexer_line += 1;
+			}
+		return prefix.lexer_object;
+	}
+	
+// ---------------------------------------------------------------------------------------------------------------------------------	
+// ---------------------------------------------------------------------------------------------------------------------------------
+// BLOCK : Codemirror Haxe Lexer END
+// ---------------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
+	
 	CodeMirror.registerHelper("lint", "haxe");
 
 	CodeMirror.commands.anywordCompletion = function(cm) {
@@ -54,6 +210,8 @@
 		cm.showHint({hint: prefix.anywordHint});
 	};
 	
+
+
 	
 	
 	
@@ -132,7 +290,7 @@
 	
 		var trigger_anywordHint_only_when_see_this = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\t";
 
-		console.log(trigger_anywordHint_only_when_see_this.search(char));
+		//console.log(trigger_anywordHint_only_when_see_this.search(char));
 		if (prefix.anywordHint_opened === false && trigger_anywordHint_only_when_see_this.search(char) > -1)
 			{
 			prefix.cursor_position = pos_minus1;
@@ -270,6 +428,9 @@
 	
 	
 	
+
+	
+	
 	
 	prefix.create_inline_hint = function (line, msg)
 		{
@@ -334,7 +495,7 @@
 	// show tab and set it as active file
 	prefix.show_me_tab = function (name,mode)
 		{
-		console.log(name);
+		//console.log(name);
 		display_buffer(name);
 		
 		// makes the active tab not-active
@@ -344,6 +505,8 @@
 		$("#plugin_misterpah_CodemirrorEditor_tab a[data-path='"+name+"']").parent().addClass("active");
 
 		Main.session.active_file = decodeURIComponent(name);	
+
+		Main.message.broadcast("core:option_position_button:inspector_position","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
 
 		// resize codemirror to ensure size is correct
 		Main.message.broadcast("core:center_resized","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
@@ -437,6 +600,7 @@
 
 		// always broadcast event after function complete. this will encourage people to expand this plugin
 		Main.message.broadcast("plugin.misterpah.CodemirrorEditor:file_displayed.complete","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
+		
 	});
 	
 	
@@ -600,6 +764,8 @@
 	
 	
 	
+
+	
 	
 	
 	prefix.scanWordsInEditor = function()
@@ -704,6 +870,8 @@
 				}
 			catch(err)
 				{
+				console.dir(p1);
+				console.dir(p2);
 				console.error('malformed code. halt completion.');
 				console.error(err);
 				}			
