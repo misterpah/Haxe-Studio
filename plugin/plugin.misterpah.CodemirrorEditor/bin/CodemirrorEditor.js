@@ -88,12 +88,12 @@
 				}
 			else if (each.type == "function")
 				{
-				level = 1;
+				level = 2;
 				level_prefix = '<span class="label label-warning">F</span>';
 				}				
 			else if (each.type == "variable")
 				{
-				level = 2;
+				level = 3;
 				level_prefix = '<span class="label label-success">V</span>';
 				}
 			else if (each.type == "typedef")
@@ -156,7 +156,7 @@
 
 				
 							
-			$("#inspector_position").append(""+level_prefix+" <a onclick='plugin.misterpah.CodemirrorEditor.gotoline("+each.line+");'>"+data+"</a><br/>")
+			$("#inspector_position").append(""+level_prefix+" <a href='#' onclick='plugin.misterpah.CodemirrorEditor.gotoline("+each.line+");'>"+data+"</a><br/>")
 			}
 		});
 	prefix.Lex = function()

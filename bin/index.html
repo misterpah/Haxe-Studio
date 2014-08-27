@@ -175,9 +175,7 @@ var fullscreenWindow = function(event){
 				<div class="btn-group">
 				  <button onclick="option_position_content_show_tab($(this));"  data-refer="tree_position" type="button" class="btn btn-default btn_option_position active"><span class="glyphicon glyphicon-folder-open"></span></button>
 				  <button onclick="option_position_content_show_tab($(this));" data-refer="compiler_position" type="button" class="btn btn-default btn_option_position"><span class="glyphicon glyphicon-play"></span></button>
-				  <!--
-				  <button onclick="right_part_content_show_tab($(this));" data-refer="console_position" type="button" class="btn btn-default btn-right-part"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
-				  -->
+				  <button onclick="option_position_content_show_tab($(this));" data-refer="console_position" type="button" class="btn btn-default btn_option_position"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
 				</div>		
 			</div>		
 		
@@ -294,6 +292,7 @@ var fullscreenWindow = function(event){
 					$(".option_position").addClass("col-md-"+config.option_position_width);					
 					
 					});
+					
 				function gui_resize()
 				{
 				$(".option_position").height($(window).height() +"px");

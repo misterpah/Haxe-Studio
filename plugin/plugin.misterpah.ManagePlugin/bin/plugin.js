@@ -14,7 +14,7 @@ plugin.misterpah.ManagePlugin.main = function() {
 	plugin.misterpah.ManagePlugin.register_listener();
 };
 plugin.misterpah.ManagePlugin.function_page_index = function() {
-	plugin.misterpah.ManagePlugin.window_index = gui.Window.open("../plugin/plugin.misterpah.ManagePlugin/bin/index.html",{ title : "Manage Plugin", focus : true, nodejs : true, min_width : 1024, min_height : 500, toolbar : true});
+	plugin.misterpah.ManagePlugin.window_index = gui.Window.open("../plugin/plugin.misterpah.ManagePlugin/bin/index.html",{ title : "Manage Plugin", focus : true, nodejs : true, min_width : 1024, min_height : 500, toolbar : false});
 };
 plugin.misterpah.ManagePlugin.register_listener = function() {
 	Main.message.listen("core:ToolsMenu.managePlugin","plugin.misterpah.ManagePlugin",plugin.misterpah.ManagePlugin.function_page_index);

@@ -42,11 +42,19 @@ Main.message.listen("core:FileMenu.exit","menu",function(){
 
 ToolsMenu.append(build_menuitem("Manage Plugin","core:ToolsMenu.managePlugin",""));
 
+
+ToolsMenu.append(build_menuitem("Configure Haxe Studio","core:ToolsMenu.configureHS",""));
+Main.message.listen("core:ToolsMenu.configureHS","menu",function(){
+	Main.message.broadcast("plugin.misterpah.FileAccess:OpenFileDirectly","menu","./hs-config.js");
+});
+
+
+
 ToolsMenu.append(build_menuitem("Developer Console","core:ToolsMenu.developerTools",""));
 Main.message.listen("core:ToolsMenu.developerTools","menu",function(){
 	gui.Window.get().showDevTools();
 });
-
+ToolsMenu.append(build_seperator());
 ToolsMenu.append(build_menuitem("Restart HaxeStudio","core:ToolsMenu.ReloadHaxeStudio",""));
 Main.message.listen("core:ToolsMenu.ReloadHaxeStudio","menu",function(){
 	hs_reload();
