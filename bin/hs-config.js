@@ -14,8 +14,8 @@ try
 	
 	// all of this must sums up to 12
 	config.option_position_width=3; // a.k.a. the left panel
-	config.content_position_width=6; // a.k.a. the editor
-	config.content_status_position_width=3; // a.k.a. the right panel
+	config.content_position_width=7; // a.k.a. the editor
+	config.content_status_position_width=2; // a.k.a. the right panel
 	}
 
 

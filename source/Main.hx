@@ -18,7 +18,7 @@ import jQuery.*;
 
 	static public function run_haxe_studio():Void
 		{
-		version = "0.3.9";
+		version = "0.4.0";
 		session = new Session();
 		file_stack = new FileObject();
 		message = new Message();

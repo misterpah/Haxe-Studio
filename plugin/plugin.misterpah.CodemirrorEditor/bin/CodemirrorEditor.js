@@ -35,7 +35,6 @@
 			styleActiveLine: true,
 			foldCode:true,
 			foldGutter:true,
-			styleActiveLine:true,
 			showCursorWhenSelecting: true,
 			extraKeys: {
 				"Ctrl-Space": "anywordCompletion"
@@ -515,20 +514,65 @@
 	
 	prefix.close_this_tab = function (obj)
 	{
+		var want_to_close = $(obj).attr("data-path");
+		var list_of_tab = [];
+		$("#plugin_misterpah_CodemirrorEditor_tab ul li div").each(
+				function(){
+					list_of_tab.push( $(this).children().attr("data-path") );
+				}
+			);
+		var tab_length = $("#plugin_misterpah_CodemirrorEditor_tab ul li").length;
+		var want_to_close_index = list_of_tab.indexOf(want_to_close);
+		
+		console.log(list_of_tab);
+		
+		var open_this_tab_next = "";
+		console.log(want_to_close_index);
+		
+		if (want_to_close_index - 1 > 0)
+		{
+			open_this_tab_next = list_of_tab[want_to_close_index -1];
+		}
+		else if (want_to_close_index === 0)
+		{
+			open_this_tab_next = list_of_tab[1];
+		}
+		else
+		{
+			open_this_tab_next = list_of_tab[0];	
+		}
+		
+		
+		//console.log(open_this_tab_next);
+
+		prefix.show_me_tab(want_to_close);
+		Main.message.broadcast("core:FileMenu.closeFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
+		prefix.show_me_tab(open_this_tab_next);
+		
+		
+		
+		
+		/*
 	//console.dir($(obj).attr("data-path"));
 	var previous_active = encodeURIComponent(Main.session.active_file);
+	
 	var want_to_close = $(obj).attr("data-path");
 	
 	prefix.show_me_tab(want_to_close);
 	Main.message.broadcast("core:FileMenu.closeFile","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js");
 
+		
+	// open the next-to or previous-to object.
 	if (previous_active != want_to_close)
 		{
+			
+		//console.log(previous_active);
 		//console.log(previous_active);
 		//console.log(want_to_close);
 		//prefix.show_me_tab(previous_active);
 		}
-	}
+		*/
+	};
 	
 
 	// save changes made into the Main.file_stack before saving it
@@ -593,7 +637,7 @@
 		if (not_opened_yet === true)
 			{
 			hs_console("open : "+filename);
-			$("#plugin_misterpah_CodemirrorEditor_tab ul").append("<li><a onclick='plugin.misterpah.CodemirrorEditor.show_me_tab(\""+encodeURIComponent(filename)+"\",\""+mode+"\");' data-path='"+ encodeURIComponent(filename)+"'>"+file_obj[2] +"."+ext+"&nbsp;&nbsp;<span onclick='plugin.misterpah.CodemirrorEditor.close_this_tab($(this));' class='status_icon glyphicon glyphicon-remove-circle' data-path='"+ encodeURIComponent(filename)+"'></span></a></li>");
+			$("#plugin_misterpah_CodemirrorEditor_tab ul").append("<li><div><a onclick='plugin.misterpah.CodemirrorEditor.show_me_tab(\""+encodeURIComponent(filename)+"\",\""+mode+"\");' data-path='"+ encodeURIComponent(filename)+"'>"+file_obj[2] +"."+ext+"</a>&nbsp;&nbsp;<span onclick='plugin.misterpah.CodemirrorEditor.close_this_tab($(this));' class='status_icon glyphicon glyphicon-remove-circle' data-path='"+ encodeURIComponent(filename)+"'></span></div></li>");
 			}
 		// display the tab
 		prefix.show_me_tab(encodeURIComponent(filename),mode);
