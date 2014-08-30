@@ -85,11 +85,13 @@
 				level = 1;
 				level_prefix = '<span class="label label-primary">C</span>';
 				}
+				
 			else if (each.type == "function")
 				{
 				level = 2;
 				level_prefix = '<span class="label label-warning">F</span>';
-				}		
+				}
+				
 			else if (each.type == "variable")
 				{
 				level = 3;
@@ -121,7 +123,14 @@
 				{
 				data = data.split(":")[0];
 				}						
-				
+			if (data.indexOf("extends") >-1)
+				{
+				data = data.split("extends")[0];
+				}	
+			if (data.indexOf(";") >-1)
+				{
+				data = data.split(";")[0];
+				}									
 				
 			if (data.indexOf("var ") >-1)
 				{
@@ -154,7 +163,7 @@
 				}
 			if (data.indexOf("static") >-1)
 				{
-				data = data.replace("static",'<span class="label label-danger">S</span> ');
+				data = data.replace("static",'<span class="label label-default">S</span> ');
 				}										
 			if (data.indexOf("macro ") >-1)
 				{
@@ -163,7 +172,7 @@
 			if (data.indexOf("override") >-1)
 				{
 				data = data.replace("override",'<span class="label label-danger">Ovr</span> ');
-				}																										
+				}																															
 
 				
 			

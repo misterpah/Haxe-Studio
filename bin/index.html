@@ -97,71 +97,6 @@
 var gui = require('nw.gui');
 window.onresize = function(){Main.message.broadcast("core:center_resized","index");};
 
-
-/*
-//Window Controls
-window.frame = gui.Window.get();
-
-//Additional properties for the window frame to match AppJS' window.frame.state
-window.frame.state = 'normal';
-
-
-//Event listeners to capture window state changes and record the state...
-//Available in AppJS, missing in node-webkit...
-window.frame.on('minimize', function(e){Main.message.broadcast("core:center_resized","index");window.frame.state = 'minimized';});
-
-window.frame.on('maximize', function(e){Main.message.broadcast("core:center_resized","index");window.frame.state = 'maximized'; window.frame.isMaximized = true;});
-
-window.frame.on('unmaximize', function(e){Main.message.broadcast("core:center_resized","index");window.frame.state = 'normal'; window.frame.isMaximized = false;});
-
-window.frame.on('restore', function(e){Main.message.broadcast("core:center_resized","index");window.frame.isMaximized ? window.frame.state = 'maximized' : window.frame.state = 'normal';});
-
-window.frame.on('enter-fullscreen', function(e){window.frame.state = 'fullscreen';});
-
-window.frame.on('leave-fullscreen', function(e){window.frame.isMaximized ? window.frame.state = 'maximized' : window.frame.state = 'normal';});
-
-//Manage window active state for styling...
-//As I post this in the node-webkit group, I'm not sure why I have both of these variants for active/inactive state
-window.frame.on('blur', function(e){Main.message.broadcast("core:center_resized","index");window.frame.active = false; jQuery(document.body).addClass('inactive');});
-
-window.frame.on('focus', function(e){Main.message.broadcast("core:center_resized","index");window.frame.active = true; jQuery(document.body).removeClass('inactive');});
-
-window.addEventListener('blur', function(e){window.frame.active = false; jQuery(document.body).addClass('inactive');});
-
-window.addEventListener('focus', function(e){window.frame.active = true; jQuery(document.body).removeClass('inactive');});
-
-//Helper function with logic to toggle the action of the maximize 
-//button between maximize and restore.
-var maximizeWindow = function(event){
-	switch(window.frame.state){
-		case 'maximized' :
-			window.frame.unmaximize();
-			$(document.body).removeClass('maximized');
-		break;
-		
-		case 'normal' :
-			window.frame.maximize();
-			$(document.body).addClass('maximized');
-		break;
-	};		
-};
-
-//Helper function with logic to toggle the action of the fullscreen 
-//button between fullscreen and restore.
-var fullscreenWindow = function(event){
-	switch(window.frame.state){
-		case 'fullscreen' :
-			window.frame.restore();
-			$(document.body).removeClass('fullscreen');
-		break;
-		
-		case 'normal' :
-			window.frame.fullscreen();
-			$(document.body).addClass('fullscreen');
-		break;
-	};		
-};
-*/
 </script>	
 	
 	
@@ -215,7 +150,7 @@ var fullscreenWindow = function(event){
 		</div>
 		<div style="padding-left:0px;height:100vh;" class="col-md-9 content_status_position">
 			<div style="background:#151515;height:30px;"></div>
-			<div style="overflow:auto;color:#ffffff;width:100%;padding:10px;display:none;" id='inspector_position' ></div>
+			<div style="overflow:scroll;color:#ffffff;width:100%;padding:10px;display:none;" id='inspector_position' ></div>
 		</div>		
 	</div>
 
@@ -250,9 +185,7 @@ var fullscreenWindow = function(event){
 					Main.run_haxe_studio();
 					$("title").html( $("title").html() +" v"+Main.version); $(".hs_version").html(Main.version);
 					Utils.loadJS("./js/defaultMenu.js",function(){});
-					center_has_been_resized();
-					gui_resize();
-						
+
 					Main.message.listen("core:center_resized","index.html",function()
 						{
 						gui_resize();
@@ -279,7 +212,7 @@ var fullscreenWindow = function(event){
 					$(".content_position").addClass("col-md-"+config.content_position_width);
 					$(".option_position").removeClass("col-md-3")
 					$(".option_position").addClass("col-md-"+config.option_position_width);					
-					
+					Main.message.broadcast("core:center_resized","index");
 					});
 					
 				function gui_resize()
