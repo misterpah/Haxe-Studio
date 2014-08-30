@@ -13,7 +13,7 @@
 
 	$("body").append("<style>.CodeMirror-dialog-top { position:absolute;right:0px;}</style>");
 	$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_tab'><ul class='nav nav-tabs'></ul></div>");
-	$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_editor'><textarea id='cm_textarea'></textarea></div>");
+	$("#editor_position").append("<div id='plugin_misterpah_CodemirrorEditor_editor' ><textarea id='cm_textarea'></textarea></div>");
 	$("#plugin_misterpah_CodemirrorEditor_editor").css("display","none");
 	prefix.cm_buffer = {};
 	prefix.inline_widget_stack = [];
@@ -89,7 +89,7 @@
 				{
 				level = 2;
 				level_prefix = '<span class="label label-warning">F</span>';
-				}				
+				}		
 			else if (each.type == "variable")
 				{
 				level = 3;
@@ -103,7 +103,7 @@
 			var level_prefix2 = "";
 			for (var j = 0;j< level;j++)
 				{
-				level_prefix2 += "&nbsp;&nbsp;&nbsp;&nbsp;";
+				level_prefix2 += "";
 				}
 			level_prefix = level_prefix2 +level_prefix;
 			
@@ -116,7 +116,11 @@
 			if (data.indexOf("(") >-1)
 				{
 				data = data.split("(")[0];
-				}	
+				}
+			if (data.indexOf(":") >-1)
+				{
+				data = data.split(":")[0];
+				}						
 				
 				
 			if (data.indexOf("var ") >-1)
@@ -142,19 +146,27 @@
 				}				
 			if (data.indexOf("public") >-1)
 				{
-				data = data.replace("public",'<span class="label label-primary">Public</span> ');
+				data = data.replace("public",'<span class="label label-primary">P</span> ');
 				}						
 			if (data.indexOf("private") >-1)
 				{
-				data = data.replace("private",'<span class="label label-default">Private</span> ');
+				data = data.replace("private",'<span class="label label-default">Pvt</span> ');
 				}
+			if (data.indexOf("static") >-1)
+				{
+				data = data.replace("static",'<span class="label label-danger">S</span> ');
+				}										
 			if (data.indexOf("macro ") >-1)
 				{
-				data = data.replace("macro ",'<span class="label label-danger">Macro</span> ');
-				}																						
+				data = data.replace("macro ",'<span class="label label-danger">M</span> ');
+				}	
+			if (data.indexOf("override") >-1)
+				{
+				data = data.replace("override",'<span class="label label-danger">Ovr</span> ');
+				}																										
 
 				
-							
+			
 			$("#inspector_position").append(""+level_prefix+" <a href='#' onclick='plugin.misterpah.CodemirrorEditor.gotoline("+each.line+");'>"+data+"</a><br/>")
 			}
 		});
@@ -479,6 +491,7 @@
 			if ($("#plugin_misterpah_CodemirrorEditor_editor").css("display") == "none")
 				{
 				$("#plugin_misterpah_CodemirrorEditor_editor").css("display","block");
+				$("#inspector_position").css("display","block");
 				}
 			prefix.cm.refresh();
 			}
@@ -606,12 +619,14 @@
 		if ($("#plugin_misterpah_CodemirrorEditor_editor").css("display") == "none")
 			{
 			$("#plugin_misterpah_CodemirrorEditor_editor").css("display","block");
+			$("#inspector_position").css("display","block");
 			}
 
 		var filename = Main.session.active_file;
 
 		// get extension to get mode (which helps syntax highlighting)
 		var filename_cp = filename;
+		var filename_only = filename_cp.split(Utils.path.sep).pop();
 		var ext = filename_cp.split(Utils.path.sep).pop().split(".").pop();
 		var mode = "";
 		if (ext == "hx")
@@ -626,6 +641,18 @@
 			{
 			mode = "javascript";
 			}
+		
+		
+		if (ext == filename_only)
+			{
+			ext = "";
+			}
+		
+		ext = "." + ext;
+		if (ext == ".")
+			{
+			ext = "";
+			}
 
 		// already opened file_obj in Main
 		var file_obj = Main.file_stack.find(filename);
@@ -637,7 +664,7 @@
 		if (not_opened_yet === true)
 			{
 			hs_console("open : "+filename);
-			$("#plugin_misterpah_CodemirrorEditor_tab ul").append("<li><div><a onclick='plugin.misterpah.CodemirrorEditor.show_me_tab(\""+encodeURIComponent(filename)+"\",\""+mode+"\");' data-path='"+ encodeURIComponent(filename)+"'>"+file_obj[2] +"."+ext+"</a>&nbsp;&nbsp;<span onclick='plugin.misterpah.CodemirrorEditor.close_this_tab($(this));' class='status_icon glyphicon glyphicon-remove-circle' data-path='"+ encodeURIComponent(filename)+"'></span></div></li>");
+			$("#plugin_misterpah_CodemirrorEditor_tab ul").append("<li><div><a onclick='plugin.misterpah.CodemirrorEditor.show_me_tab(\""+encodeURIComponent(filename)+"\",\""+mode+"\");' data-path='"+ encodeURIComponent(filename)+"'>"+file_obj[2] +ext+"</a>&nbsp;&nbsp;<span onclick='plugin.misterpah.CodemirrorEditor.close_this_tab($(this));' class='status_icon glyphicon glyphicon-remove-circle' data-path='"+ encodeURIComponent(filename)+"'></span></div></li>");
 			}
 		// display the tab
 		prefix.show_me_tab(encodeURIComponent(filename),mode);
@@ -664,6 +691,7 @@
 
 		// hide Editor.	
 		$("#plugin_misterpah_CodemirrorEditor_editor").css("display","none");
+		$("#inspector_position").css("display","none");
 
 		// reset active file
 		Main.session.active_file = "";

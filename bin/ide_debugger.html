@@ -5,10 +5,16 @@
 		<meta charset="utf-8">
 		<script>tsort = require('gaia-tsort');</script>
 		<script src="./js/jquery-2.0.3.min.js"></script>
-		<script src="./js/bootstrap/bootstrap.min.js"></script>	
+		<script src="./js/bootstrap/bootstrap.min.js"></script>
+		<script src="./js/jquery.dataTables.min.js"></script>
+		<script src="./js/bootstrap/dataTables.bootstrap.js"></script>				
+		
 		<link href="./css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="./css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">
+		<link href="./css/dataTables.bootstrap.css" rel="stylesheet" media="screen">
+	
 		<script>
+	
 		var listeners = "";
 		var dispatchers = "";
 		//setInterval(function(){refresh_event();},5000);
@@ -54,8 +60,8 @@
 			*/			
 			$("#broadcaster-table").html(str);
 
-
-			
+			$('#table1').dataTable();
+			$('#table2').dataTable();
 			
 			});
 		</script>
@@ -69,7 +75,7 @@
 			</div>
 			<div class="col-xs-12">
 				<h2>Listeners</h2>
-				<table class="table">
+				<table class="table" id="table1">
 				  <thead>
 					<tr>
 					  <th>Message</th>
@@ -83,7 +89,7 @@
 			
 			<div class="col-xs-12">
 				<h2>Broadcaster</h2>
-				<table class="table">
+				<table class="table" id="table2">
 				  <thead>
 					<tr>
 					  <th>Message</th>

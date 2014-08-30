@@ -10,7 +10,9 @@
 						});
 	function resize_codemirror()
 	{
-		$(".CodeMirror").height($(document).height() -30 +"px"); // -30 is for the tab
+		var content_height = $("#content_position").height();
+		var tab_height = $("#plugin_misterpah_CodemirrorEditor_tab").height();
+		$(".CodeMirror").height( content_height-tab_height+"px" ); // -30 is for the tab
 	}
 	/// resize mechanism ends
 })();

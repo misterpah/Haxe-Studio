@@ -80,7 +80,6 @@
 	function option_position_content_show_tab(obj)
 		{
 		$("#option_position_buttons div").children().each(function(){$(this).removeClass("active")})
-		//$("#right_part_buttons div")
 		$("#option_position_content").children().each(function(){$(this).css("display","none")});
 		$(obj).addClass("active");
 		$("#"+$(obj).attr("data-refer")).css("display","block");
@@ -96,7 +95,10 @@
 <script>
 // Load native UI library
 var gui = require('nw.gui');
+window.onresize = function(){Main.message.broadcast("core:center_resized","index");};
 
+
+/*
 //Window Controls
 window.frame = gui.Window.get();
 
@@ -159,7 +161,7 @@ var fullscreenWindow = function(event){
 		break;
 	};		
 };
-
+*/
 </script>	
 	
 	
@@ -167,10 +169,10 @@ var fullscreenWindow = function(event){
 	
 	
 	</head>
-	<body style="overflow:hidden;">
+	<body style="overflow:hidden;height:100vh;">
 
-	<div class="row">
-		<div style="padding-right:0px;" class="col-md-3 option_position">
+	<div class="row" style="height:100vh;">
+		<div style="padding-right:0px;height:100vh;" class="col-md-3 option_position">
 			<div id="option_position_buttons" class="option_position_buttons">
 				<div class="btn-group">
 				  <button onclick="option_position_content_show_tab($(this));"  data-refer="tree_position" type="button" class="btn btn-default btn_option_position active"><span class="glyphicon glyphicon-folder-open"></span></button>
@@ -179,25 +181,12 @@ var fullscreenWindow = function(event){
 				</div>		
 			</div>		
 		
-			<div class="container">
+			<div class="container" style="padding-left:0px;padding-right:0px;-webkit-box-sizing: border-box;">
 				<div id="option_position_content" class="option_position_content">
 				
 					<div id='tree_position' style="display:block;">
 						
 						<p style="color:#ffffff" class="shadowme">
-							<!--
-							Haxe Studio v<span class="hs_version"></span>
-							
-							<br/>
-							===========<br/>
-							how to use Haxe Studio (correctly) : <br/>
-							<ol>
-								<li style="color:#ffffff">Create a New Project or Open Project. </li>
-								<li style="color:#ffffff">Then open the desired file(s)</li>
-							</ol>
-							
-							<br/><br/>
-							-->
 							<br/>
 							<button type="button" class="btn btn-primary btn-block" onclick='Main.message.broadcast("core:FileMenu.newProject","index.html:button:right_part");'>Create New Project</button>
 							<br/>
@@ -219,14 +208,14 @@ var fullscreenWindow = function(event){
 			</div>
 		</div>		
 		
-		<div style="padding-left:0px;" class="col-md-9 content_position">
-			<div id="content_position"  class="ui-layout-center ui-layout-wrapper">
-				<div id='editor_position' ></div>
+		<div style="padding-left:0px;padding-right:0px;height:100vh;" class="col-md-9 content_position">
+			<div id="content_position" style="height:100vh;"  class="ui-layout-center ui-layout-wrapper">
+				<div id='editor_position' style="height:100vh;" ></div>
 			</div>
 		</div>
-		<div style="padding-left:0px;" class="col-md-9 content_status_position">
-			<br/>
-			<div style="overflow:auto;color:#ffffff;width:100%;" id='inspector_position' ></div>
+		<div style="padding-left:0px;height:100vh;" class="col-md-9 content_status_position">
+			<div style="background:#151515;height:30px;"></div>
+			<div style="overflow:auto;color:#ffffff;width:100%;padding:10px;display:none;" id='inspector_position' ></div>
 		</div>		
 	</div>
 
@@ -246,7 +235,7 @@ var fullscreenWindow = function(event){
 			<script>		
 
 					
-
+				
 					
 				function center_has_been_resized()
 					{
@@ -295,10 +284,10 @@ var fullscreenWindow = function(event){
 					
 				function gui_resize()
 				{
-				$(".option_position").height($(window).height() +"px");
-				$("#inspector_position").height($(window).height()-20 +"px");
+				//$(".option_position").height($(window).height() +"px");
+				//$("#inspector_position").height($(window).height()-20 +"px");
 				//$("#option_position_content").height($(window).height() - $("#right_part_buttons").height()-74+"px");
-				$("#option_position_content").height($(window).height()  -80 +"px");
+				//$("#option_position_content").height($(window).height()  -80 +"px");
 				}
 
 
