@@ -40,6 +40,7 @@
 				"Ctrl-Space": "anywordCompletion"
 				}
 			});
+	$(".CodeMirror").css("font-size",config.font_size);
 			/*
       extraKeys:{
         Enter: function(){
