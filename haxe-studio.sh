@@ -9,11 +9,11 @@ then
 	cd "./runtime/linux-64/"
 	sed -i 's/\x75\x64\x65\x76\x2E\x73\x6F\x2E\x30/\x75\x64\x65\x76\x2E\x73\x6F\x2E\x31/g' nw
 	cd "../../"	
-	LD_LIBRARY_PATH="./runtime/linux-64/library:${LD_LIBRARY_PATH}" ./runtime/linux-64/nw ./bin $@
+	LD_LIBRARY_PATH="./runtime/linux-64/library:${LD_LIBRARY_PATH}" ./runtime/linux-64/nw ./bin $@ & disown
 else
 	echo "detecting linux-32 bit"
 	cd "./runtime/linux-32/"
 	sed -i 's/\x75\x64\x65\x76\x2E\x73\x6F\x2E\x30/\x75\x64\x65\x76\x2E\x73\x6F\x2E\x31/g' nw
 	cd "../../"	
-	LD_LIBRARY_PATH="./runtime/linux-32/library:${LD_LIBRARY_PATH}" $HSPATH./runtime/linux-32/nw $HSPATH./bin $@
+	LD_LIBRARY_PATH="./runtime/linux-32/library:${LD_LIBRARY_PATH}" $HSPATH./runtime/linux-32/nw $HSPATH./bin $@ & disown
 fi
