@@ -82,7 +82,7 @@ $("#action_button").html("<button type='button' onclick='patch()'class='btn btn-
 		{
 		$("#action_button").html("");
 			var zip = new admZip("./HaxeStudio-patch.zip");
-			//zip.extractAllTo("../", true);
+			zip.extractAllTo("../", true);
 			console.log("patch complete");
 $("#icon").html("<span class='glyphicon glyphicon-ok'></span><br><br><b>you're up to date!</b>")
 			
