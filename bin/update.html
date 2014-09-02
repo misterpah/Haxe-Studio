@@ -1,0 +1,69 @@
+<head>
+	<script>
+		admZip = require('adm-zip');
+		wget = require('wgetjs');
+	</script>
+</head>
+
+
+<script>
+		function hs_update(url, callback) {
+			var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+			window[callbackName] = function(data) {
+				delete window[callbackName];
+				document.body.removeChild(script);
+				callback(data);
+			};
+
+			var script = document.createElement('script');
+			script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
+			document.body.appendChild(script);
+		}		  
+		  
+		  
+		function test()
+			{
+			hs_update("http://www.haxestudio.com/dist/update.php",function(data)
+				{
+				console.log(localStorage.version);
+				console.log(data[data.length-1]);
+				if (localStorage.version < data[data.length-1][0])
+					{
+					alert("update available. downloading!");
+					download_update(data[data.length-1][1]);
+					}
+				else
+					{
+					alert("You're up to date =)");
+					}
+				});
+				
+			}
+		  
+		function download_update(url_to_download)
+		{  
+			url_to_download_copy = url_to_download;
+			wget({url:url_to_download},function(err,response,body)
+				{
+				if (err)
+					{
+					console.log("error occured. please try again later");
+					}
+				else
+					{
+					console.log("downloaded.");
+					}
+				});
+		}
+		
+		function patch()
+		{
+			var zip = new admZip("./HaxeStudio-patch.zip");
+			zip.extractAllTo("../", true);
+			console.log("patch complete");
+		}
+		
+</script>
+
+<body>
+</body>
