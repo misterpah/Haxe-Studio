@@ -65,6 +65,15 @@ HelpMenu.append(build_menuitem("Contributors","core:HelpMenu.contribution",""));
 Main.message.listen("core:HelpMenu.contribution","menu",function(){
 	gui.Window.open("http://www.haxestudio.com/contributors.html");
 });
+HelpMenu.append(build_seperator());
+
+HelpMenu.append(build_menuitem("Check for update","core:HelpMenu.update",""));
+Main.message.listen("core:HelpMenu.update","menu",function(){
+	localStorage.version = Main.version;
+	gui.Window.open("./update.html");
+});
+
+
 
 
 menubar.append(new gui.MenuItem({ label: 'File', submenu: FileMenu}));
