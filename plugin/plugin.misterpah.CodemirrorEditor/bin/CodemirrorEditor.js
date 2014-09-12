@@ -7,6 +7,7 @@
 // ---------------------------------------------------------------------------------------------------------------------------------
 	
 	var prefix = plugin.misterpah.CodemirrorEditor;
+	prefix.inlinehint_haxe_stack = [];
 	prefix.shortform = false;
 	// theme config.theme;
 	Utils.loadCSS(prefix.plugin_path() + prefix.cm_folder +"/theme/"+config.theme+".css");
@@ -19,6 +20,7 @@
 	prefix.inline_widget_stack = [];
 	prefix.hx_completion_list = [];
 	prefix.anywordHint_opened = false;
+	prefix.haxeHint_opened = false;
 	prefix.cm = CodeMirror.fromTextArea($("#cm_textarea")[0],
 			{
 			keyMap : "sublime",
@@ -66,6 +68,7 @@
 		{
 		prefix.cm.setCursor(CodeMirror.Pos(line,0));
 		};
+
 
 	
 	Main.message.listen("core:option_position_button:inspector_position","plugin.misterpah.CodemirrorEditor:js:CodemirrorEditor.js",function(){
@@ -227,22 +230,41 @@
 	CodeMirror.registerHelper("lint", "haxe");
 
 	CodeMirror.commands.anywordCompletion = function(cm) {
+		if (prefix.haxeHint_opened == true)
+			{
+			return;
+			}
 		prefix.cursor_position = prefix.cm.getCursor();
-		cm.showHint({hint: prefix.anywordHint});
+		cm.showHint({hint: prefix.anywordHint,completeSingle:false});
 	};
 	
 
 
-	
-	
+
+
 	
 	CodeMirror.on(prefix.cm,"cursorActivity",function(cm){
+	
+
 		var pos = prefix.cm.getCursor();
 		var line = prefix.cm.getLine(pos.line);
 		var index = prefix.cm.indexFromPos(pos);
 		var char = prefix.cm.getValue().charAt(index - 1)[0];
 		var pos_minus1 = prefix.cm.posFromIndex(index -1);
 		
+		
+		if (prefix.cm.getMode().name == "haxe" && char == ";")
+			{
+			
+			
+			var len = prefix.inlinehint_haxe_stack.length;
+			for (i = 0; i < len;i++)
+				{
+				prefix.cm.removeLineWidget(prefix.inlinehint_haxe_stack[i]);
+				}
+			prefix.inlinehint_haxe_stack = [];
+			
+			}
 		
 		// reset mechanism for anywordHint
 		var splitter = [];
@@ -268,6 +290,7 @@
 			}
 		else if (prefix.cm.getMode().name == "haxe")
 			{
+				
 			}		
 		
 		
@@ -281,7 +304,6 @@
 			}
 		
 
-		
 			
 		
 		if (line.replace(/\t/g,"") === "") // will open once blank line clicked. not good enough
@@ -316,7 +338,7 @@
 			{
 			prefix.cursor_position = pos_minus1;
 			prefix.anywordHint_opened = true;
-			cm.showHint({hint: prefix.anywordHint});						
+			cm.showHint({hint: prefix.anywordHint,completeSingle:false});						
 			}
 
 		
@@ -811,8 +833,43 @@
 		var cur = cm.getCursor();
 		var curLine = cm.getLine(cur.line);
 		var start = prefix.cursor_position.ch;
-		end = cur.ch;
 		
+
+		var splitter = [];
+		splitter.push(" ");
+		splitter.push("\"");
+		splitter.push("'");
+		splitter.push(":");
+		splitter.push("\t");
+		splitter.push("/");
+		splitter.push("\\");
+		splitter.push("-");
+		splitter.push("+");
+		splitter.push("'");
+		splitter.push("]");
+		splitter.push("[");
+		splitter.push("(");
+		splitter.push(")");
+		
+		var _index = prefix.cm.indexFromPos(cur);
+		var loop =true;
+		var s = 0;
+		while(loop)
+			{
+			console.log(s);
+			var _char = prefix.cm.getValue().charAt(_index - s);
+			if (splitter.indexOf(_char) != -1)
+				{
+				start = cur.ch -s +1;
+				loop = false;
+				
+				}
+			
+			s+= 1;
+			}
+
+		end = cur.ch;
+		console.log(start+ "," + end);
 		
 		var value = cm.getRange(CodeMirror.Pos(cur.line,start),CodeMirror.Pos(cur.line,end));
 		//console.log(start+"-"+end + ":"+value);
@@ -932,8 +989,162 @@
 // ---------------------------------------------------------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------------------
 
+	/*
+	$.keyStroke( 87, { modKeys: ['shiftKey'] }, function(){  prefix.haxeCompletion(); }); // SHIFT + W
 	
 	
+	prefix.haxeCompletion = function()
+		{
+		var ret = [];
+		ret.push("<div class='custom_completion well' style='z-index:999' id='custom_completion'>");
+			ret.push("<div class='col-md-6'>");
+				ret.push("<input type='text' class='form-control' id='completion_input' placeholder='fetching...'>");
+				
+				ret.push("<select multiple class='form-control'>");
+					ret.push("<option>1</option>");
+					ret.push("<option>2</option>");
+					ret.push("<option>3</option>");
+					ret.push("<option>4</option>");
+					ret.push("<option>5</option>");
+					ret.push("<option>6</option>");
+					ret.push("<option>7</option>");
+					ret.push("<option>8</option>");
+					ret.push("<option>9</option>");										
+				ret.push("</select>");
+				
+			ret.push("</div>");
+			ret.push("<div class='col-md-6'>");
+				ret.push("description here");
+			ret.push("</div>");	
+		ret.push("</div>");
+		ret = ret.join("\n");
+		
+		prefix.cm.addWidget(prefix.cm.doc.getCursor(),$(ret)[0]);
+		
+		$("#completion_input").focus();
+
+		$("#custom_completion select").val(''); 
+		//$("#custom_completion select optio").attr('selected', 'selected');
+		
+		
+		
+		$("#completion_input").on("input",function()
+			{
+			var val = $("#completion_input").val();
+			$("#custom_completion select").val(val).focus();
+			$("#completion_input").focus();
+			});
+		
+		$("#completion_input").keyup(function(event)
+			{
+			if (event.keyCode == 27) // escape
+				{
+				$("#custom_completion").remove();
+				prefix.cm.focus();
+				}
+			if (event.keyCode == 38) // upArrow
+				{
+				prefix.haxeCompletionIndex -= 1;
+				if (prefix.haxeCompletionIndex <= 0)
+					{
+					prefix.haxeCompletionIndex = 0;
+					}
+				$("#custom_completion select").val('');
+				}
+			if (event.keyCode == 39) // rightArrow
+				{
+				}
+			if (event.keyCode == 40) // downArrow
+				{
+				prefix.haxeCompletionIndex += 1;
+				$("#custom_completion select").val('');
+				}
+			//prefix.haxeCompletion_redraw();
+			});
+		};
+		
+	*/
+	
+	prefix.cm.on("completionSelected",function()
+		{
+		//.offset()
+		
+		var n = $(".CodeMirror-hint-active").html();
+		
+		for (each in prefix.hx_completion_list_all) 
+			{ 
+			//console.log(prefix.hx_completion_list_all[each].n)
+			if (prefix.hx_completion_list_all[each].n == n)
+				{
+				var str= prefix.hx_completion_list_all[each].d;
+				str = str.split("*");
+				str = str.join("<br/><br/>");
+				$("#completion_desc").html("<b>"+prefix.hx_completion_list_all[each].n+"</b><br/><small>"+prefix.hx_completion_list_all[each].t+"</small><p>"+str+"</p>");	
+				}
+			}
+		
+		
+		//$("#completion_desc").html("<b>"+$(".CodeMirror-hint-active").html()+"</b>");
+		
+		
+		
+		//var w = Math.ceil($(".CodeMirror-hints").offset().left + $(".CodeMirror-hints").width()) +20;
+		//var h = $(".CodeMirror-hints").offset().top;
+		//$("#completion_desc").css("top",h+"px");
+		//$("#completion_desc").css("left",w+"px");
+		
+		//console.log($(".CodeMirror-hint-active").html());
+			
+		});
+
+	prefix.cm.on("completionPicked",function()
+		{
+			//console.log("Picked : "+ $(".CodeMirror-hint-active").html());
+			//prefix.haxeHint_opened = false;
+			//prefix.anywordHint_opened = false;
+		});
+
+	prefix.cm.on("completionShowed",function()
+		{
+			if (prefix.anywordHint_opened == false)
+				{
+				var each = 0;
+				var str= prefix.hx_completion_list_all[each].d;
+				str = str.split("*");
+				str = str.join("<br/><br/>");
+				$("#completion_desc").html("<b>"+prefix.hx_completion_list_all[each].n+"</b><br/><small>"+prefix.hx_completion_list_all[each].t+"</small><p>"+str+"</p>");				
+				}
+		var w = Math.ceil($(".CodeMirror-hints").offset().left + $(".CodeMirror-hints").width()) +20;
+		var h = $(".CodeMirror-hints").offset().top;
+		$("#completion_desc").css("top",h+"px");
+		$("#completion_desc").css("left",w+"px");
+				
+		});
+
+	prefix.cm.on("startCompletion",function()
+		{
+		var ret = [];
+		ret.push("<div class='custom_completion well' style='z-index:999;position:absolute;width:300px;max-height:200px;overflow-y:scroll;' id='completion_desc'>");
+			ret.push("<p>anyword completion</p>");
+		ret.push("</div>");
+		ret = ret.join("\n");
+
+
+	
+		$("body").append(ret);
+	
+		$("#completion_desc").css("top",$(".CodeMirror textarea").offset().top+10+"px");
+		$("#completion_desc").css("left",$(".CodeMirror textarea").offset().left+280+"px");
+		//prefix.cm.addWidget({line:prefix.cm.doc.getCursor().line-5,ch:prefix.cm.doc.getCursor().ch},$(ret)[0]);		
+		});
+		
+	prefix.cm.on("endCompletion",function()
+		{
+		$("#completion_desc").remove();
+		prefix.haxeHint_opened = false;
+		//prefix.anywordHint_opened = true;		
+		});		
+		
 	
 	prefix.haxe_handleCompletion = function (p1,p2)
 		{
@@ -943,12 +1154,16 @@
 			{
 			try
 				{
+				console.dir(p1);
 				for (count = 0 ; count < p1.i.length;count++)
 					{
 					completion_temp.push(p1.i[count].n);
 					}
+					
+				prefix.hx_completion_list_all = p1.i;
 				prefix.hx_completion_list = completion_temp;
-				CodeMirror.showHint(prefix.cm, prefix.haxeHint);
+				//CodeMirror.showHint(prefix.cm, prefix.haxeHint);
+				prefix.completionObj = prefix.cm.showHint({hint: prefix.haxeHint,completeSingle:false,closeOnUnfocus:false});
 				}
 			catch(err)
 				{
@@ -965,7 +1180,14 @@
 				completion_temp.push("/* function parameter */");
 				completion_temp.push(p1);
 				prefix.hx_completion_list = completion_temp;
-				CodeMirror.showHint(prefix.cm, prefix.haxeHint);					
+				//console.log(p1);
+				
+				prefix.inlinehint_haxe_stack.push(prefix.create_inline_hint(prefix.cm.getCursor().line,p1));
+				
+								
+				
+				//CodeMirror.showHint(prefix.cm, prefix.haxeHint);					
+				//prefix.completionObj = prefix.cm.showHint({hint: prefix.haxeHint,completeSingle:false,closeOnUnfocus:false});
 				}
 			catch(err)
 				{
@@ -995,6 +1217,13 @@
 	
 	
 	
+	prefix.cm.on("select",function(p1,p2,p3)
+		{
+		console.log(p1);
+		console.log(p2);
+		console.log(p3);
+		});
+	
 	prefix.haxeHint = function (cm,options)
 		{
 		var haxe_completion = prefix.hx_completion_list;
@@ -1009,14 +1238,13 @@
 	
 	
 	
+	
 	prefix.haxeHint_update = function(cm,completion_array)
 		{
 		var cur = cm.getCursor();
 
 		var start = prefix.cursor_position;
 		var end = CodeMirror.Pos(cur.line,cur.ch);
-		//console.log(start);
-		//console.log(end);
 
 		var value = cm.getRange(start,end);
 
@@ -1042,13 +1270,13 @@
 				
 			}  
 
+
 		return {list:new_completion,from:start,to:end};
 		};
 
 	CodeMirror.registerHelper("hint","haxe", prefix.haxeHint);	
 
 
-	
 	
 	
 		

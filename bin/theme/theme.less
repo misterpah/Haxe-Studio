@@ -30,10 +30,13 @@ body { background:@bgColor; }
 
 /* CodemirrorEditor */
 .CodeMirror {cursor:text;height:auto; font-family:"SourceCode" !important;}
+.CodeMirror-hscrollbar, .CodeMirror-vscrollbar{cursor:auto;min-width:initial !important;min-height:initial !important}
 .lint-error {font-size: 70%;background: #ffa;color: #a00;padding: 2px 5px 3px;}
 .glyphicon-record{color:@red;}
 .CodeMirror-activeline-background{background:#000000 !important}
 #inspector_position {background:@editorBg;}
+#custom_completion {background:@editorBg; color:#ffffff;z-index:9999;border:1px solid #f7951e; }
+#custom_completion .tt-dropdown-menu {background:@editorBg; color:#ffffff;z-index:9999;border:1px solid #f7951e; }
 
 
 /* projectTree */

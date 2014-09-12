@@ -66,6 +66,7 @@
       else this.cm.replaceRange(getText(completion), completion.from || data.from,
                                 completion.to || data.to, "complete");
       CodeMirror.signal(data, "pick", completion);
+      CodeMirror.signal(this.cm, "completionPicked", this.cm);
       this.close();
     },
 
@@ -73,9 +74,15 @@
       if (!data || !data.list.length || !this.active()) return this.close();
 
       if (this.options.completeSingle && data.list.length == 1)
+      	{
         this.pick(data, 0);
+        CodeMirror.signal(this.cm, "completionShowed", this.cm);
+        }
       else
+      	{
         this.showWidget(data);
+      	CodeMirror.signal(this.cm, "completionShowed", this.cm);
+      	}
     },
 
     showWidget: function(data) {
@@ -253,8 +260,8 @@
     }
 
     cm.addKeyMap(this.keyMap = buildKeyMap(completion, {
-      moveFocus: function(n, avoidWrap) { widget.changeActive(widget.selectedHint + n, avoidWrap); },
-      setFocus: function(n) { widget.changeActive(n); },
+      moveFocus: function(n, avoidWrap) { widget.changeActive(widget.selectedHint + n, avoidWrap); CodeMirror.signal(cm, "completionSelected", cm);},
+      setFocus: function(n) { widget.changeActive(n);},
       menuSize: function() { return widget.screenAmount(); },
       length: completions.length,
       close: function() { completion.close(); },
@@ -288,6 +295,7 @@
       var t = getHintElement(hints, e.target || e.srcElement);
       if (t && t.hintId != null) {
         widget.changeActive(t.hintId);
+        CodeMirror.signal(cm, "completionSelected", cm);
         if (completion.options.completeOnSingleClick) widget.pick();
       }
     });
