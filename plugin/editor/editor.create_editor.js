@@ -35,9 +35,15 @@ var editor = (function(obj)
 					foldGutter:true,
 					showCursorWhenSelecting: true,
 					extraKeys: {
-						"Ctrl-Space": "anywordCompletion"
+						"Ctrl-Space": "completion"
 						}
 					});  		
+
+
+			CodeMirror.commands.completion = function(cm) {
+				editor.anywordHint();
+				cm.showHint({hint: editor.anywordHint,completeSingle:false});
+			};
 
 			/*
 			var filename = "blank";

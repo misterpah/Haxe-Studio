@@ -35,12 +35,16 @@ var editor = (function(obj)
 		support.loadJS(cm_folder+"/mode/javascript/javascript.js");
 		support.loadJS(cm_folder+"/mode/xml/xml.js");
 		support.loadJS(cm_folder+"/addon/selection/active-line.js");
+		support.loadJS(cm_folder+"/addon/hint/show-hint.js");
+		support.loadCSS(cm_folder+"/addon/hint/show-hint.css");
 		support.loadCSS(cm_folder+"/lib/codemirror.css");
 		support.loadCSS(cm_folder +"/theme/"+config.editor_theme+".css");
 
 		//plugin extra files
 		support.loadJS(plugin_path+"/editor.create_editor.js");
 		support.loadJS(plugin_path+"/editor.inspector.js");
+		support.loadJS(plugin_path+"/editor.anyword_completion.js");
+		
 		support.loadJS(plugin_path+"/editor.get__.js");
 		support.loadJS(plugin_path+"/editor.set__.js");
 		support.loadJS(plugin_path+"/editor.tab.js");
