@@ -1,6 +1,0 @@
-#!/usr/bin/haxe
--cp ../../../source/externs/haxestudio
--lib jQueryExtern
--js ../bin/plugin.js
--main plugin.misterpah.FileAccess
--dce full

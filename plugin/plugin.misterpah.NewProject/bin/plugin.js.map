@@ -1,8 +1,0 @@
-{
-"version":3,
-"file":"plugin.js",
-"sourceRoot":"file://",
-"sources":["/media/pah/0b1255a9-a89e-4e77-9f71-1328332818c9/pah/github/Haxe-Studio/plugin/plugin.misterpah.NewProject/source/plugin/misterpah/NewProject.hx"],
-"names":[],
-"mappings":";;;;;;;;;;;;mCASiB,xBAEhB;;;iDAIc,tCACf;CACA,EAA6B,FAAgB,AAA4D,OAAO,AAA2B,CAAY,GAAe,CAAgB,HAAY;CAC1L;CAGA;CACA;;gDAGM,rCAEd;CAAoB,AAA2B,AAA8B;;;;;"
-}

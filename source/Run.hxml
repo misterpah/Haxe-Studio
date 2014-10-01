@@ -1,5 +1,0 @@
--cp .
--main tools.Run
--neko ../bin/run.n
--debug
--dce full

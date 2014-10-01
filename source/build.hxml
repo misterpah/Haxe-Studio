@@ -1,9 +1,0 @@
-#!/usr/bin/haxe
--cp ./externs/nodejs-std/src
--cp ./externs/json
--lib jQueryExtern
--js ../bin/js/haxestudio.js
--main Main
--D source-map-content
--debug
-

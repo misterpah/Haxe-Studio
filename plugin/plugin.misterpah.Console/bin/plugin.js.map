@@ -1,8 +1,0 @@
-{
-"version":3,
-"file":"plugin.js",
-"sourceRoot":"file://",
-"sources":["/usr/lib/haxe/std/js/_std/Type.hx","/media/pah/0b1255a9-a89e-4e77-9f71-1328332818c9/pah/github/Haxe-Studio/plugin/plugin.misterpah.Console/source/plugin/misterpah/Console.hx","/usr/lib/haxe/std/js/_std/Std.hx"],
-"names":[],
-"mappings":";;;;;oBAoDc,RAAqD;CAClC;CACzB,AAAO;;;;;;uCC/CA,5BAEf;CAAO,EAAe,FAAkB,EAAU;;gCAGpC,rBACd;CACC;CACA;;qCAGc,1BAEd;CAAa,EAAc,FAAc,UAAU;;;6CAGtC,lCACd;;ACsC+B,GAAkB,AAAgC,FAAC;AAEnD,GAAiB,AAAgC,FAAC;;;;"
-}
