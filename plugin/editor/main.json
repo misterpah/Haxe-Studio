@@ -1,0 +1,12 @@
+{
+"name":"Editor",
+"actualName":"plugin.editor",
+"author":"misterpah",
+"version":0.5,
+"description":"Provide Editor using Codemirror.",
+"website":"http://haxestudio.com",
+"dependency":[],
+"configuration":{
+	"default":0
+	}
+}

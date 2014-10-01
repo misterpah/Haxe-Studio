@@ -1,0 +1,12 @@
+{
+"name":"Filesystem",
+"actualName":"plugin.filesystem",
+"author":"misterpah",
+"version":0.5,
+"description":"Provide File manipulation facilities.",
+"website":"http://haxestudio.com",
+"dependency":[],
+"configuration":{
+	"default":0
+	}
+}

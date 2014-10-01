@@ -1,0 +1,12 @@
+{
+"name":"Haxe Server",
+"actualName":"plugin.haxe_server",
+"author":"misterpah",
+"version":0.5,
+"description":"Communication with Haxe server for compilation, completion.",
+"website":"http://haxestudio.com",
+"dependency":[],
+"configuration":{
+	"default":0
+	}
+}

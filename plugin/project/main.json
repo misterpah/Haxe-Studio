@@ -1,0 +1,12 @@
+{
+"name":"Project",
+"actualName":"plugin.project",
+"author":"misterpah",
+"version":0.5,
+"description":"Everything related to the project. ( project template, parsing, compiling,etc. )",
+"website":"http://haxestudio.com",
+"dependency":[],
+"configuration":{
+	"default":0
+	}
+}

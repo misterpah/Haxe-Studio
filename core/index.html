@@ -1,0 +1,127 @@
+<html>
+  <head>
+    <script src="../base/js/mediator.min.js"></script>
+    <script src="../base/js/jquery-2.0.3.min.js"></script>
+    <script src="../base/js/jquery.keystroke.min.js"></script>
+    
+    <script src="../base/js/watch.js"></script>
+    
+	<link rel="stylesheet" href="../base/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="../base/bootstrap/css/bootstrap-theme.min.css">
+	<script src="../base/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../base/bootstrap/js/bootstrap-contextmenu.js"></script>        
+
+
+	<link rel="stylesheet/less" type="text/css" href="../core/themes/default/theme.less" />
+	<link  type="text/css" rel="stylesheet" href="../core/themes/default/fonts.css" />
+	
+	
+
+	<script>
+	  less = {
+		env: "development",
+		async: false,
+		fileAsync: false,
+		poll: 1000,
+		functions: {},
+		dumpLineNumbers: "comments",
+		relativeUrls: false,
+		rootpath: ":/a.com/",
+		logLevel:0 // no logging whatsoever
+	  };				
+	</script>		
+	<script src="../base/js/less.min.js"></script>
+
+
+
+    <script>
+	 var central = {};
+	 global.central = central;
+    </script>
+    <script src="../core/config.js"></script>
+    <script src="../core/js/support.js"></script>
+    <script src="../core/js/hs.js"></script>
+    
+    <script>
+    support.node.gui.App.setCrashDumpDir("../crashlog");
+	
+    
+    jQuery(document).ready(function()
+    	{
+		$("title").html( $("title").html() +" v"+hs.version); $(".hs_version").html(hs.version);
+		$(".content_status_position").removeClass("col-md-9")
+		$(".content_status_position").addClass("col-xs-"+config.content_status_position_width);
+		$(".content_position").removeClass("col-md-9")
+		$(".content_position").addClass("col-xs-"+config.content_position_width);
+		$(".option_position").removeClass("col-md-3")
+		$(".option_position").addClass("col-xs-"+config.option_position_width);					
+
+    	hs.loadAllCoreJS();
+    	hs.init();
+    	window.onresize = function(){central.event.broadcast("window_resized","index","");};    
+    	});
+    </script>
+  </head>
+<body style="overflow:hidden;height:100vh;">	
+		<div class="row" style="height:100vh;">
+			<div style="padding-right:0px;height:100vh;" class="col-md-3 option_position">
+				<div id="option_position_buttons" class="option_position_buttons">
+					<div class="btn-group">
+					  <button onclick="option_position_content_show_tab($(this));"  data-refer="tree_position" type="button" class="btn btn-default btn_option_position active"><span class="glyphicon glyphicon-folder-open"></span></button>
+					  <button onclick="option_position_content_show_tab($(this));" data-refer="compiler_position" type="button" class="btn btn-default btn_option_position"><span class="glyphicon glyphicon-play"></span></button>
+					  <button onclick="option_position_content_show_tab($(this));" data-refer="console_position" type="button" class="btn btn-default btn_option_position"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
+					</div>		
+				</div>		
+		
+				<div style="padding-left:0px;padding-right:0px;-webkit-box-sizing: border-box;">
+					<div id="option_position_content" class="option_position_content">
+				
+						<div id='tree_position' style="display:block;">
+						
+							<p style="color:#ffffff" class="shadowme">
+								<br/>
+								<button type="button" class="btn btn-primary btn-block" onclick='central.event.broadcast("FileMenu.newProject","index.html:button:right_part","");'>New Project</button>
+								<br/>
+								<button type="button" class="btn btn-primary btn-block" onclick='central.event.broadcast("FileMenu.openProject","index.html:button:right_part","");'>Open Project</button>
+								<br/>
+								<button type="button" class="btn btn-warning btn-block" onclick='central.event.broadcast("FileMenu.openFolder","index.html:button:right_part","");'>Open Folder</button>							
+							</p>
+						
+						</div>
+					
+						<div id='compiler_position' style="display:none;color:#ffffff">
+							<p>You haven't set the Project file!</p>
+						</div>					
+				
+						<div id='console_position' style="display:none;">
+							<p>Console will be here</p>
+						</div>
+					</div>
+				</div>
+			</div>		
+		
+			<div style="padding-left:0px;padding-right:0px;height:100vh;" class="col-md-9 content_position">
+				<div id="content_position" style="height:100vh;"  class="ui-layout-center ui-layout-wrapper">
+					<div id='editor_position' style="height:100vh;" ></div>
+				</div>
+			</div>
+			<div style="padding-left:0px;height:100vh;" class="col-md-9 content_status_position">
+				<div style="background:#151515;height:30px;"></div>
+				<div style="overflow:scroll;color:#ffffff;width:100%;padding:10px;" id='inspector_position' ></div>
+			</div>		
+		</div>	
+	<div id="temp"></div>
+	</body>	
+</html>
+
+<script>
+// left-side menu show/hide
+function option_position_content_show_tab(obj)
+	{
+	$("#option_position_buttons div").children().each(function(){$(this).removeClass("active")})
+	$("#option_position_content").children().each(function(){$(this).css("display","none")});
+	$(obj).addClass("active");
+	$("#"+$(obj).attr("data-refer")).css("display","block");
+	central.event.broadcast("gui:option_position_button:"+$(obj).attr("data-refer"),"index.html");
+	}
+</script>

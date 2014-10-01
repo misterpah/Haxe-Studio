@@ -1,0 +1,15 @@
+@font-face {
+    font-family: 'Ubuntu';
+	font-style: normal;
+	font-weight: 400;
+    src: url(./ubuntu.woff);
+}		
+
+@font-face {
+    font-family: 'SourceCode';
+	font-style: normal;
+	font-weight: 400;
+    src: url(./SourceCodePro-Medium.ttf.woff);
+}		
+
+

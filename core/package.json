@@ -1,0 +1,14 @@
+{
+  "name": "Haxe Studio",
+  "main": "index.html",
+  "window": {
+  	"icon" : "haxe-studio.png",
+    "title": "Haxe Studio",
+    "toolbar": true,
+    "frame": true,
+    "min_width": 1000,
+    "min_height": 600,
+    "position": "center",
+	"show": true
+  }  
+}
