@@ -35,7 +35,8 @@ var editor = (function(obj)
 					foldGutter:true,
 					showCursorWhenSelecting: true,
 					extraKeys: {
-						"Ctrl-Space": "completion"
+						"Ctrl-Space": "completion",
+						"Cmd-Space": "completion"
 						}
 					});  		
 
