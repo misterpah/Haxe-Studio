@@ -1,6 +1,6 @@
 Haxe Studio
 ===========
-Open Source, Extensible Integrated Development Environment (IDE) for Haxe. 
+Text Editor for Haxe. 
 
 How to use this ?
 =======
