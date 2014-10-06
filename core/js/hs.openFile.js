@@ -22,11 +22,22 @@
 			{
 			var tempFunc = function()
 				{
-				//console.log("changed!");
+				console.log("changed!");
 				central.event.broadcast("fileOpened","hs.openFile.js","");
 				}			
-			support.watchOnce(central.filesystem.fileStack,encodeURIComponent(filename),tempFunc);
+			//support.watchOnce(central.filesystem.fileStack,encodeURIComponent(filename),tempFunc);
 			filesystem.readFile(filename);
+			
+			// waiting for file to read
+			var loop = true;
+			while(loop)
+				{
+				if (central.filesystem.fileStack[encodeURIComponent(filename)] != undefined)
+					{
+					loop = false;
+					}
+				}
+			central.event.broadcast("fileOpened","hs.openFile.js","");
 			}
 		});		
 		
@@ -46,7 +57,7 @@
 	
 	central.event.listen("FileMenu.openFileDirectly",function(data)
 		{
-		console.dir(data);
+		//console.dir(data);
 		central.filesystem.fileActive = decodeURIComponent(data.message);
 		central.event.broadcast("fileActiveChanged","hs.openFile.js","");
 		});

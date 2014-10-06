@@ -41,6 +41,7 @@ var editor = (function(obj)
 		support.loadCSS(cm_folder +"/theme/"+config.editor_theme+".css");
 
 		//plugin extra files
+		
 		support.loadJS(plugin_path+"/editor.create_editor.js");
 		support.loadJS(plugin_path+"/editor.inspector.js");
 		support.loadJS(plugin_path+"/editor.anyword_completion.js");
@@ -61,7 +62,7 @@ var editor = (function(obj)
 		var tab_height = $("#editor_tab").outerHeight();
 		$(".CodeMirror").height(max_height - tab_height +"px")		
 		});
-		
+				
 	obj.destroy = function()
 		{
 		};

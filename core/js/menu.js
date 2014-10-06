@@ -14,11 +14,12 @@
 		{
 		ctrlOrMeta = "Meta";
 		}
+	/*
 	FileMenu.append(support.build_menuitem("Open Folder","FileMenu.openFolder",ctrlOrMeta+"+Shift+F"));
 	$.keyStroke( 70, { modKeys: [config.ctrlOrMeta,'shiftKey'] }, function(){  central.event.broadcast("FileMenu.openProject","shortcut_key",""); });
-
+	
 	FileMenu.append(support.build_seperator());
-
+	*/
 	FileMenu.append(support.build_menuitem("New Project","FileMenu.newProject",ctrlOrMeta+"+Shift+N"));
 	$.keyStroke( 78, { modKeys: [config.ctrlOrMeta,'shiftKey'] }, function(){  central.event.broadcast("FileMenu.openProject","shortcut_key",""); });
 
@@ -43,6 +44,10 @@
 	FileMenu.append(support.build_menuitem("Exit","FileMenu.exit","Alt+F4"));
 
 
+	/*
+	var EditMenu = new gui.Menu();
+	EditMenu.append(support.build_menuitem("Prettify code","EditMenu.prettifyCode",""));
+	*/
 
 
 	var ToolsMenu = new gui.Menu();
@@ -66,6 +71,7 @@
 
 
 	menubar.append(new gui.MenuItem({ label: 'File', submenu: FileMenu}));
+	//menubar.append(new gui.MenuItem({ label: 'Edit', submenu: EditMenu}));
 	menubar.append(new gui.MenuItem({ label: 'Tools', submenu: ToolsMenu}));
 	menubar.append(new gui.MenuItem({ label: 'Help', submenu: HelpMenu}));
 

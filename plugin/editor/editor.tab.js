@@ -37,6 +37,15 @@ var editor = (function(obj)
 		return $("#editor_tab a[data-path='"+encoded_filename+"']").length;
 		}
 		
+	obj.list_tab = function()
+		{
+		var ret = []; 
+		$("#editor_tab a").each(function()
+			{
+			ret.push($(this).attr("data-path"));
+			});
+		return ret;
+		}
 		
 	obj.close_tab = function(clicked_obj)
 		{

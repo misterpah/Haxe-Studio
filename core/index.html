@@ -55,7 +55,7 @@
 		$(".content_position").addClass("col-xs-"+config.content_position_width);
 		$(".option_position").removeClass("col-md-3")
 		$(".option_position").addClass("col-xs-"+config.option_position_width);					
-
+		$("head").append("<style>.CodeMirror{font-size:"+config.font_size+";}</style>");
     	hs.loadAllCoreJS();
     	hs.init();
     	window.onresize = function(){central.event.broadcast("window_resized","index","");};    
@@ -63,6 +63,7 @@
     </script>
   </head>
 <body style="overflow:hidden;height:100vh;">	
+		
 		<div class="row" style="height:100vh;">
 			<div style="padding-right:0px;height:100vh;" class="col-md-3 option_position">
 				<div id="option_position_buttons" class="option_position_buttons">
@@ -83,8 +84,10 @@
 								<button type="button" class="btn btn-primary btn-block" onclick='central.event.broadcast("FileMenu.newProject","index.html:button:right_part","");'>New Project</button>
 								<br/>
 								<button type="button" class="btn btn-primary btn-block" onclick='central.event.broadcast("FileMenu.openProject","index.html:button:right_part","");'>Open Project</button>
+								<script>/*
 								<br/>
 								<button type="button" class="btn btn-warning btn-block" onclick='central.event.broadcast("FileMenu.openFolder","index.html:button:right_part","");'>Open Folder</button>							
+								*/</script>
 							</p>
 						
 						</div>

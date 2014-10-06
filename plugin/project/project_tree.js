@@ -63,7 +63,7 @@ var project = (function(obj)
 		for (i = 0;i< folder_content.length;i++)
 			{
 			var isfile = support.isFile(path + support.node.path.sep + folder_content[i]);
-			//console.log(folder_content[i] + " : "+ isfile);
+			////console.log(folder_content[i] + " : "+ isfile);
 			if (isfile)
 				{
 				var _temp= folder_content[i];
@@ -89,7 +89,7 @@ var project = (function(obj)
 		
 		$("#file_tree_path").html("<a  onClick='project.update_project_tree(\""+parent_folder_for_the_current_folder+"\")'><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;../</a>");
 		
-		//console.dir(scope_folder)
+		////console.dir(scope_folder)
 		build_project_tree(central.project.projectFolder);
 		}
 	obj.update_project_tree = function(scope_folder)
@@ -101,7 +101,7 @@ var project = (function(obj)
 		
 		$("#file_tree_path").html("<a  onClick='project.update_project_tree(\""+parent_folder_for_the_current_folder+"\")'><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;../</a>");
 		
-		//console.dir(scope_folder)
+		////console.dir(scope_folder)
 		build_project_tree(scope_folder);
 		}		
 		

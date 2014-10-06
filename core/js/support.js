@@ -118,12 +118,10 @@ support.build_seperator = function()
 
 support.watchOnce = function(variable,attribute,callback)
 	{
-	if (callback.name == "")
-		{
-		//console.log("anonymous function detected. please use non-anonymous function (function with names).");
-		}
+	//console.log("watchOnce "+variable+"["+attribute+"]");
 	var temp_callback = function () 
 		{
+		//console.log('should be watching once :'+attribute);
 		callback();
 		unwatch(variable,attribute,temp_callback);
 		}
@@ -134,18 +132,20 @@ support.watchOnce = function(variable,attribute,callback)
 
 support.watch = function (variable,attribute,callback)
 	{
+	//console.log("watch "+variable+"["+attribute+"]");
 	if (callback.name == "")
 		{
-		//console.log("anonymous function detected. please use non-anonymous function (function with names).");
+		////console.log("anonymous function detected. please use non-anonymous function (function with names).");
 		}
 	watch(variable,attribute,callback);
 	}
 
 support.unwatch = function (variable,attribute,callback)
 	{
+	//console.log("unwatch "+variable+"["+attribute+"]");
 	if (callback.name == "")
 		{
-		//console.log("anonymous function detected. please use non-anonymous function (function with names).");
+		////console.log("anonymous function detected. please use non-anonymous function (function with names).");
 		}
 	unwatch(variable,attribute,callback);
 	}

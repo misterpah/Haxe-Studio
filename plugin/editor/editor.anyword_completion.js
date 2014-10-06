@@ -108,8 +108,8 @@ function scanWordsInEditor()
 		while(loop)
 			{
 			var _char = obj.getValue().charAt(_index - s);
-			console.log(_index - s);
-			console.log(_index_0char);
+			//console.log(_index - s);
+			//console.log(_index_0char);
 			var available = splitter.indexOf(_char);
 			
 			if (available != -1 )
