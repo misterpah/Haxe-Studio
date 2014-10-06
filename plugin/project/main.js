@@ -11,6 +11,8 @@ var project = (function(obj)
 		support.loadJS(plugin_path+"/compile_project.js");
 		support.loadCSS(plugin_path+"/project_tree.css");
 		support.loadJS(plugin_path+"/project_tree_context_menu.js");
+		
+		support.loadJS(plugin_path+"/compiler.js");
 		};
 		
 	obj.destroy = function()

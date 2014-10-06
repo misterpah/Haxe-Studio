@@ -194,9 +194,9 @@ support.exec = function (lines_to_exec,callbackFunction)
 	while(_g1 < lines_to_exec.length) {
 		var each = lines_to_exec[_g1];
 		++_g1;
-		temp = each.replace("%CD%",join_str_cd);
-		temp = temp.replace("%CAT%",cat_service);
-		temp = temp.replace("%QUOTE%",quote);
+		temp = each.replace(/%CD%/g,join_str_cd);
+		temp = temp.replace(/%CAT%/g,cat_service);
+		temp = temp.replace(/%QUOTE%/g,quote);
 		exec_array.push(temp);
 	}
 	exec_str = exec_array.join(join_str);

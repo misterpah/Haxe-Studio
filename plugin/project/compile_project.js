@@ -37,7 +37,9 @@ var project = (function(obj)
 		$("#compiler_position").append(compile_parameter);
 		$("#compiler_position").append("<br/><br/>");
 		$("#compiler_position").append('<button style="width:100%;" type="button" onclick="project.compile_project_request()" class="btn btn-danger btn-xs shadowme">Compile</button>');
-		
+		$("#compiler_position").append("<br/><br/>");
+		$("#compiler_position").append("<br/><br/>");
+		$("#compiler_position").append("<div id='compiler_error'></div>");
 		
 		central.event.broadcast("display_compiler.complete","project.compile_project","");
 		}
@@ -48,7 +50,6 @@ var project = (function(obj)
 		console.dir($("#compileTarget").val());
 		central.event.broadcast("compile_request","project.compile_project.js",{"parameter":$("#compileParameter").val(),"target":$("#compileTarget").val()});
 		};
-
 
 	obj.compile_project_ui = function(filename)
 		{

@@ -29,6 +29,7 @@
 			editor.show_tab(next_tab);
 			//console.log(next_tab);
 			editor.setValue(central.filesystem.fileStack[next_tab].content);
+			editor.show_inspector();
 			}
 		
 		});		
