@@ -45,6 +45,8 @@ var editor = (function(obj)
 		support.loadJS(plugin_path+"/editor.create_editor.js");
 		support.loadJS(plugin_path+"/editor.inspector.js");
 		support.loadJS(plugin_path+"/editor.anyword_completion.js");
+		support.loadJS(plugin_path+"/editor.haxe_completion.js");
+		
 		
 		support.loadJS(plugin_path+"/editor.get__.js");
 		support.loadJS(plugin_path+"/editor.set__.js");

@@ -1,7 +1,7 @@
 var editor = (function(obj)
 {
 	
-	
+	obj.anyWordCompletionIsActive = false;
 	function openEditor()
   		{
   		if (central.editor.isEditorOpened == false)
@@ -39,11 +39,54 @@ var editor = (function(obj)
 						"Cmd-Space": "completion"
 						}
 					});  		
+			
+			obj._cm.on("beforeChange",function(cm)
+				{
+				var _char = obj.getValue().charAt(cm.indexFromPos(cm.getCursor()) -1);
+				//console.log(_char);
+				var triggerAnywordCompletion = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_".split("");
+				var availableInWords = triggerAnywordCompletion.indexOf(_char);
+				
+				if (availableInWords != -1 && obj.anyWordCompletionIsActive == false)
+					{
+					editor.anywordHint();
+					cm.showHint({hint: editor.anywordHint,completeSingle:false});					
+					}
+				if (availableInWords == -1)
+					{
+					obj.anyWordCompletionIsActive = false;
+					}					
+				});
 
 
 			CodeMirror.commands.completion = function(cm) {
-				editor.anywordHint();
-				cm.showHint({hint: editor.anywordHint,completeSingle:false});
+				var cur = obj.getCursor();
+				var _index = cm.indexFromPos(cur);
+				var _char = obj.getValue().charAt(_index - 1);
+				//console.log(_char);
+				if (_char == ".") // should fetch haxe completion
+					{
+					var _index = cm.indexFromPos(obj.getCursor());
+					central.event.broadcast("FileMenu.saveFile","editor.haxe_completion.js","");
+					haxe_server.haxe_completion(_index,central.filesystem.fileActive);	
+					var myVar = setInterval(function(myVar)
+						{
+						if (haxe_server.haxeCompletionResult != "")
+							{
+							clearMyVar();
+							}
+						}, 100);
+					function clearMyVar()
+						{
+						clearInterval(myVar);
+						cm.showHint({hint: editor.haxeHint,completeSingle:false});
+						}
+					}
+				else
+					{
+					editor.anywordHint();
+					cm.showHint({hint: editor.anywordHint,completeSingle:false});
+					}
 			};
 
 			/*

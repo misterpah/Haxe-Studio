@@ -12,3 +12,5 @@ config.content_position_width=8; // a.k.a. the editor
 config.content_status_position_width=2; // a.k.a. the right panel
 
 config.ctrlOrMeta = "ctrlKey";  //ctrlKey or metaKey
+config.defaultBuild = "flash";
+

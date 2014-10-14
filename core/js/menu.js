@@ -51,6 +51,8 @@
 
 
 	var ToolsMenu = new gui.Menu();
+	ToolsMenu.append(support.build_menuitem("Check For Error","ToolsMenu.checkForError",""));
+	ToolsMenu.append(support.build_seperator());
 	ToolsMenu.append(support.build_menuitem("Manage Plugin","ToolsMenu.managePlugin",""));
 	ToolsMenu.append(support.build_menuitem("Configure Haxe Studio","ToolsMenu.configureHS",""));
 
@@ -80,6 +82,10 @@
 	
 
 
+
+central.event.listen("ToolsMenu.checkForError",function(){
+	haxe_server.haxe_build_project();
+	});
 
 central.event.listen("ToolsMenu.configureHS",function(){
 	central.event.broadcast("FileMenu.openFileDirectly","project.project_tree.js",encodeURIComponent(support.node.path.resolve('./config.js')));
