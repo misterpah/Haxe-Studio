@@ -40,24 +40,23 @@ var editor = (function(obj)
 						}
 					});  		
 			
-			obj._cm.on("beforeChange",function(cm)
+			obj._cm.on("change",function(cm)
 				{
 				var _char = obj.getValue().charAt(cm.indexFromPos(cm.getCursor()) -1);
-				//console.log(_char);
 				var triggerAnywordCompletion = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_".split("");
 				var availableInWords = triggerAnywordCompletion.indexOf(_char);
-				
+
 				if (availableInWords != -1 && obj.anyWordCompletionIsActive == false)
 					{
+					obj.anyWordCompletionIsActive = true;
 					editor.anywordHint();
-					cm.showHint({hint: editor.anywordHint,completeSingle:false});					
+					cm.showHint({hint: editor.anywordHint,completeSingle:true});
 					}
 				if (availableInWords == -1)
 					{
 					obj.anyWordCompletionIsActive = false;
 					}					
 				});
-
 
 			CodeMirror.commands.completion = function(cm) {
 				var cur = obj.getCursor();

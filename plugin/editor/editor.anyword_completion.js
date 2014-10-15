@@ -80,43 +80,99 @@ function scanWordsInEditor()
 		var start = cur.ch;
 		var end = start;
 		//console.log(curLine);
-		//console.log(cur);
 		//console.log(cur.ch);
 		
 		var splitter = [];
-		splitter.push(" ");
-		splitter.push("\"");
-		splitter.push("'");
-		splitter.push(":");
-		splitter.push("\t");
-		splitter.push("/");
-		splitter.push("\\");
-		splitter.push("-");
-		splitter.push("+");
-		splitter.push("'");
-		splitter.push("]");
-		splitter.push("[");
+		/*
+		~!@#$%^&*()_+{}|:"<>?`-=[]\;',./
+		*/
+		
+		splitter.push("~");
+		splitter.push("!");
+		splitter.push("@");
+		splitter.push("#");
+		splitter.push("$");
+		splitter.push("%");
+		splitter.push("^");
+		splitter.push("&");
+		splitter.push("*");
 		splitter.push("(");
 		splitter.push(")");
+		splitter.push("_");
+		splitter.push("+");
+		splitter.push("{");
+		splitter.push("}");
+		splitter.push("|");
+		splitter.push(":");
+		splitter.push("\"");
+		splitter.push("<");
+		splitter.push(">");
+		splitter.push("?");
+		splitter.push("`");
+		splitter.push("-");
+		splitter.push("=");
+		splitter.push("[");		
+		splitter.push("]");
+		splitter.push("\\");
+		splitter.push(";");
+		splitter.push("'");
+		splitter.push(",");
 		splitter.push(".");
+		splitter.push("/");
+
+		splitter.push(" ");
+		splitter.push("\t");
+		splitter.push("\r");
+		splitter.push("	");
+		
+
+		var triggerAnywordCompletion = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_".split("");
+		
 		
 		var _index = cm.indexFromPos(cur);
 		var _index_0char = cm.indexFromPos({line:cur.line,ch:0});
 		//console.log(_index);
-		var s = 0;
-		var loop = true;
+
+		var _char = obj.getValue().charAt(_index-1);
+		var available = triggerAnywordCompletion.indexOf(_char);
+		if (available == -1)
+			{
+			start = cur.ch;
+			}
+		else if (available != -1)
+			{
+			var s = 1;
+			var loop = true;			
+			while(loop)
+				{
+				var _char = obj.getValue().charAt(_index -s);
+				var available = triggerAnywordCompletion.indexOf(_char);
+				console.log(_char+" "+available); 
+				if (available == -1)
+					{
+					start = cur.ch -s+1;
+					loop = false;
+					}
+				s += 1;
+				}
+			}
+		/*
 		while(loop)
 			{
-			var _char = obj.getValue().charAt(_index - s);
+
 			//console.log(_index - s);
 			//console.log(_index_0char);
-			var available = splitter.indexOf(_char);
+			//var available = splitter.indexOf(_char);
+			/*
+			var available = triggerAnywordCompletion.indexOf(_char);
+			console.log(available);
 			
-			if (available != -1 )
+			if (available == -1 )
 				{
 				start = cur.ch -s +1;
 				loop = false;
 				}
+					
 				
 			// when completion on the start of the line
 			if (_index -s <= _index_0char)
@@ -124,16 +180,19 @@ function scanWordsInEditor()
 				start = cur.ch -s ;
 				loop = false;				
 				}
+				
 			
 			// when the words are too long
 			if (s > 128)
 				{
 				loop = false;
 				}
+				
 			s+= 1;
 			}
+		*/
 		//console.log("this run!");
-		//console.log(start);
+		console.log(start+"--"+end);
 		//console.log(end);
 		/*
 		var loop =true;
