@@ -12,9 +12,41 @@ var editor = (function(obj)
 		var start = cur.ch;
 		var end = start;
 		
-		var splitter = [];
-		splitter.push(".");
+		//var splitter = [];
+		//splitter.push(".");
 		
+		var findTheseWords = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_".split("");
+		
+		
+		var _index = cm.indexFromPos(cur);
+		var _index_0char = cm.indexFromPos({line:cur.line,ch:0});
+		//console.log(_index);
+
+		var _char = obj.getValue().charAt(_index-1);
+		var available = findTheseWords.indexOf(_char);
+		if (available == -1)
+			{
+			start = cur.ch;
+			}
+		else if (available != -1)
+			{
+			var s = 1;
+			var loop = true;			
+			while(loop)
+				{
+				var _char = obj.getValue().charAt(_index -s);
+				var available = findTheseWords.indexOf(_char);
+				//console.log(_char+" "+available); 
+				if (available == -1)
+					{
+					start = cur.ch -s+1;
+					loop = false;
+					}
+				s += 1;
+				}
+			}
+		
+		/*
 		var _index = cm.indexFromPos(cur);
 		var _index_0char = cm.indexFromPos({line:cur.line,ch:0});
 		var s = 0;
@@ -44,6 +76,7 @@ var editor = (function(obj)
 				}
 			s+= 1;
 			}
+		*/
 		var value = cm.getRange(CodeMirror.Pos(cur.line,start),CodeMirror.Pos(cur.line,end));
 		//console.log(start+"-"+end + ":"+value);
 		var new_completion = [];
@@ -76,14 +109,70 @@ var editor = (function(obj)
 	
 	obj.haxeHint = function (cm,options)
 		{
-		var _index = cm.indexFromPos(obj.getCursor());
+		//var _index = cm.indexFromPos(obj.getCursor());
 		
 		var data = $.xml2json(haxe_server.haxeCompletionResult);
-		console.dir(data.i);
+		//console.dir(data.i);
 		
+		var availableCompletion = [];
+		for (var i = 0;i < data.i.length;i++)
+			{
+			availableCompletion.push(data.i[i].n);
+			}
+		
+		var showThisList = []
+		if (availableCompletion.length >0)
+			{
+			showThisList = availableCompletion;
+			}
+		else
+			{
+			showThisList = ["no completion found"];
+			}
+			
+			
+		if (showThisList[0] != "no completion found")
+			{
+			var ret = haxeHint_update(obj._cm,showThisList);	
+			showThisList = ret.list;
+			}
+		
+		//console.dir(showThisList);
+		// provide completion until it Found something	
+		
+		var findTheseWords = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_1234567890".split("");
+		var cur = obj.getCursor();
+		var _index = cm.indexFromPos(cur);
+		var _index_0char = cm.indexFromPos({line:cur.line,ch:0});
+		//console.log(_index);
+
+		var _char = obj.getValue().charAt(_index-1);
+		var available = findTheseWords.indexOf(_char);
+		if (available == -1)
+			{
+			start = cur.ch;
+			}
+		else if (available != -1)
+			{
+			var s = 1;
+			var loop = true;			
+			while(loop)
+				{
+				var _char = obj.getValue().charAt(_index -s);
+				var available = findTheseWords.indexOf(_char);
+				if (available == -1)
+					{
+					start = cur.ch -s+1;
+					loop = false;
+					}
+				s += 1;
+				}
+			}			
+		
+	
 		var updated_completion = {
-			'list':['testing','haxe','completion'],
-			'from':obj._cm.getCursor(),
+			'list':showThisList,
+			'from':CodeMirror.Pos(cur.line,start),
 			'to':obj._cm.getCursor()
 			}
 				

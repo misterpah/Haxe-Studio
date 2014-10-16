@@ -147,7 +147,7 @@ function scanWordsInEditor()
 				{
 				var _char = obj.getValue().charAt(_index -s);
 				var available = triggerAnywordCompletion.indexOf(_char);
-				console.log(_char+" "+available); 
+				//console.log(_char+" "+available); 
 				if (available == -1)
 					{
 					start = cur.ch -s+1;
@@ -156,63 +156,7 @@ function scanWordsInEditor()
 				s += 1;
 				}
 			}
-		/*
-		while(loop)
-			{
-
-			//console.log(_index - s);
-			//console.log(_index_0char);
-			//var available = splitter.indexOf(_char);
-			/*
-			var available = triggerAnywordCompletion.indexOf(_char);
-			console.log(available);
-			
-			if (available == -1 )
-				{
-				start = cur.ch -s +1;
-				loop = false;
-				}
-					
-				
-			// when completion on the start of the line
-			if (_index -s <= _index_0char)
-				{
-				start = cur.ch -s ;
-				loop = false;				
-				}
-				
-			
-			// when the words are too long
-			if (s > 128)
-				{
-				loop = false;
-				}
-				
-			s+= 1;
-			}
-		*/
-		//console.log("this run!");
-		console.log(start+"--"+end);
-		//console.log(end);
-		/*
-		var loop =true;
-		var s = 0;
-		while(loop)
-			{
-			console.log(s);
-			var _char = obj.getValue().charAt(_index - s);
-			console.log(_char);
-			if (splitter.indexOf(_char) != -1)
-				{
-				start = cur.ch -s +1;
-				loop = false;
-				}
-			s+= 1;
-			}
-
-		end = cur.ch;
-		console.log(start+ "," + end);
-		*/
+		
 		var value = cm.getRange(CodeMirror.Pos(cur.line,start),CodeMirror.Pos(cur.line,end));
 		//console.log(start+"-"+end + ":"+value);
 		var new_completion = [];

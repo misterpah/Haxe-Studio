@@ -1,6 +1,6 @@
 var editor = (function(obj)
 {
-	
+	obj.haxeCompletionIsActive = false;
 	obj.anyWordCompletionIsActive = false;
 	function openEditor()
   		{
@@ -46,7 +46,7 @@ var editor = (function(obj)
 				var triggerAnywordCompletion = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_".split("");
 				var availableInWords = triggerAnywordCompletion.indexOf(_char);
 
-				if (availableInWords != -1 && obj.anyWordCompletionIsActive == false)
+				if (availableInWords != -1 && obj.anyWordCompletionIsActive == false && obj.haxeCompletionIsActive == false)
 					{
 					obj.anyWordCompletionIsActive = true;
 					editor.anywordHint();
@@ -55,17 +55,57 @@ var editor = (function(obj)
 				if (availableInWords == -1)
 					{
 					obj.anyWordCompletionIsActive = false;
+					obj.haxeCompletionIsActive = false;
 					}					
 				});
 
 			CodeMirror.commands.completion = function(cm) {
+				console.log("completion ctrlspace");
 				var cur = obj.getCursor();
 				var _index = cm.indexFromPos(cur);
 				var _char = obj.getValue().charAt(_index - 1);
-				//console.log(_char);
-				if (_char == ".") // should fetch haxe completion
+				
+				var findTheseWords = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_".split("");
+		
+		
+				var _index = cm.indexFromPos(cur);
+				var _index_0char = cm.indexFromPos({line:cur.line,ch:0});
+				
+				var start;
+				var _char = obj.getValue().charAt(_index-1);
+				var available = findTheseWords.indexOf(_char);
+				if (available == -1)
 					{
-					var _index = cm.indexFromPos(obj.getCursor());
+					start = cur.ch;
+					}
+				else if (available != -1)
+					{
+					var s = 1;
+					var loop = true;			
+					while(loop)
+						{
+						var _char = obj.getValue().charAt(_index -s);
+						var available = findTheseWords.indexOf(_char);
+						if (available == -1)
+							{
+							start = cur.ch -s+1;
+							loop = false;
+							}
+						s += 1;
+						}
+					}
+				console.log(start);
+				var char_at_minus1 = obj.getValue().charAt(cm.indexFromPos({line:cur.line,ch:start-1}));
+				console.log(char_at_minus1);
+				
+				
+				
+				
+				
+				if (char_at_minus1 == "." ) // should fetch haxe completion
+					{
+					obj.haxeCompletionIsActive = true;
+					var _index = cm.indexFromPos({line:cur.line,ch:start});
 					central.event.broadcast("FileMenu.saveFile","editor.haxe_completion.js","");
 					haxe_server.haxe_completion(_index,central.filesystem.fileActive);	
 					var myVar = setInterval(function(myVar)
@@ -83,8 +123,11 @@ var editor = (function(obj)
 					}
 				else
 					{
-					editor.anywordHint();
-					cm.showHint({hint: editor.anywordHint,completeSingle:false});
+					if (obj.haxeCompletionIsActive == false)
+						{
+						editor.anywordHint();
+						cm.showHint({hint: editor.anywordHint,completeSingle:false});
+						}
 					}
 			};
 
