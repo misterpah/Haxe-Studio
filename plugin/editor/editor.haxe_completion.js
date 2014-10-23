@@ -110,38 +110,12 @@ var editor = (function(obj)
 	obj.haxeHint = function (cm,options)
 		{
 		//var _index = cm.indexFromPos(obj.getCursor());
+
 		
-		var data = $.xml2json(haxe_server.haxeCompletionResult);
-		//console.dir(data.i);
-		
-		var availableCompletion = [];
-		for (var i = 0;i < data.i.length;i++)
-			{
-			availableCompletion.push(data.i[i].n);
-			}
-		
-		var showThisList = []
-		if (availableCompletion.length >0)
-			{
-			showThisList = availableCompletion;
-			}
-		else
-			{
-			showThisList = ["no completion found"];
-			}
-			
-			
-		if (showThisList[0] != "no completion found")
-			{
-			var ret = haxeHint_update(obj._cm,showThisList);	
-			showThisList = ret.list;
-			}
-		
-		//console.dir(showThisList);
-		// provide completion until it Found something	
-		
-		var findTheseWords = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_1234567890".split("");
+		// setting up position
 		var cur = obj.getCursor();
+		var findTheseWords = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_1234567890".split("");
+		
 		var _index = cm.indexFromPos(cur);
 		var _index_0char = cm.indexFromPos({line:cur.line,ch:0});
 		//console.log(_index);
@@ -169,6 +143,54 @@ var editor = (function(obj)
 				}
 			}			
 		
+
+
+		
+		var data = $.xml2json(haxe_server.haxeCompletionResult);
+
+		
+		
+		
+		if (typeof data == "string")
+			{
+			showThisList = [data];
+			}
+		else
+			{
+			var availableCompletion = [];
+			if (data.i.length == undefined)
+				{
+				availableCompletion = [data.i.n];
+				}
+			else
+				{
+				for (var i = 0;i < data.i.length;i++)
+					{
+					availableCompletion.push(data.i[i].n);
+					}
+				}
+		
+		console.dir(availableCompletion);
+		console.log(typeof availableCompletion);		
+		
+			var showThisList = []
+			
+			if ( availableCompletion.length >0)
+				{
+				showThisList = availableCompletion;
+				}
+			else
+				{
+				showThisList = ["no completion found"];
+				}
+			
+			
+			if (showThisList[0] != "no completion found")
+				{
+				var ret = haxeHint_update(obj._cm,showThisList);	
+				showThisList = ret.list;
+				}
+			}
 	
 		var updated_completion = {
 			'list':showThisList,

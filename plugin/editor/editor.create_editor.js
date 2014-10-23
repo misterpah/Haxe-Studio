@@ -50,7 +50,7 @@ var editor = (function(obj)
 					{
 					obj.anyWordCompletionIsActive = true;
 					editor.anywordHint();
-					cm.showHint({hint: editor.anywordHint,completeSingle:true});
+					cm.showHint({hint: editor.anywordHint,completeSingle:false});
 					}
 				if (availableInWords == -1)
 					{
