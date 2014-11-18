@@ -1,11 +1,15 @@
-@textColor:#eeeeee;
-@bgColor:#151515;
+
+
 
 @prettyBlue:#3d81c6;
 @orange:#f39c12;
 @red:#e74c3c;
-@editorBg:#272822;
 
+@editorBg:#301800;/*#3C3D36; #22313F; #2C3E50; #272822;*/
+
+
+@textColor:#eeeeee;
+@bgColor:darken(@editorBg,10%);
 
 @folderColor:lighten(#6d787a,5%);
 @darkWhite:darken(#f3f3f3,10%);
@@ -39,11 +43,17 @@ body { background:@bgColor; }
 
 
 /* CodemirrorEditor */
-.CodeMirror {cursor:text;height:auto; font-family:"SourceCode" !important;}
-.CodeMirror-hscrollbar, .CodeMirror-vscrollbar{cursor:auto;min-width:initial !important;min-height:initial !important}
+.CodeMirror {cursor:text;height:auto; font-family:"SourceCode" !important;background:@editorBg !important;}
+.CodeMirror-gutters{background:@editorBg !important;}
+.CodeMirror-linenumber{color:darken(@editorBg,15%) !important;}
+.CodeMirror-hscrollbar, .CodeMirror-vscrollbar{cursor:auto;min-width:initial !important;min-height:initial !important;}
+.glyphicon {color:lighten(@editorBg,20%);text-shadow:none;}
+
+
 .lint-error {font-size: 70%;background: #ffa;color: #a00;padding: 2px 5px 3px;}
 .glyphicon-record{color:@red;}
-.CodeMirror-activeline-background{background:#000000 !important}
+.CodeMirror-activeline-background{background:darken(@editorBg,5%) !important}
+
 #inspector_position {background:@editorBg;}
 #custom_completion {background:@editorBg; color:#ffffff;z-index:9999;border:1px solid #f7951e; }
 #custom_completion .tt-dropdown-menu {background:@editorBg; color:#ffffff;z-index:9999;border:1px solid #f7951e; }
@@ -60,14 +70,14 @@ body { background:@bgColor; }
 /* scrollbar */
 ::-webkit-scrollbar {  width: 7px;  height:7px; }  
 ::-webkit-scrollbar-track {  /*background-color: #eaeaea;  border-left: 1px solid #ccc;  */ }  
-::-webkit-scrollbar-thumb {   background-color: #3f4449;   -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; }  
+::-webkit-scrollbar-thumb {  background:lighten(@editorBg,20%);    -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; }  
 /*::-webkit-scrollbar-thumb:hover {  background-color: @prettyBlue; }  */
 
 
 /* tab */
-#editor_tab { background:@bgColor;}
+#editor_tab { background:@bgColor;height:26px;}
 #editor_tab ul {border:0px; border-color:#d35400; }
-#editor_tab ul li { display:inline; height:30px;}
+#editor_tab ul li { display:inline; height:27px;}
 #editor_tab ul li div{padding:3px 6px;}
 
 #editor_tab ul li div.active { color:#ffffff; background:@editorBg; text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.8); border-color:@editorBg; height:30px; }
@@ -80,7 +90,7 @@ body { background:@bgColor; }
 /* layout */
 
 .content_position{border-right:2px solid @bgColor;}
-.content_status_position{background:@editorBg;}
+
 
 
 .option_position{background:@editorBg;border-right:2px solid @bgColor;} 

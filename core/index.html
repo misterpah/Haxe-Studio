@@ -1,5 +1,6 @@
 <html>
   <head>
+  	<title>Haxe Studio</title>
     <script src="../base/js/mediator.min.js"></script>
     <script src="../base/js/jquery-2.0.3.min.js"></script>
     <script src="../base/js/jquery.keystroke.min.js"></script>
@@ -43,6 +44,8 @@
     <script src="../core/js/hs.js"></script>
     
     <script>
+    hs.version = 0.5;
+    
     support.node.gui.App.setCrashDumpDir("../crashlog");
 	
     
@@ -111,7 +114,7 @@
 				</div>
 			</div>
 			<div style="padding-left:0px;height:100vh;" class="col-md-9 content_status_position">
-				<div style="background:#151515;height:30px;"></div>
+				<div style="margin-top:6px;">&nbsp;</div>
 				<div style="overflow:scroll;color:#ffffff;width:100%;padding:10px;" id='inspector_position' ></div>
 			</div>		
 		</div>	

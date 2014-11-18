@@ -16,7 +16,7 @@
 
 		var _cur = editor.getCursor();
 		//console.log(_cur);
-		central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].content = editor.getValue();
+		central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].content = central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].doc.getValue();
 		filesystem.saveFile(encodeURIComponent(central.filesystem.fileActive));
 		
 		//editor.setCursor(_cur.line,_cur.ch);		

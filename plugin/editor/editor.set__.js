@@ -8,5 +8,10 @@ var editor = (function(obj)
 		{
 		editor._cm.doc.setCursor({line:_line,ch:_ch})
 		}
+	obj.setDoc = function(doc)
+		{
+		var oldDoc = editor._cm.swapDoc(doc);
+		return oldDoc;
+		}
 	return obj;
 })(editor);

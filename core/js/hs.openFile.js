@@ -47,8 +47,12 @@
 		if (editor.find_tab(encodeURIComponent(central.filesystem.fileActive)) == 0)
 			{
 			editor.create_tab(central.filesystem.fileActive);
+			var doc = CodeMirror.Doc(central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].content,"haxe");
+			central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].doc = doc
 			}
-		editor.setValue(central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].content);
+		//editor.setValue(central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].content);
+		
+		editor.setDoc(central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].doc)
 		editor.show_tab(encodeURIComponent(central.filesystem.fileActive));
 		editor.show_inspector();
 		central.event.broadcast("openFile.complete","hs.openFile.js","");
@@ -57,7 +61,6 @@
 	
 	central.event.listen("FileMenu.openFileDirectly",function(data)
 		{
-		//console.dir(data);
 		central.filesystem.fileActive = decodeURIComponent(data.message);
 		central.event.broadcast("fileActiveChanged","hs.openFile.js","");
 		});

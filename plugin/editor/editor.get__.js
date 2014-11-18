@@ -9,6 +9,11 @@ var editor = (function(obj)
 		{
 		return obj._cm.getCursor();
 		}
+
+	obj.getDoc = function()
+		{
+		return obj._cm.getDoc();
+		}		
 		
 	return obj;
 })(editor);

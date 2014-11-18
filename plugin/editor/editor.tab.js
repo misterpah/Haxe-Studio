@@ -3,10 +3,10 @@ var editor = (function(obj)
 	
 	function makeTheTabActive(encoded_filename)
 		{
+		
 		$("#editor_tab a").each(function(){$(this).parent().removeClass("active");});
 		// add active class to user-chosen
 		$("#editor_tab a[data-path='"+encoded_filename+"']").parent().addClass("active");
-		
 		}
 
 	function makeANewTabIfTabBlankIsNotAvailable(filename)
@@ -25,7 +25,6 @@ var editor = (function(obj)
 		{
 		makeANewTabIfTabBlankIsNotAvailable(filename)
 		}
-
 
 	obj.show_tab = function(encoded_filename)
 		{
@@ -52,16 +51,23 @@ var editor = (function(obj)
 		obj.switch_tab(clicked_obj);
 		central.event.broadcast("FileMenu.closeFile","editor.tab.js","");
 		}
+		
 	obj.switch_tab = function(clicked_obj)
 		{
 		if ($("#editor_tab div.active a").attr("data-path") != undefined)
 			{
 			central.filesystem.fileActive = decodeURIComponent($("#editor_tab div.active a").attr("data-path"));
-			central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].content = obj.getValue();
+			central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].doc = obj.getDoc();
+			central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].cursor = obj.getCursor();
 			}
 		makeTheTabActive(clicked_obj.attr('data-path'));
-		obj.setValue(central.filesystem.fileStack[clicked_obj.attr('data-path')].content);
 		central.filesystem.fileActive = decodeURIComponent(clicked_obj.attr('data-path'));
+		obj.setDoc(central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].doc);
+		if (central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].cursor)
+			{		
+			obj.setCursor(central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].cursor.line,central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].cursor.ch);
+			obj._cm.focus();
+			}
 		obj.show_inspector();
 		}
 		
