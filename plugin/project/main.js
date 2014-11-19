@@ -6,6 +6,7 @@ var project = (function(obj)
 	obj.init = function()
 		{
 		central.project = {};
+		support.loadJS(plugin_path+"/new_project.js");
 		support.loadJS(plugin_path+"/open_project.js");
 		support.loadJS(plugin_path+"/project_tree.js");
 		support.loadJS(plugin_path+"/compile_project.js");
@@ -13,6 +14,7 @@ var project = (function(obj)
 		support.loadJS(plugin_path+"/project_tree_context_menu.js");
 		
 		support.loadJS(plugin_path+"/compiler.js");
+		
 		};
 		
 	obj.destroy = function()

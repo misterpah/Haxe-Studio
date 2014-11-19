@@ -1,0 +1,162 @@
+<html>
+	<head>
+		<title>Haxe Studio - New Project</title>
+		<script src="../../base/js/mediator.min.js"></script>
+		<script src="../../base/js/jquery-2.0.3.min.js"></script>
+	<link rel="stylesheet" href="../../base/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="../../base/bootstrap/css/bootstrap-theme.min.css">
+	<script src="../../base/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../../base/bootstrap/js/bootstrap-contextmenu.js"></script>        
+	
+	
+	
+	<link rel="stylesheet/less" type="text/css" href="../../core/themes/default/theme.less" />
+	<link  type="text/css" rel="stylesheet" href="../../core/themes/default/fonts.css" />
+	
+	
+
+	<script>
+	  less = {
+		env: "development",
+		async: false,
+		fileAsync: false,
+		poll: 1000,
+		functions: {},
+		dumpLineNumbers: "comments",
+		relativeUrls: false,
+		rootpath: ":/a.com/",
+		logLevel:0 // no logging whatsoever
+	  };				
+	</script>		
+	<script src="../../base/js/less.min.js"></script>
+
+	
+		
+	</head>
+	
+	<body class="option_position_content">
+		<div class="col-sm-8 col-sm-offset-2" style="overflow:hidden;color:#ffffff;">
+			<div class="row">
+				<h1 class="text-center">Create a new Project</h1>
+			</div>
+			<div class="row" style="margin-top:20px;">
+				<div class="col-sm-6" >
+					<p>Project Name</p>
+				</div>
+				<div class="col-sm-6">
+					<input class="form-control" id="projectName" style="width:100%;color:#000000;" type="text"/>
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-sm-6">
+					<p>Project Folder</p>
+				</div>
+				<div class="col-sm-6">
+					<input class="form-control" id="projectFolder" style="width:100%" type="file" nwdirectory />
+				</div>
+			</div>							
+			<br/>
+			<div class="row">
+				<div class="col-sm-6">
+					<p>Project Base</p>
+				</div>
+				<div class="col-sm-6">
+					<select id="projectBase" style="background:#444444;width:100%;">
+						<option value="openfl">OpenFL</option>
+						<option value="haxeflixel">HaxeFlixel</option>
+					</select>
+				</div>
+			</div>				
+			<br/><br/>
+			<div class="row">
+				<div class="col-sm-12">
+					<button type="button" onclick="fetchProjectInfo();" class="btn btn-primary btn-lg btn-block">Create Project</button>
+				</div>
+			</div>	
+
+
+			<br/><br/>
+			<div class="row" style="background:#000000;margin:5px;padding:15px;">
+				<div class="row">
+					<h3 class="text-center">Help</h3>
+				</div>			
+				<ol>
+					<li>Fill Project Name</li>
+					<li>Choose Project Folder</li>
+					<li>Choose Project Base </li>
+				</lo>
+			</div>
+
+		</div>
+	</body>
+	
+	<script>
+	var path = require("path");
+	var sep = path.sep;
+	var fs = require("fs-extra");
+
+	var project_obj = {};
+	project_obj.projectFolder = "";
+	project_obj.projectBase = "";
+	project_obj.projectName = "";
+	
+	function fetchProjectInfo()
+		{
+		var projectName = $("#projectName").val();
+		var projectBase = $("#projectBase").val();
+		if (projectName == ""){alert("please specify Project Name");}
+		if (projectBase == ""){alert("please specify Project Base");}
+		if (project_obj.projectFolder == ""){alert("please choose Project Folder");}
+		if (projectName != "")
+			{
+			if (projectBase != "")
+				{
+				if (project_obj.projectFolder != "")
+					{
+					project_obj.projectName = projectName;
+					project_obj.projectBase = projectBase;
+					var folder = project_obj.projectFolder + sep + project_obj.projectName;
+					if (fs.existsSync(folder))
+						{
+						//exists
+						alert("Folder Name Clashed. Please choose another project Name");
+						return;
+						}
+					fs.mkdirSync(folder);
+					fs.copySync(path.resolve("../plugin/project/template/"+project_obj.projectBase+"/"),folder);
+					console.log('finish copied');
+					
+					// now do processing for specific code
+					
+					if (project_obj.projectBase == "openfl")
+						{
+						project_obj.PROJECTPACKAGE = "com.default."+project_obj.projectName;
+						project_obj.PROJECTVERSION = "1.0.0";
+						project_obj.PROJECTCOMPANYNAME = "myCompany";
+						project_obj.PROJECTEXPORTNAME = project_obj.projectName;
+						var content = fs.readFileSync(folder+sep+"project.xml","utf-8");
+						content = content.replace("%PROJECTNAME%",project_obj.projectName);
+						content = content.replace("%PROJECTPACKAGE%",project_obj.PROJECTPACKAGE);
+						content = content.replace("%PROJECTVERSION%",project_obj.PROJECTVERSION);
+						content = content.replace("%PROJECTCOMPANYNAME%",project_obj.PROJECTCOMPANYNAME);
+						content = content.replace("%PROJECTEXPORTNAME%","Main");
+						//console.log(content);
+						fs.writeFileSync(folder+sep+"project.xml",content);
+						console.log('completed!');
+						}
+					
+					
+					
+					//alert("everything is good!");
+					}
+				}			
+			}
+		}
+	
+	$("#projectFolder").change(function(evt)
+		{
+		project_obj.projectFolder = $(this).val();
+		});
+	</script>
+</html>

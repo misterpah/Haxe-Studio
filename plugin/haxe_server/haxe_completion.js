@@ -13,14 +13,18 @@ var haxe_server = (function(obj)
 			"cd %CD% %QUOTE%"+central.project.projectFolder+"%QUOTE%",
 			"haxe --connect "+port+" "+central.project.projectParameter+" --display %QUOTE%"+file+"%QUOTE%@"+position
 			],function(p1,p2,p3){
-				console.dir(p1);
-				console.dir(p2);
-				console.dir(p3);
+				//console.dir(p1);
+				//console.dir(p2);
+				//console.dir(p3);
 				if (p1 == null) // no error
 					{
 					waiting = false;
 					obj.haxeCompletionResult = p3;
 					central.event.broadcast("haxeCompletionComplete","haxe_completion.js","");
+					}
+				else if (p1 != null)
+					{
+					console.log(p3);
 					}
 			});
 		}
