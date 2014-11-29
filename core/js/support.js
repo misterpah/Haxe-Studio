@@ -87,6 +87,48 @@ support.fileSave = function(filename, content)
 	////gvar.event.broadcast("file_save:end","support.fileSave",filename);	
 	}	
 	
+
+support.dropdownMenuItemSeperator = function()
+	{
+	return '<li class="divider"></li>';
+	}
+
+support.dropdownMenuItem = function(label,message_name,shortcut_key)
+	{
+	var event = 'central.event.broadcast("'+message_name+'","menu","");'
+	var ret = ["<li>",
+	"<a onclick='"+event+"'>",
+	label,
+	"<div style='display:inline;float:right'>",
+	shortcut_key,
+	"</div>",
+	"</a>",
+	"</li>"].join("");
+	return ret;
+	}
+
+support.dropdownMenu = function(label,dropdownContent)
+	{
+	/*
+	<li class="dropdown">
+	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Help <span class="caret"></span></a>
+	  <ul class="dropdown-menu" role="menu">
+		<li><a href="#">Contribution</a></li>
+		<li class="divider"></li>
+		<li><a href="#">Check for update <div style="display:inline;float:right;"><span class="label label-primary">Ctrl</span> <span class="label label-success">U</span></div></a></li>
+	  </ul>
+	</li>		
+	*/
+	
+	var ret = ['<li class="dropdown">',
+	'<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">'+label+' <span class="caret"></span></a>',
+	'<ul class="dropdown-menu" role="menu">',
+	dropdownContent,
+	'</ul>',
+	'</li>'].join("");
+	
+	return ret;
+	}
 	
 	
 support.build_menuitem = function(label,message_name,shortcut_key)

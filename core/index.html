@@ -64,59 +64,97 @@
     	window.onresize = function(){central.event.broadcast("window_resized","index","");};    
     	});
     </script>
+    <style>
+    .navbar ul.navbar-nav
+    {
+    	height:5vh;
+    }
+    .navbar ul.navbar-nav >li> a
+    {
+    	height:5vh;
+    	padding-top:3px;
+    	padding-bottom:5px;
+    }    
+    
+    .navbar ul.dropdown-menu 
+    {
+    margin-top:-3px;
+    }
+    
+    .dropdown-menu
+    {
+    min-width:250px;
+    }
+    </style>
   </head>
 <body style="overflow:hidden;height:100vh;">	
+		<!--
 		<div class="row" style="height:20vh;position:absolute;bottom:0px;left:0px;" id="floating_position">
 			<h1>pah was here</h1>
 		</div>
+		-->
 		<div class="row" style="height:100vh;">
-			<div style="padding-right:0px;height:100vh;" class="col-md-3 option_position">
-				<div id="option_position_buttons" class="option_position_buttons">
-					<div class="btn-group">
-					  <button onclick="option_position_content_show_tab($(this));"  data-refer="tree_position" type="button" class="btn btn-default btn_option_position active"><span class="glyphicon glyphicon-folder-open"></span></button>
-					  <button onclick="option_position_content_show_tab($(this));" data-refer="compiler_position" type="button" class="btn btn-default btn_option_position"><span class="glyphicon glyphicon-play"></span></button>
-					  <button onclick="option_position_content_show_tab($(this));" data-refer="console_position" type="button" class="btn btn-default btn_option_position"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
-					</div>		
-				</div>		
 		
-				<div style="padding-left:0px;padding-right:0px;-webkit-box-sizing: border-box;">
-					<div id="option_position_content" class="option_position_content">
+			<nav class="navbar navbar-default" style="height:5%;padding-left:10px;padding-right:10px;min-height:initial;margin-bottom:0px;clear:both;" role="navigation">
+			  <div class="container-fluid" style="height:5vh;">
+				  <ul id="main_menu" class="nav navbar-nav navbar-left">
+
+				  </ul>			  
+			  </div>
+			</nav>
+
+
+			<div style="padding-right:0px;height:95%;clear:both;">
+				<div style="padding-right:0px;height:100%;clear:both;" class="col-md-3 option_position">
+					<!--
+					<div id="option_position_buttons" class="option_position_buttons">
+						<div class="btn-group">
+						  <button onclick="option_position_content_show_tab($(this));"  data-refer="tree_position" type="button" class="btn btn-default btn_option_position active"><span class="glyphicon glyphicon-folder-open"></span></button>
+						  <button onclick="option_position_content_show_tab($(this));" data-refer="compiler_position" type="button" class="btn btn-default btn_option_position"><span class="glyphicon glyphicon-play"></span></button>
+						  <button onclick="option_position_content_show_tab($(this));" data-refer="console_position" type="button" class="btn btn-default btn_option_position"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
+						</div>		
+					</div>		
+					-->
+		
+					<div style="padding-left:0px;padding-right:0px;-webkit-box-sizing: border-box;">
+						<div id="option_position_content" class="option_position_content">
 				
-						<div id='tree_position' style="display:block;">
+							<div id='tree_position' style="display:block;">
 						
-							<p style="color:#ffffff" class="shadowme">
-								<br/>
-								<button type="button" class="btn btn-primary btn-block" onclick='central.event.broadcast("FileMenu.newProject","index.html:button:right_part","");'>New Project</button>
-								<br/>
-								<button type="button" class="btn btn-primary btn-block" onclick='central.event.broadcast("FileMenu.openProject","index.html:button:right_part","");'>Open Project</button>
-								<script>/*
-								<br/>
-								<button type="button" class="btn btn-warning btn-block" onclick='central.event.broadcast("FileMenu.openFolder","index.html:button:right_part","");'>Open Folder</button>							
-								*/</script>
-							</p>
+								<p style="color:#ffffff" class="shadowme">
+									<br/>
+									<button type="button" class="btn btn-primary btn-block" onclick='central.event.broadcast("FileMenu.newProject","index.html:button:right_part","");'>New Project</button>
+									<br/>
+									<button type="button" class="btn btn-primary btn-block" onclick='central.event.broadcast("FileMenu.openProject","index.html:button:right_part","");'>Open Project</button>
+									<script>/*
+									<br/>
+									<button type="button" class="btn btn-warning btn-block" onclick='central.event.broadcast("FileMenu.openFolder","index.html:button:right_part","");'>Open Folder</button>							
+									*/</script>
+								</p>
 						
-						</div>
+							</div>
 					
-						<div id='compiler_position' style="display:none;color:#ffffff">
-							<p>You haven't set the Project file!</p>
-						</div>					
+							<div id='compiler_position' style="display:none;color:#ffffff">
+								<p>You haven't set the Project file!</p>
+							</div>					
 				
-						<div id='console_position' style="display:none;">
-							<p>Console will be here</p>
+							<div id='console_position' style="display:none;">
+								<p>Console will be here</p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</div>		
+				</div>		
 		
-			<div style="padding-left:0px;padding-right:0px;height:100vh;" class="col-md-9 content_position">
-				<div id="content_position" style="height:100vh;"  class="ui-layout-center ui-layout-wrapper">
-					<div id='editor_position' style="height:100vh;" ></div>
+				<div style="padding-left:0px;padding-right:0px;height:100%;" class="col-md-9 content_position">
+					<div id="content_position" style="height:100%;"  class="ui-layout-center ui-layout-wrapper">
+						<div id='editor_position' style="height:100%;" ></div>
+					</div>
 				</div>
+				
+				<div style="padding-left:0px;height:100%;" class="col-md-9 content_status_position">
+					<div style="margin-top:5px;overflow:scroll;color:#ffffff;width:100%;padding:10px;height:100%;" id='inspector_position' ></div>
+				</div>	
 			</div>
-			<div style="padding-left:0px;height:100vh;" class="col-md-9 content_status_position">
-				<div style="margin-top:6px;">&nbsp;</div>
-				<div style="overflow:scroll;color:#ffffff;width:100%;padding:10px;" id='inspector_position' ></div>
-			</div>		
 		</div>	
 	<div id="temp"></div>
 	</body>	

@@ -8,7 +8,7 @@ var editor = (function(obj)
   			{
   			//console.log("opening Editor");
 			$("body").append("<style>.CodeMirror-dialog-top { position:absolute;right:0px;}</style>");
-			$("#editor_position").append("<div id='editor_tab'><ul class='nav nav-tabs'></ul></div>");
+			$("#editor_position").prepend("<div id='editor_tab'><ul class='nav nav-tabs'></ul></div>");
 			$("#editor_position").append("<div id='editor_editor' ><textarea id='cm_textarea'></textarea></div>");
 			$("#editor_editor").css("display","none");
   			

@@ -1,7 +1,7 @@
 var config = {};
 
 config.editor_theme = "base16-monokai-dark";
-config.font_size = "16px";
+config.font_size = "15px";
 	
 config.restify_port = 8080;
 config.haxe_port = 30003;
