@@ -14,9 +14,9 @@ function loadAllPluginFromCentralHsAvailable_plugin()
 	central.hs.loaded_plugin = [];
 	for (var i = 0;i < central.hs.available_plugin.length;i++)
 		{
-		//console.log("loading plugin "+central.hs.available_plugin[i]);
 		support.loadJS("../plugin/"+central.hs.available_plugin[i]+"/main.js");
 		central.hs.loaded_plugin.push(central.hs.available_plugin[i]);
+		debug.debug("loadPlugin",central.hs.available_plugin[i]);
 		}
 	};	
 

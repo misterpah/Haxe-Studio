@@ -4,10 +4,10 @@
   "window": {
   	"icon" : "haxe-studio.png",
     "title": "Haxe Studio",
-    "toolbar": true,
+    "toolbar": false,
     "frame": true,
     "min_width": 1000,
-    "min_height": 600,
+    "min_height": 650,
     "position": "center",
 	"show": true
   }  

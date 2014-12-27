@@ -60,7 +60,7 @@ var editor = (function(obj)
 		
 	central.event.listen("window_resized",function()
 		{
-		var max_height = $(".content_position").outerHeight();
+		var max_height = $("#content_position").outerHeight();
 		var tab_height = $("#editor_tab").outerHeight();
 		$(".CodeMirror").height(max_height - tab_height +"px")		
 		});

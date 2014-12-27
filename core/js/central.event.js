@@ -8,6 +8,7 @@ var mediator = new Mediator();
 central.event.broadcast =  function(channel,_from,_message)
 	{
 	//console.log('broadcast :'+channel);
+	debug.debug("broadcastEvent",channel);
 	central.event.list.broadcast.push([channel,_from]);
 	mediator.publish(channel,{message:_message,from:_from});
 	}
@@ -26,7 +27,7 @@ central.event.stopListen =function(channel)
 
 central.event.listen =  function(channel,callback)
 	{
-	//console.log('listen :'+channel);
+	debug.debug("listenEvent",channel);
 	central.event.list.listen.push(channel);
 	mediator.subscribe(channel,callback);
 	}

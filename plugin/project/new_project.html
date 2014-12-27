@@ -135,18 +135,33 @@
 						project_obj.PROJECTVERSION = "1.0.0";
 						project_obj.PROJECTCOMPANYNAME = "myCompany";
 						project_obj.PROJECTEXPORTNAME = project_obj.projectName;
-						var content = fs.readFileSync(folder+sep+"project.xml","utf-8");
+						var content = fs.readFileSync(folder+sep+"Project.xml","utf-8");
 						content = content.replace("%PROJECTNAME%",project_obj.projectName);
 						content = content.replace("%PROJECTPACKAGE%",project_obj.PROJECTPACKAGE);
 						content = content.replace("%PROJECTVERSION%",project_obj.PROJECTVERSION);
 						content = content.replace("%PROJECTCOMPANYNAME%",project_obj.PROJECTCOMPANYNAME);
 						content = content.replace("%PROJECTEXPORTNAME%","Main");
 						//console.log(content);
-						fs.writeFileSync(folder+sep+"project.xml",content);
+						fs.writeFileSync(folder+sep+"Project.xml",content);
 						console.log('completed!');
 						}
 					
-					
+					if (project_obj.projectBase == "haxeflixel")
+						{
+						project_obj.PROJECTPACKAGE = "com.default."+project_obj.projectName;
+						project_obj.PROJECTVERSION = "1.0.0";
+						project_obj.PROJECTCOMPANYNAME = "myCompany";
+						project_obj.PROJECTEXPORTNAME = project_obj.projectName;
+						var content = fs.readFileSync(folder+sep+"Project.xml","utf-8");
+						content = content.replace("%PROJECTNAME%",project_obj.projectName);
+						content = content.replace("%PROJECTPACKAGE%",project_obj.PROJECTPACKAGE);
+						content = content.replace("%PROJECTVERSION%",project_obj.PROJECTVERSION);
+						content = content.replace("%PROJECTCOMPANYNAME%",project_obj.PROJECTCOMPANYNAME);
+						content = content.replace("%PROJECTEXPORTNAME%","Main");
+						//console.log(content);
+						fs.writeFileSync(folder+sep+"Project.xml",content);
+						console.log('completed!');
+						}					
 					
 					//alert("everything is good!");
 					}

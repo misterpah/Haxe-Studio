@@ -88,6 +88,21 @@ support.fileSave = function(filename, content)
 	}	
 	
 
+support.collapsible = function(id,title,content)
+	{
+	var ret = ['<div style="margin:10px; ">',
+	'<div class="panel panel-default">',
+	'<div class="panel-heading">',
+	title,
+	'</div>',
+	'<div id="'+id+'"class="panel-body" style="max-height:200px;overflow:scroll;">',
+	content,
+	'</div>',
+	'</div>			',
+	'</div>	'].join("\n");
+	return ret;
+	}
+
 support.dropdownMenuItemSeperator = function()
 	{
 	return '<li class="divider"></li>';
@@ -192,7 +207,31 @@ support.unwatch = function (variable,attribute,callback)
 	unwatch(variable,attribute,callback);
 	}
 
+support.makeSidePanel = function(id,title,content)
+	{
+	
 
+					  	
+	parentId = "power_menu";
+var ret = [
+'<div class="panel panel-default">',
+'<div class="panel-heading" role="tab" id="'+id+'">',
+'<a class="collapsed" data-toggle="collapse" data-parent="#'+/*parentId+*/'" href="#'+id+'Content" aria-expanded="true" aria-controls="'+id+'Content">',
+'<h4 class="panel-title">',
+title,
+'</h4>',
+'</a>',
+'</div>',
+'<div id="'+id+'Content" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="'+id+'">',
+'<div class="panel-body content">',
+content,
+'</div>',
+'</div>',
+'</div>'
+].join("\n");
+	
+	return ret;
+	}
 
 
 support.exec = function (lines_to_exec,callbackFunction) 

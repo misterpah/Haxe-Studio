@@ -6,6 +6,7 @@
     <script src="../base/js/jquery.keystroke.min.js"></script>
     
     <script src="../base/js/watch.js"></script>
+    <script src="../base/js/ba-debug.min.js"></script>
     
 	<link rel="stylesheet" href="../base/bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" href="../base/bootstrap/css/bootstrap-theme.min.css">
@@ -31,6 +32,23 @@
 		logLevel:0 // no logging whatsoever
 	  };				
 	</script>		
+	
+	<script>
+	function debug_callback( level ) {
+		var args = Array.prototype.slice.call( arguments, 1 );
+
+		var d = new Date();
+		var n = d.getUTCFullYear()+"/"+d.getUTCMonth()+"/"+d.getUTCDate()+" "+d.getHours() +":"+d.getMinutes() +":"+d.getSeconds() ;
+		
+		debugTime = "<div class='debug-time'>"+n+"</div>";
+		debugText = "<div class='debug-text'>"+args+"</div>";
+		
+		$("#debug").prepend( "<div style='clear:both;' class='debug-level-"+level+"'>"+debugTime+debugText+"</div>");
+	};
+
+	debug.setCallback( debug_callback,true);				
+	</script>
+	
 	<script src="../base/js/less.min.js"></script>
 
 
@@ -38,6 +56,7 @@
     <script>
 	 var central = {};
 	 global.central = central;
+	 var gui = require("nw.gui");
     </script>
     <script src="../core/config.js"></script>
     <script src="../core/js/support.js"></script>
@@ -47,23 +66,27 @@
     hs.version = 0.5;
     
     support.node.gui.App.setCrashDumpDir("../crashlog");
-	
+	window.onresize = function(){central.event.broadcast("window_resized","index","");};  
     
     jQuery(document).ready(function()
     	{
+		
 		$("title").html( $("title").html() +" v"+hs.version); $(".hs_version").html(hs.version);
-		$(".content_status_position").removeClass("col-md-9")
-		$(".content_status_position").addClass("col-xs-"+config.content_status_position_width);
+		//$(".content_status_position").removeClass("col-md-9")
+		//$(".content_status_position").addClass("col-xs-"+config.content_status_position_width);
 		$(".content_position").removeClass("col-md-9")
-		$(".content_position").addClass("col-xs-"+config.content_position_width);
+		$(".content_position").addClass("col-sm-"+config.content_position_width);
+		$(".content_position").addClass("col-lg-"+config.large_screen_content_position_width);
+		
 		$(".option_position").removeClass("col-md-3")
-		$(".option_position").addClass("col-xs-"+config.option_position_width);					
+		$(".option_position").addClass("col-sm-"+config.option_position_width);					
+		$(".option_position").addClass("col-lg-"+config.large_screen_option_position_width);					
 		$("head").append("<style>.CodeMirror{font-size:"+config.font_size+";}</style>");
+
     	hs.loadAllCoreJS();
     	hs.init();
-    	window.onresize = function(){central.event.broadcast("window_resized","index","");};    
     	});
-    </script>
+	</script>
     <style>
     .navbar ul.navbar-nav
     {
@@ -88,11 +111,8 @@
     </style>
   </head>
 <body style="overflow:hidden;height:100vh;">	
-		<!--
-		<div class="row" style="height:20vh;position:absolute;bottom:0px;left:0px;" id="floating_position">
-			<h1>pah was here</h1>
-		</div>
-		-->
+		
+		
 		<div class="row" style="height:100vh;">
 		
 			<nav class="navbar navbar-default" style="height:5%;padding-left:10px;padding-right:10px;min-height:initial;margin-bottom:0px;clear:both;" role="navigation">
@@ -106,38 +126,12 @@
 
 			<div style="padding-right:0px;height:95%;clear:both;">
 				<div style="padding-right:0px;height:100%;clear:both;" class="col-md-3 option_position">
-					<!--
-					<div id="option_position_buttons" class="option_position_buttons">
-						<div class="btn-group">
-						  <button onclick="option_position_content_show_tab($(this));"  data-refer="tree_position" type="button" class="btn btn-default btn_option_position active"><span class="glyphicon glyphicon-folder-open"></span></button>
-						  <button onclick="option_position_content_show_tab($(this));" data-refer="compiler_position" type="button" class="btn btn-default btn_option_position"><span class="glyphicon glyphicon-play"></span></button>
-						  <button onclick="option_position_content_show_tab($(this));" data-refer="console_position" type="button" class="btn btn-default btn_option_position"><span class="glyphicon glyphicon-exclamation-sign"></span></button>
-						</div>		
+					<div class="panel-group" id="power_menu" role="tablist" aria-multiselectable="true" style="padding:10px;">
 					</div>		
-					-->
+		
 		
 					<div style="padding-left:0px;padding-right:0px;-webkit-box-sizing: border-box;">
 						<div id="option_position_content" class="option_position_content">
-				
-							<div id='tree_position' style="display:block;">
-						
-								<p style="color:#ffffff" class="shadowme">
-									<br/>
-									<button type="button" class="btn btn-primary btn-block" onclick='central.event.broadcast("FileMenu.newProject","index.html:button:right_part","");'>New Project</button>
-									<br/>
-									<button type="button" class="btn btn-primary btn-block" onclick='central.event.broadcast("FileMenu.openProject","index.html:button:right_part","");'>Open Project</button>
-									<script>/*
-									<br/>
-									<button type="button" class="btn btn-warning btn-block" onclick='central.event.broadcast("FileMenu.openFolder","index.html:button:right_part","");'>Open Folder</button>							
-									*/</script>
-								</p>
-						
-							</div>
-					
-							<div id='compiler_position' style="display:none;color:#ffffff">
-								<p>You haven't set the Project file!</p>
-							</div>					
-				
 							<div id='console_position' style="display:none;">
 								<p>Console will be here</p>
 							</div>
@@ -145,15 +139,17 @@
 					</div>
 				</div>		
 		
-				<div style="padding-left:0px;padding-right:0px;height:100%;" class="col-md-9 content_position">
-					<div id="content_position" style="height:100%;"  class="ui-layout-center ui-layout-wrapper">
+				<div style="padding-left:0px;padding-right:0px;margin-right:0px;height:100%;" class="col-md-9 content_position">
+					<div id="content_position" style="height:70%;"  class="ui-layout-center ui-layout-wrapper">
 						<div id='editor_position' style="height:100%;" ></div>
 					</div>
+					<div style="height:30%;width:100%;background:#000000;color:#ffffff;overflow-y:scroll;" id="floating_position">
+						<p>Console</p>
+						<div id="debug"></div>
+					</div>
+					
 				</div>
 				
-				<div style="padding-left:0px;height:100%;" class="col-md-9 content_status_position">
-					<div style="margin-top:5px;overflow:scroll;color:#ffffff;width:100%;padding:10px;height:100%;" id='inspector_position' ></div>
-				</div>	
 			</div>
 		</div>	
 	<div id="temp"></div>
