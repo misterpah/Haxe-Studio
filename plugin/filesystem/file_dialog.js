@@ -4,20 +4,20 @@ var filesystem = (function(obj)
 	
 	function openFileDialog()
 		{
+		var deferred = Q.defer();
 		jQuery("#temp").append('<input style="display:none;" id="fileDialog" type="file" />');
-		var name = '#fileDialog';
-		var chooser = $(name);
-		chooser.change(function(evt) 
+		$('#fileDialog').trigger('click');  
+		$('#fileDialog').change(function(evt) 
 			{
-			_c.fileActive = $(this).val();
 			$("#temp").html("");
+			deferred.resolve($(this).val());
 			});
-		chooser.trigger('click');  
+		return deferred.promise;
 		}
 		
 	obj.file_dialog = function()
 		{
-		openFileDialog();
+		return Q.fcall(openFileDialog);
 		}
 		
 	return obj;

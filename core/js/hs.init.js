@@ -47,6 +47,7 @@ function initializeAllLoadedPlugin()
 	for (var i = 0 ; i < central.hs.loaded_plugin.length;i++)
 		{
 		executeFunctionByName(central.hs.loaded_plugin[i]+".init",window);
+		debug.debug("initPlugin",central.hs.loaded_plugin[i]);
 		}
 	}
 	
@@ -65,11 +66,14 @@ function registerAllPluginServicesIntoCentral()
 		}	
 	}
 
-
-obj.init = function()
+obj.pre_init = function()
 	{
 	scanPluginFolderForListOfPlugin();
 	loadAllPluginFromCentralHsAvailable_plugin();
+	}
+	
+obj.init = function()
+	{
 	initializeAllLoadedPlugin();
 	
 	

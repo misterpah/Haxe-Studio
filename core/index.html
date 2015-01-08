@@ -33,21 +33,6 @@
 	  };				
 	</script>		
 	
-	<script>
-	function debug_callback( level ) {
-		var args = Array.prototype.slice.call( arguments, 1 );
-
-		var d = new Date();
-		var n = d.getUTCFullYear()+"/"+d.getUTCMonth()+"/"+d.getUTCDate()+" "+d.getHours() +":"+d.getMinutes() +":"+d.getSeconds() ;
-		
-		debugTime = "<div class='debug-time'>"+n+"</div>";
-		debugText = "<div class='debug-text'>"+args+"</div>";
-		
-		$("#debug").prepend( "<div style='clear:both;' class='debug-level-"+level+"'>"+debugTime+debugText+"</div>");
-	};
-
-	debug.setCallback( debug_callback,true);				
-	</script>
 	
 	<script src="../base/js/less.min.js"></script>
 
@@ -57,23 +42,23 @@
 	 var central = {};
 	 global.central = central;
 	 var gui = require("nw.gui");
+	 var Q = require("q");
     </script>
+    
     <script src="../core/config.js"></script>
     <script src="../core/js/support.js"></script>
     <script src="../core/js/hs.js"></script>
     
     <script>
-    hs.version = 0.5;
+    
     
     support.node.gui.App.setCrashDumpDir("../crashlog");
 	window.onresize = function(){central.event.broadcast("window_resized","index","");};  
     
     jQuery(document).ready(function()
     	{
-		
+		hs.version = 0.5;	
 		$("title").html( $("title").html() +" v"+hs.version); $(".hs_version").html(hs.version);
-		//$(".content_status_position").removeClass("col-md-9")
-		//$(".content_status_position").addClass("col-xs-"+config.content_status_position_width);
 		$(".content_position").removeClass("col-md-9")
 		$(".content_position").addClass("col-sm-"+config.content_position_width);
 		$(".content_position").addClass("col-lg-"+config.large_screen_content_position_width);
@@ -83,8 +68,10 @@
 		$(".option_position").addClass("col-lg-"+config.large_screen_option_position_width);					
 		$("head").append("<style>.CodeMirror{font-size:"+config.font_size+";}</style>");
 
-    	hs.loadAllCoreJS();
-    	hs.init();
+    	hs.loadAllCoreJS(); // load all required files
+    	hs.pre_init(); // load all plugin
+    	hs.init(); // start haxestudio
+    	addStyle("debuglog",".debug-level-debug{display:none;}");
     	});
 	</script>
     <style>
@@ -143,8 +130,15 @@
 					<div id="content_position" style="height:70%;"  class="ui-layout-center ui-layout-wrapper">
 						<div id='editor_position' style="height:100%;" ></div>
 					</div>
-					<div style="height:30%;width:100%;background:#000000;color:#ffffff;overflow-y:scroll;" id="floating_position">
-						<p>Console</p>
+					<div style="height:30%;width:100%;background:#000000;color:#ffffff;overflow-y:scroll;padding-right:10px;padding-left:5px;padding-top:5px;" id="floating_position">
+						<div>
+							<div style="float:left">
+								Console 
+								<a onClick='showHideDebug()'><small>[show/hide debug]</small></a>
+							</div>
+							
+							
+						</div>
 						<div id="debug"></div>
 					</div>
 					
@@ -156,14 +150,4 @@
 	</body>	
 </html>
 
-<script>
-// left-side menu show/hide
-function option_position_content_show_tab(obj)
-	{
-	$("#option_position_buttons div").children().each(function(){$(this).removeClass("active")})
-	$("#option_position_content").children().each(function(){$(this).css("display","none")});
-	$(obj).addClass("active");
-	$("#"+$(obj).attr("data-refer")).css("display","block");
-	central.event.broadcast("gui:option_position_button:"+$(obj).attr("data-refer"),"index.html");
-	}
-</script>
+

@@ -23,13 +23,14 @@ var project = (function(obj)
 			}
 		else
 			{
-			console.log("File are not a valid Haxe Project.");
+			debug.info("File are not a valid Haxe Project.");
 			return false;
 			}
 		}	
 		
 	function parseTheProjectForProjectParameters(filename,compiler)
 		{
+		var deferred = Q.defer();
 		var folder_for_filename = filename.split(support.node.path.sep);
 		folder_for_filename.pop();
 		folder_for_filename = folder_for_filename.join(support.node.path.sep);
@@ -63,7 +64,9 @@ var project = (function(obj)
 				}
 			output = output.join(" ");
 			_cp.projectParameter = output;
-			_c.filesystem.fileActive = "";
+			//_c.filesystem.fileActive = "";
+			deferred.resolve(output);
+			return deferred.promise;
 			});		
 		}
 			
@@ -72,11 +75,13 @@ var project = (function(obj)
 		var compiler = checkIfPassedFileIsAProjectFile(filename);
 		if (compiler)
 			{
-			parseTheProjectForProjectParameters(filename,compiler);
+			return Q.fcall(parseTheProjectForProjectParameters,filename,compiler);
+			//parseTheProjectForProjectParameters(filename,compiler);
 			}
 		else
 			{
-			console.log("no project opened");
+			//console.log("no project opened");
+			return "fail";
 			}
 		}
 	return obj;

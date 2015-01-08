@@ -3,6 +3,7 @@ var filesystem = (function(obj)
 	var _c = central.filesystem;
   	function readFileAndStoreInStack(name)
   		{
+  		var deferred = Q.defer();
   		if (name == "")
   			{
   			//console.log("no file selected!");
@@ -22,6 +23,8 @@ var filesystem = (function(obj)
   			// file opened before this
   			}
   		obj.fileActive = path;
+  		deferred.resolve(path);
+  		return deferred.promise;
   		// must have a way to notify privately within the module 
   		}
   		
@@ -32,7 +35,8 @@ var filesystem = (function(obj)
   			{
   			readFile = optional_filename;
   			}
-  		readFileAndStoreInStack(readFile);
+  		//readFileAndStoreInStack(readFile);
+  		return Q.fcall(readFileAndStoreInStack,readFile);
   		}
   	
 	return obj;

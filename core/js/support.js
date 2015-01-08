@@ -17,11 +17,13 @@ support.loadJS = function(script)
         success: function () 
         	{
         		//gvar.event.broadcast("loadJS","support.loadJS",{'status':"success","file":script});
+        		debug.debug("loadJS",script,"success");
 		    },
 		    error: function () 
 		    {
 			    ////gvar.event.broadcast("loadJS:error","support.loadJS",script);
 			    //gvar.event.broadcast("loadJS","support.loadJS",{'status':"fail","file":script});
+			    debug.debug("loadJS",script,"fail");
 		    }
 			});	
 	};
