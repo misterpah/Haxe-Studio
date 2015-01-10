@@ -334,7 +334,7 @@
 		var trigger_anywordHint_only_when_see_this = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\t";
 
 		//console.log(trigger_anywordHint_only_when_see_this.search(char));
-		if (prefix.anywordHint_opened === false && trigger_anywordHint_only_when_see_this.search(char) > -1)
+		if (prefix.anywordHint_opened === false && trigger_anywordHint_only_when_see_this.indexOf(char) > -1)
 			{
 			prefix.cursor_position = pos_minus1;
 			prefix.anywordHint_opened = true;
