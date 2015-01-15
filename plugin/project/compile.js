@@ -14,7 +14,8 @@ var project = (function(obj)
 			console.dir(stderr);
 			if (error != null)
 				{
-				$("#compiler_error").append("<div style='color:#000000;' class='well'>"+stderr+"</div>");
+				//$("#compiler_error").append("<div style='color:#000000;' class='well'>"+stderr+"</div>");
+				debug.error(stderr);
 				}
 			});
 		});

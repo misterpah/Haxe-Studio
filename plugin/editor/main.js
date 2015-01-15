@@ -65,6 +65,10 @@ var editor = (function(obj)
 		$(".CodeMirror").height(max_height - tab_height +"px")		
 		});
 				
+				
+					
+				
+				
 	obj.destroy = function()
 		{
 		};

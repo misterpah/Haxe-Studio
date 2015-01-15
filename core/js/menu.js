@@ -74,13 +74,17 @@ $("#main_menu").append(file_dropdown);
 
 var tools_menu = [];
 /*-----------*/
+/*
 tools_menu.push(support.dropdownMenuItem("Check for Error","ToolsMenu.checkForError",""));
+*/
 central.event.listen("ToolsMenu.checkForError",function(){
 	haxe_server.haxe_build_project();
 	});
+
 /*-----------*/	
+/*
 tools_menu.push(support.dropdownMenuItemSeperator());	
-/*-----------*/
+
 tools_menu.push(support.dropdownMenuItem("Manage Plugin","ToolsMenu.managePlugin",""));
 central.event.listen("ToolsMenu.managePlugin",function(){
 gui.Window.open("./plugin_manager.html",{
@@ -91,6 +95,7 @@ gui.Window.open("./plugin_manager.html",{
 		"show": true
 	});
 });	
+*/
 /*-----------*/
 tools_menu.push(support.dropdownMenuItem("Configure HaxeStudio","ToolsMenu.configureHS",""));
 central.event.listen("ToolsMenu.configureHS",function(){
@@ -132,6 +137,22 @@ gui.Window.open("http://www.haxestudio.com/contributors.html");
 
 help_menu.push(support.dropdownMenuItemSeperator());
 
+help_menu.push(support.dropdownMenuItem("About","HelpMenu.about",''));
+central.event.listen("HelpMenu.about",function(){
+gui.Window.open("./about/about.html",{
+		"title": "About",
+		"toolbar": false,
+		"frame": true,
+		"position": "center",
+		"show": true,
+
+	});
+});	
+
+
+/*
+help_menu.push(support.dropdownMenuItemSeperator());
+
 help_menu.push(support.dropdownMenuItem("Check for update","HelpMenu.update",'<span class="label label-primary">Ctrl</span> <span class="label label-success">U</span>'));
 central.event.listen("HelpMenu.update",function(){
 gui.Window.open("./update.html",{
@@ -142,6 +163,7 @@ gui.Window.open("./update.html",{
 		"show": true
 	});
 });	
+*/
 
 var help_dropdown = support.dropdownMenu("Help",help_menu.join("\n"));
 $("#main_menu").append(help_dropdown);

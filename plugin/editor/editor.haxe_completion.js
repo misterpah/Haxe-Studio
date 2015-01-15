@@ -1,6 +1,11 @@
 var editor = (function(obj)
 {
 
+
+		
+		
+
+
 	function haxeHint_update(cm,completion_array)
 		{
 		if (completion_array.length <1)
@@ -206,7 +211,90 @@ var editor = (function(obj)
 		
 		
 		};
-	CodeMirror.registerHelper("hint","haxe", obj.haxeHint);	
 		
+
+
+obj.haxeHint_roundBracket_hint = function ()
+	{
+	
+	obj._cm.on("completionSelected",function()
+		{
+		//console.log('completionSelected');
+		//.offset()
+		var data = $.xml2json(haxe_server.haxeCompletionResult);
+		var n = $(".CodeMirror-hint-active").html();
+		
+		for (each in data.i) 
+			{ 
+			//console.log(data.i[each]);
+			
+			//console.log(prefix.hx_completion_list_all[each].n)
+			if (data.i[each].n == n)
+				{
+				var str= data.i[each].d;
+				str = str.split("*");
+				str = str.join("<br/><br/>");
+				$("#completion_desc").html("<b>"+data.i[each].n+"</b><br/><small>"+data.i[each].t+"</small><p>"+str+"</p>");	
+				}
+			}	
+			
+			
+		});
+	
+	
+	
+	obj._cm.on("completionShowed",function()
+		{
+		//console.log('completionShowed');
+		/*
+		var each = 0;
+		var str= prefix.hx_completion_list_all[each].d;
+		str = str.split("*");
+		str = str.join("<br/><br/>");
+		$("#completion_desc").html("<b>"+prefix.hx_completion_list_all[each].n+"</b><br/><small>"+prefix.hx_completion_list_all[each].t+"</small><p>"+str+"</p>");				
+		*/
+		CodeMirror.signal(obj._cm, "completionSelected", obj._cm);
+		
+		var w = Math.ceil($(".CodeMirror-hints").offset().left + $(".CodeMirror-hints").width()) +20;
+		var h = $(".CodeMirror-hints").offset().top;
+		$("#completion_desc").css("top",h+"px");
+		$("#completion_desc").css("left",w+"px");
+				
+		});
+
+	obj._cm.on("startCompletion",function()
+		{
+		//console.log('startCompletion');
+		var ret = [];
+		ret.push("<div class='custom_completion well' style='z-index:999;position:absolute;width:300px;max-height:200px;overflow-y:scroll;' id='completion_desc'>");
+			ret.push("<p>anyword completion</p>");
+		ret.push("</div>");
+		ret = ret.join("\n");
+
+
+	
+		$("body").append(ret);
+	
+		$("#completion_desc").css("top",$(".CodeMirror textarea").offset().top+10+"px");
+		$("#completion_desc").css("left",$(".CodeMirror textarea").offset().left+280+"px");
+		//prefix.cm.addWidget({line:prefix.cm.doc.getCursor().line-5,ch:prefix.cm.doc.getCursor().ch},$(ret)[0]);		
+
+
+		var data = $.xml2json(haxe_server.haxeCompletionResult);
+		var n = $(".CodeMirror-hint-active").html();
+		});
+		
+	obj._cm.on("endCompletion",function()
+		{
+		//console.log('endCompletion');
+		$("#completion_desc").remove();	
+		});		
+		
+	}		
+		
+		
+		
+	CodeMirror.registerHelper("hint","haxe", obj.haxeHint);	
+	
 	return obj;
 })(editor);

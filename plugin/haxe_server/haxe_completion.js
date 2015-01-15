@@ -18,13 +18,15 @@ var haxe_server = (function(obj)
 				//console.dir(p3);
 				if (p1 == null) // no error
 					{
+					
 					waiting = false;
 					obj.haxeCompletionResult = p3;
 					central.event.broadcast("haxeCompletionComplete","haxe_completion.js","");
 					}
 				else if (p1 != null)
 					{
-					console.log(p3);
+					//console.log(p3);
+					debug.error("<b>[Completion Error]</b><br/>"+p3);
 					}
 			});
 		}

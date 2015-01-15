@@ -36,7 +36,8 @@ var project = (function(obj)
 		$("#compiler_position").append("<br/><br/>");
 		$("#compiler_position").append(compile_parameter);
 		$("#compiler_position").append("<br/><br/>");
-		$("#compiler_position").append('<button style="width:100%;" type="button" onclick="project.compile_project_request()" class="btn btn-danger btn-xs shadowme">Compile</button>');
+		$("#compiler_position").append('<div class="col-xs-6" style="padding:0px;"><button style="width:100%;" type="button" onclick="project.compile_project_request()" class="btn btn-danger btn-xs shadowme">Compile</button></div> <div class="col-xs-6" style="padding:0px;padding-left:5px;"><button style="width:100%;" type="button" onclick="central.event.broadcast(\'ToolsMenu.checkForError\',\'compile.ui.js\',\'\');" class="btn btn-default btn-xs shadowme">Check Err</button></div>');
+		$("#compiler_position").append("<br/><br/>");
 		//$("#compiler_position").append("<div id='compiler_error'></div>");
 		
 		central.event.broadcast("display_compiler.complete","project.compile_project","");

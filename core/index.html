@@ -55,10 +55,10 @@
     support.node.gui.App.setCrashDumpDir("../crashlog");
 	window.onresize = function(){central.event.broadcast("window_resized","index","");};  
     
+    
     jQuery(document).ready(function()
     	{
-		hs.version = 0.5;	
-		$("title").html( $("title").html() +" v"+hs.version); $(".hs_version").html(hs.version);
+		
 		$(".content_position").removeClass("col-md-9")
 		$(".content_position").addClass("col-sm-"+config.content_position_width);
 		$(".content_position").addClass("col-lg-"+config.large_screen_content_position_width);
@@ -71,6 +71,7 @@
     	hs.loadAllCoreJS(); // load all required files
     	hs.pre_init(); // load all plugin
     	hs.init(); // start haxestudio
+    	$("title").html( $("title").html() +" v"+hs.version); $(".hs_version").html(hs.version);
     	addStyle("debuglog",".debug-level-debug{display:none;}");
     	});
 	</script>

@@ -149,6 +149,7 @@ var editor = (function(obj)
 		{
 		openEditor();
 		obj.show_tab(central.editor.active_tab);
+		obj.haxeHint_roundBracket_hint();
 		};
 		
 	central.editor.isEditorOpened = false;
