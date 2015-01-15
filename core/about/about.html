@@ -1,0 +1,52 @@
+<head>
+	<script src="../../base/js/jquery-2.0.3.min.js"></script>
+	<script src="../../base/bootstrap/js/bootstrap.min.js"></script>	
+	<script>hs={};</script>
+	<script src="../js/hs.version.js"></script>
+	<link href="../../base/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+</head>
+<style>
+.glyphicon
+{
+font-size:16em;
+}
+body
+{
+background:url("bg.jpg");
+color:#000000;
+}
+
+#changelog
+{
+text-align:left;
+}
+</style>
+
+<script>
+$(document).ready(function()
+	{
+	$("#version").html("version "+hs.version);
+	
+	for (var i = 0;i < hs.releaseNote[""+hs.version].length;i++)
+		{
+		$("#changelog").append("<li>"+hs.releaseNote[""+hs.version][i]+"</li>");
+		}
+	});
+</script>
+
+<body>
+	<div class="container">
+		<div class="col-md-offset-3 col-md-3 col-sm-3 col-xs-12 text-center">
+			<div id="icon">
+				<br/>
+				<img src="./haxe-studio.png" width="25%"/>
+				<br/>
+				<h2>Haxe Studio</h2>
+				<p id='version'></p>
+			</div> 
+			<h4 style="text-align:left;">changelog</h4>
+			<div id="changelog"></div>
+
+		</div>
+	</div>
+</body>
