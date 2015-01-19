@@ -46,19 +46,19 @@
     </script>
     
     <script src="../core/config.js"></script>
-    <script src="../core/js/support.js"></script>
-    <script src="../core/js/hs.js"></script>
+    <script src="../core/js/level0/support.js"></script>
+    <script src="../core/js/level0/hs.js"></script>
+    <script src="../core/js/level0/hs.version.js"></script>
+    <script src="../core/js/level0/central.event.js"></script>
+    
+    
     
     <script>
-    
+    window.onresize = function(){central.event.broadcast("window_resized","index","");};  
     
     support.node.gui.App.setCrashDumpDir("../crashlog");
-	window.onresize = function(){central.event.broadcast("window_resized","index","");};  
-    
-    
     jQuery(document).ready(function()
     	{
-		
 		$(".content_position").removeClass("col-md-9")
 		$(".content_position").addClass("col-sm-"+config.content_position_width);
 		$(".content_position").addClass("col-lg-"+config.large_screen_content_position_width);
@@ -68,11 +68,22 @@
 		$(".option_position").addClass("col-lg-"+config.large_screen_option_position_width);					
 		$("head").append("<style>.CodeMirror{font-size:"+config.font_size+";}</style>");
 
-    	hs.loadAllCoreJS(); // load all required files
-    	hs.pre_init(); // load all plugin
-    	hs.init(); // start haxestudio
+    	
     	$("title").html( $("title").html() +" v"+hs.version); $(".hs_version").html(hs.version);
-    	addStyle("debuglog",".debug-level-debug{display:none;}");
+    	hs.init();
+    	});
+    	
+    // position fix for power panel
+    central.event.listen("hs.init",function()
+    	{
+    	var ProjectPanel = $("#ProjectPanel").parent();
+    	var CompilerPanel = $("#CompilerPanel").parent();
+    	var InspectorPanel = $("#InspectorPanel").parent();
+    	$("#power_menu").html("");
+    	
+    	$("#power_menu").append(ProjectPanel);
+    	$("#power_menu").append(CompilerPanel);
+    	$("#power_menu").append(InspectorPanel);
     	});
 	</script>
     <style>
@@ -137,8 +148,6 @@
 								Console 
 								<a onClick='showHideDebug()'><small>[show/hide debug]</small></a>
 							</div>
-							
-							
 						</div>
 						<div id="debug"></div>
 					</div>
