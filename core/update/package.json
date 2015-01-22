@@ -1,0 +1,16 @@
+{
+  "name": "HaxeStudioCore",
+  "main": "update.html",
+  "window": {
+  	"icon" : "haxe-studio.png",
+    "title": "Haxe Studio Core",
+    "toolbar": true,
+    "frame": true,
+    "min_width": 800,
+    "min_height": 600,
+    "width": 800,
+    "height": 600,    
+    "position": "center",
+	"show": true
+  }  
+}

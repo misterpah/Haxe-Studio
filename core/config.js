@@ -19,4 +19,3 @@ config.large_screen_content_position_width=10; // a.k.a. the editor
 
 config.ctrlOrMeta = "ctrlKey";  //ctrlKey or metaKey
 config.defaultBuild = "flash";
-

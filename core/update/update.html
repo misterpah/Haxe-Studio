@@ -1,13 +1,12 @@
 <head>
-
 	<script>
 		admZip = require('adm-zip');
 		wget = require('wgetjs');
 	</script>
-	<script src="../base/js/jquery-2.0.3.min.js"></script>
-	<script src="../base/js/bootstrap/bootstrap.min.js"></script>	
-	<link href="../base/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-	<link href="../base/bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">	
+	<script src="../../base/js/jquery-2.0.3.min.js"></script>
+	<script src="../../base/js/bootstrap/bootstrap.min.js"></script>	
+	<link href="../../base/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="../../base/bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">	
 </head>
 <style>
 .glyphicon
@@ -17,18 +16,19 @@ font-size:16em;
 </style>
 
 <script>
-		function hs_update(url, callback) {
+		function hs_update(url, callback) 
+			{
 			var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
-			window[callbackName] = function(data) {
+			window[callbackName] = function(data) 
+				{
 				delete window[callbackName];
 				document.body.removeChild(script);
 				callback(data);
-			};
-
+				};
 			var script = document.createElement('script');
 			script.src = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'callback=' + callbackName;
 			document.body.appendChild(script);
-		}		  
+			}		  
 		  
 		  
 		function check_update()
@@ -41,27 +41,21 @@ font-size:16em;
 				console.log(data[data.length-1]);
 				if (localStorage.version < data[data.length-1][0])
 					{
-					//alert("update available. downloading!");
-					//download_update(data[data.length-1][1]);
 					$("#icon").html("<span class='glyphicon glyphicon-question-sign'></span><br><br><b>Update available. Download?</b>")
 					var url = data[data.length-1][1];
 					$("#action_button").html("<button type='button' onclick='download_update(\""+url+"\");'class='btn btn-default btn-lg'>Download update</button>")
-				
-					
 					}
 				else
 					{
-					//alert("You're up to date =)");
 					$("#icon").html("<span class='glyphicon glyphicon-ok'></span><br><br><b>you're up to date!</b>")
 					}
-				});
-				
+				});	
 			}
 		  
 		function download_update(url_to_download)
-		{  
-		$("#action_button").html("");
-		$("#icon").html("<span class='glyphicon glyphicon-cloud-download'></span><br><br><b>Downloading Update</b>");		
+			{  
+			$("#action_button").html("");
+			$("#icon").html("<span class='glyphicon glyphicon-cloud-download'></span><br><br><b>Downloading Update</b>");		
 			url_to_download_copy = url_to_download;
 			wget({url:url_to_download},function(err,response,body)
 				{
@@ -71,22 +65,20 @@ font-size:16em;
 					}
 				else
 					{
-$("#icon").html("<span class='glyphicon glyphicon-floppy-saved'></span><br><br><b>Download Complete</b>");			
-$("#action_button").html("<button type='button' onclick='patch()'class='btn btn-default btn-lg'>Apply Update</button>")			
-					//console.log("downloaded.");
+					$("#icon").html("<span class='glyphicon glyphicon-floppy-saved'></span><br><br><b>Download Complete</b>");			
+					$("#action_button").html("<button type='button' onclick='patch()'class='btn btn-default btn-lg'>Apply Update</button>")			
 					}
 				});
-		}
+			}
 		
 		function patch()
-		{
-		$("#action_button").html("");
+			{
+			$("#action_button").html("");
 			var zip = new admZip("./HaxeStudio-patch.zip");
-			zip.extractAllTo("../", true);
+			zip.extractAllTo("../../", true);
 			console.log("patch complete");
-$("#icon").html("<span class='glyphicon glyphicon-ok'></span><br><br><b>you're up to date!</b>")
-			
-		}
+			$("#icon").html("<span class='glyphicon glyphicon-ok'></span><br><br><b>you're up to date!</b>")
+			}
 		
 </script>
 
