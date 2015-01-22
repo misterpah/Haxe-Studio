@@ -45,7 +45,12 @@ var editor = (function(obj)
 				var _char = obj.getValue().charAt(cm.indexFromPos(cm.getCursor()) -1);
 				var triggerAnywordCompletion = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_".split("");
 				var availableInWords = triggerAnywordCompletion.indexOf(_char);
-
+				
+				//$("#editor_tab .status_icon[data-path='%2Fhome%2Fpah%2Fdevelopment%2FAbangJambu%2Fsource%2FMenuState.hx']")
+				$("#editor_tab .active .status_icon").removeClass("glyphicon-remove-circle");
+				$("#editor_tab .active .status_icon").addClass("glyphicon-record");
+				
+				
 				if (availableInWords != -1 && obj.anyWordCompletionIsActive == false && obj.haxeCompletionIsActive == false)
 					{
 					obj.anyWordCompletionIsActive = true;
@@ -99,7 +104,33 @@ var editor = (function(obj)
 				console.log(char_at_minus1);
 				
 				
-				
+				if (char_at_minus1 == "(" ) // should fetch haxe completion
+					{
+					obj.haxeCompletionIsActive = true;
+					var _index = cm.indexFromPos({line:cur.line,ch:start});
+					central.event.broadcast("FileMenu.saveFile","editor.haxe_completion.js","");
+					haxe_server.haxe_completion(_index,central.filesystem.fileActive);	
+					var myVar = setInterval(function(myVar)
+						{
+						if (haxe_server.haxeCompletionResult != "")
+							{
+							clearMyVar();
+							}
+						}, 100);
+					function clearMyVar()
+						{
+						clearInterval(myVar);
+						cm.showHint({hint: editor.haxeHint,completeSingle:false});
+						}
+					}
+				else
+					{
+					if (obj.haxeCompletionIsActive == false)
+						{
+						editor.anywordHint();
+						cm.showHint({hint: editor.anywordHint,completeSingle:false});
+						}
+					}				
 				
 				
 				if (char_at_minus1 == "." ) // should fetch haxe completion
