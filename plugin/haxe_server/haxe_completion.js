@@ -9,6 +9,7 @@ var haxe_server = (function(obj)
 		{
 		obj.haxeCompletionResult = "";
 		var waiting = true;
+		
 		support.exec([
 			"cd %CD% %QUOTE%"+central.project.projectFolder+"%QUOTE%",
 			"haxe --connect "+port+" "+central.project.projectParameter+" --display %QUOTE%"+file+"%QUOTE%@"+position

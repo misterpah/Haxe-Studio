@@ -219,6 +219,7 @@ obj.haxeHint_roundBracket_hint = function ()
 	
 	obj._cm.on("completionSelected",function()
 		{
+		$("#completion_desc").css("display","block");
 		//console.log('completionSelected');
 		//.offset()
 		var data = $.xml2json(haxe_server.haxeCompletionResult);
@@ -265,8 +266,12 @@ obj.haxeHint_roundBracket_hint = function ()
 	obj._cm.on("startCompletion",function()
 		{
 		//console.log('startCompletion');
+		if (!obj.haxeCompletionIsActive)
+			{
+			return;
+			}
 		var ret = [];
-		ret.push("<div class='custom_completion well' style='z-index:999;position:absolute;width:300px;max-height:200px;overflow-y:scroll;' id='completion_desc'>");
+		ret.push("<div class='custom_completion well' style='display:none;z-index:999;position:absolute;width:300px;max-height:200px;overflow-y:scroll;' id='completion_desc'>");
 			ret.push("<p>anyword completion</p>");
 		ret.push("</div>");
 		ret = ret.join("\n");
