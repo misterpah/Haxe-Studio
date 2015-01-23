@@ -24,17 +24,9 @@ What's new v0.5
 How to use this ?
 =================
 
-Haxe Studio are distributed with update/patch mechanism. If this is your first install, follow these steps :
-
-1. Download **Haxe Studio Core archive** (zip/tar/dmg depends on your OS) from [HaxeStudio.com](http://www.haxestudio.com) and extract it.
-
-2. Run **haxe-studio-update.bat** (.bat/.sh/.command depends on your OS) and click check update.
-
-3. Once update is complete, Run the newly created file **haxe-studio.bat** (.bat/.sh/.command depends on your OS)
-
-4. For future update, simply click in Haxe Studio menu. **Help > Update**
+[Please refer this wiki page](https://github.com/misterpah/Haxe-Studio/wiki/How-to-use-Haxe-Studio)
 
 
 Licence
 =======
-MIT
+MIT & Commercial
