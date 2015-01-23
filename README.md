@@ -24,7 +24,7 @@ What's new v0.5
 How to use this ?
 =================
 
-[Please refer this wiki page](https://github.com/misterpah/Haxe-Studio/wiki/How-to-use-Haxe-Studio)
+[Please refer this wiki page](https://github.com/misterpah/Haxe-Studio/wiki/How-to-install-Haxe-Studio)
 
 
 Licence
