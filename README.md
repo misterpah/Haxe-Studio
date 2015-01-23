@@ -37,4 +37,4 @@ Haxe Studio are distributed with update/patch mechanism. If this is your first i
 
 Licence
 =======
-LGPL
+MIT
