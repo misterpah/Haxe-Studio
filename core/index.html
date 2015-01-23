@@ -4,6 +4,11 @@
     <script src="../base/js/mediator.min.js"></script>
     <script src="../base/js/jquery-2.0.3.min.js"></script>
     <script src="../base/js/jquery.keystroke.min.js"></script>
+
+    <script src="../base/js/sweet/sweet-alert.min.js"></script>
+    <link  type="text/css" rel="stylesheet" href="../base/js/sweet/sweet-alert.css" />
+    
+    
     
     <script src="../base/js/watch.js"></script>
     <script src="../base/js/ba-debug.min.js"></script>
@@ -59,6 +64,8 @@
     support.node.gui.App.setCrashDumpDir("../crashlog");
     jQuery(document).ready(function()
     	{
+swal({   title: "Haxe Studio v"+hs.version,   text: "Community Edition\n\n for non-commercial usage only\n\n",   imageUrl:'./update/haxe-studio.png' ,   confirmButtonText: "Close" });    	
+    	
 		$(".content_position").removeClass("col-md-9")
 		$(".content_position").addClass("col-sm-"+config.content_position_width);
 		$(".content_position").addClass("col-lg-"+config.large_screen_content_position_width);
