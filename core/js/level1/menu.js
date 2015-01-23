@@ -74,7 +74,7 @@ $("#main_menu").append(tools_dropdown);
 var help_menu = [];
 help_menu.push(support.dropdownMenuItem("Update","HelpMenu.update",''));
 central.event.listen("HelpMenu.update",function(){
-gui.Window.open("./update/update.html",{
+gui.Window.open("../update/update.html",{
 		"title": "Update",
 		"toolbar": false,
 		"frame": true,

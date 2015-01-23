@@ -3,10 +3,10 @@
 		admZip = require('adm-zip');
 		wget = require('wgetjs');
 	</script>
-	<script src="../../base/js/jquery-2.0.3.min.js"></script>
-	<script src="../../base/js/bootstrap/bootstrap.min.js"></script>	
-	<link href="../../base/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-	<link href="../../base/bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">	
+	<script src="../base/js/jquery-2.0.3.min.js"></script>
+	<script src="../base/js/bootstrap/bootstrap.min.js"></script>	
+	<link href="../base/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="../base/bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">	
 	<title>Haxe Studio Update</title>
 </head>
 <style>
@@ -80,7 +80,7 @@ font-size:16em;
 			return;
 			$("#action_button").html("");
 			var zip = new admZip("./HaxeStudio-patch.zip");
-			zip.extractAllTo("../../", true);
+			zip.extractAllTo("../", true);
 			console.log("patch complete");
 			$("#icon").html("<span class='glyphicon glyphicon-ok'></span><br><br><b>you're up to date!</b>")
 			}

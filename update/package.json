@@ -4,7 +4,7 @@
   "window": {
   	"icon" : "haxe-studio.png",
     "title": "Haxe Studio Core",
-    "toolbar": true,
+    "toolbar": false,
     "frame": true,
     "min_width": 800,
     "min_height": 600,
