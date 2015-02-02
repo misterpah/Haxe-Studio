@@ -1,9 +1,16 @@
 Haxe Studio
 ===========
 Text Editor specially made for Haxe Programming Language.
-![Haxe Studio splash screen](http://i.imgur.com/uSnhvRw.png)
+![Haxe Studio splash screen](http://i.imgur.com/pEGb8zA.png)
 
-What's new v0.5
+
+What's new v0.5.1
+=================
+- change ugly theme to black
+
+
+
+v0.5
 =============
 
 - Complete rewrite in Javascript
