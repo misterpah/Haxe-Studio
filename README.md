@@ -1,6 +1,7 @@
 Haxe Studio
 ===========
 Text Editor specially made for Haxe Programming Language.
+![Haxe Studio splash screen](http://i.imgur.com/uSnhvRw.png)
 
 What's new v0.5
 =============
