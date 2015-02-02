@@ -248,9 +248,13 @@ support.unwatch = function (variable,attribute,callback)
 	unwatch(variable,attribute,callback);
 	}
 
-support.makeSidePanel = function(id,title,content)
+support.makeSidePanel = function(id,title,content,show)
 	{
-	
+	var collapse_yes = 'in';
+	if  (typeof show !== 'undefined')
+		{
+		collapse_yes = '';
+		}
 
 					  	
 	parentId = "power_menu";
@@ -263,7 +267,7 @@ title,
 '</h4>',
 '</a>',
 '</div>',
-'<div id="'+id+'Content" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="'+id+'">',
+'<div id="'+id+'Content" class="panel-collapse collapse '+collapse_yes+'" role="tabpanel" aria-labelledby="'+id+'">',
 '<div class="panel-body content">',
 content,
 '</div>',

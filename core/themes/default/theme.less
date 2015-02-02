@@ -5,7 +5,7 @@
 @orange:#f39c12;
 @red:#e74c3c;
 
-@editorBg:#301800;/*#3C3D36; #22313F; #2C3E50; #272822;*/
+@editorBg:#151515;/* #301800 #3C3D36; #22313F; #2C3E50; #272822;*/
 
 
 @textColor:#eeeeee;
@@ -41,7 +41,7 @@ body { background:@bgColor; }
 
 /* CodemirrorEditor */
 .CodeMirror {cursor:text;height:auto; font-family:"SourceCode" !important;background:@editorBg !important;}
-.CodeMirror-gutters{background:@editorBg !important;}
+.CodeMirror-gutters{background:@editorBg !important; border-right:1px solid darken(@editorBg,10%) !important; }
 .CodeMirror-linenumber{color:lighten(@editorBg,20%) !important;}
 .CodeMirror-hscrollbar, .CodeMirror-vscrollbar{cursor:auto;min-width:initial !important;min-height:initial !important;opacity:0.5}
 .CodeMirror-vscrollbar{right:15px !important;}
@@ -126,6 +126,8 @@ border-color: lighten(@editorBg,20%);
 .btn_option_position{background:@bgColor;color:#888888;border:0px;border-bottom-left-radius:0px;border-bottom-right-radius:0px;}
 .btn_option_position.active{background:@editorBg;color:#ffffff;}
 .btn_option_position:hover{background:lighten(@editorBg,5%);color:#FFFFFF;}
+
+button.btn-default{font-weight:bold;}
 
 
 .option_position_content{background:@editorBg;padding:7px 10px;overflow:auto;}

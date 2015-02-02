@@ -64,7 +64,7 @@
     support.node.gui.App.setCrashDumpDir("../crashlog");
     jQuery(document).ready(function()
     	{
-swal({   title: "Haxe Studio v"+hs.version,   text: "Community Edition\n\n for non-commercial usage only\n\n",   imageUrl:'../update/haxe-studio.png' ,   confirmButtonText: "Close" });    	
+		swal({   title: "Haxe Studio v"+hs.version,   text: "Community Edition\n\n for non-commercial usage only\n\n",   imageUrl:'../update/haxe-studio.png' ,   confirmButtonText: "Close" });
     	
 		$(".content_position").removeClass("col-md-9")
 		$(".content_position").addClass("col-sm-"+config.content_position_width);
@@ -155,6 +155,8 @@ swal({   title: "Haxe Studio v"+hs.version,   text: "Community Edition\n\n for n
 							<div style="float:left">
 								Console 
 								<a onClick='showHideDebug()'><small>[show/hide debug]</small></a>
+								&nbsp;&nbsp;&nbsp;&nbsp;
+								<small>Ctrl + ` to hide/show console</small>
 							</div>
 						</div>
 						<div id="debug"></div>
