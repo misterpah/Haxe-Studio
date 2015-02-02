@@ -1,5 +1,14 @@
-hs.version = 0.5;
+hs.version = "0.5.1";
 hs.releaseNote = {};
+
+
+
+
+hs.releaseNote['0.5.1'] = [];
+
+hs.releaseNote['0.5.1'].push("theme color fix");
+hs.releaseNote['0.5.1'].push("button title set to bold");
+
 
 
 hs.releaseNote['0.5'] = [];

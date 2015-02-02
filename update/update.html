@@ -2,11 +2,15 @@
 	<script>
 		admZip = require('adm-zip');
 		wget = require('wgetjs');
+		hs = {};
 	</script>
 	<script src="./library/jquery-2.0.3.min.js"></script>
-	<script src="./library/bootstrap/bootstrap.min.js"></script>	
+	<script src="./library/bootstrap/bootstrap.min.js"></script>
+	<script src="../core/js/level0/hs.version.js"></script>		
+	
 	<link href="./library/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 	<link href="./library/bootstrap/css/bootstrap-glyphicons.css" rel="stylesheet" media="screen">	
+	
 	<title>Haxe Studio Update</title>
 </head>
 <style>
@@ -38,11 +42,11 @@ font-size:16em;
 			{
 			$("#action_button").html("");
 			$("#icon").html("<span class='glyphicon glyphicon-cloud-download'></span><br><br><b>Checking with server</b>");
-			hs_update("http://api.haxestudio.com/api.js",function(data)
+			hs_update("http://api.haxestudio.com/api.php?interface=update_hs",function(data)
 				{
-				console.log(localStorage.version);
+				console.log(hs.version);
 				console.log(data[data.length-1]);
-				if (localStorage.version < data[data.length-1][0])
+				if (hs.version < data[data.length-1][0])
 					{
 					$("#icon").html("<span class='glyphicon glyphicon-question-sign'></span><br><br><b>Update available. Download?</b>")
 					var url = data[data.length-1][1];
@@ -54,7 +58,7 @@ font-size:16em;
 					}
 				});	
 			}
-		  
+		  var url_to_download = "";
 		function download_update(url_to_download)
 			{  
 			$("#action_button").html("");
@@ -126,7 +130,8 @@ font-size:16em;
 			<button style='display:none' type="button" onclick="alert('sorry.for future release')/*check_update()*/"class="btn btn-default btn-lg">Check for Update</button>
 			<input style="margin:0 auto;" id="fileDialog" type="file" />
 			<br/><br/>
-			<button type="button" onclick="patch_file($('#fileDialog').val());" class="btn btn-default btn-lg">Patch!</button>						
+			<button type="button" onclick="patch_file($('#fileDialog').val());" class="btn btn-default btn-lg">Patch!</button>
+			
 			</div>
 		</div>
 	</div>

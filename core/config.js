@@ -1,6 +1,6 @@
 var config = {};
 
-config.editor_theme = "base16-monokai-dark";
+config.editor_theme = "midnight";
 config.font_size = "14px";
 	
 config.restify_port = 8080;
