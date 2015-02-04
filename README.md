@@ -1,3 +1,6 @@
+Disclaimer: Haxe Studio is written in Javascript.
+if you're searching the IDE written in Haxe, please visit project [HIDE](https://github.com/HaxeIDE/HIDE)
+
 Haxe Studio
 ===========
 Text Editor specially made for Haxe Programming Language.
