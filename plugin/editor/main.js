@@ -2,9 +2,11 @@ var editor = (function(obj)
 {
 	var plugin_path = "../plugin/editor";
 	obj.plugin_path = plugin_path;
+	
 	var cm_version = "codemirror-4.2";
 	obj._cm = "";
 	var timerVar ="";
+	obj.cm_path = plugin_path + "/"+cm_version+"/";
 
 	
 	// wait for editor to be loaded. as soon as its loaded, open editor

@@ -7,7 +7,34 @@ central.event.listen("ToolsMenu.configureHS",function(){
 		})
 	.then(function(data)
 		{
-		support.build_modal("configure Haxe Studio",'<div id="metawidget"></div><style>.metawidget_parent{padding-bottom:10px;}</style>',function()
+
+
+//var available_theme = [];
+
+var available_theme = "";
+var temp = support.readDir(editor.cm_path+"/theme/");
+for (var z = 0; z < temp.length;z++)
+	{
+	//available_theme.push(temp[z].split(".css")[0])
+	available_theme += "<option value='"+temp[z].split(".css")[0]+"'>"+temp[z].split(".css")[0]+"</option>";
+	}
+
+
+		
+		var content = 
+['<div id="metawidget">',
+'		<select id="editor_theme">',
+available_theme,
+'		</select>',
+'</div>',
+'<style>',
+'.metawidget_parent',
+'{',
+'padding-bottom:10px;',
+'}',
+'</style>'].join("\n");		
+		
+		support.build_modal("configure Haxe Studio",content,function()
 			{
 			var temp = {}
 			for (var i = 0;i< $("#genModal input").length;i++)
@@ -16,6 +43,10 @@ central.event.listen("ToolsMenu.configureHS",function(){
 				value = $("#genModal input")[i].value;
 				temp[name] = value;
 				}
+
+			temp['editor_theme'] = $("#genModal [name=editor_theme]").val();
+
+			//console.log(temp);
 			support.fileSave("./hs.config.json",JSON.stringify(temp));
 			}
 			);
