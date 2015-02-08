@@ -47,16 +47,29 @@
 	<script src="../base/js/less.min.js"></script>
 
 
+    <script src="../core/js/level0/support.js"></script>
+	<script>
+	config = {}; 
+	var temp = support.fileRead("./hs.config.json");
+	config = JSON.parse(temp);	
+	</script> 
+
+
+
 
     <script>
 	 var central = {};
 	 global.central = central;
 	 var gui = require("nw.gui");
 	 var Q = require("q");
+	 //<script src="../core/config.js"></script>
+	 
+
     </script>
     
-    <script src="../core/config.js"></script>
-    <script src="../core/js/level0/support.js"></script>
+   
+    
+    
     <script src="../core/js/level0/hs.js"></script>
     <script src="../core/js/level0/hs.version.js"></script>
     <script src="../core/js/level0/central.event.js"></script>

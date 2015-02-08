@@ -51,9 +51,6 @@ central.event.listen("ToolsMenu.checkForError",function(){
 
 
 tools_menu.push(support.dropdownMenuItem("Configure HaxeStudio","ToolsMenu.configureHS",""));
-central.event.listen("ToolsMenu.configureHS",function(){
-	central.event.broadcast("FileMenu.openFileDirectly","project.project_tree.js",encodeURIComponent(support.node.path.resolve('./config.js')));
-	});
 
 tools_menu.push(support.dropdownMenuItem("Developer Console","ToolsMenu.developerTools",""));
 central.event.listen("ToolsMenu.developerTools",function(){
