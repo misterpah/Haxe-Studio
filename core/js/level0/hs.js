@@ -128,7 +128,22 @@ obj.init = function()
 	.then(function(data)
 		{
 		central.event.broadcast("hs.init","hs.js","complete");
-		})			
+		})
+	.then(function(data)
+		{
+		var plugins = support.readDir("../plugin");
+		var promises = [];
+		for (var i = 0; i < plugins.length;i++)
+			{
+			var keys = Object.keys(window[plugins[i]]);
+			
+			if (keys.indexOf("integrate") != -1)
+				{
+				console.log("Run integration for plugin "+plugins[i]);
+				hs.executeFunctionByName(plugins[i]+".integrate",window);
+				}
+			}			
+		});			
 	}
 	
 
