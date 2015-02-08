@@ -3,11 +3,11 @@ central.event.listen("ToolsMenu.configureHS",function(){
 	
 	Q.fcall(function()
 		{
-		return support.fileRead("./hs.config.json");
+		return JSON.stringify(config);//support.fileRead("./hs.config.json");
 		})
 	.then(function(data)
 		{
-
+		//console.log(config);
 
 //var available_theme = [];
 
