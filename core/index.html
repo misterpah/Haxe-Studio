@@ -50,6 +50,7 @@
     <script src="../core/js/level0/support.js"></script>
 	<script>
 	config = {}; 
+	var lsr = require("lsr");
 	var temp = support.fileRead("./hs.config.json");
 	config = JSON.parse(temp);	
 	</script> 
@@ -62,6 +63,7 @@
 	 global.central = central;
 	 var gui = require("nw.gui");
 	 var Q = require("q");
+	 require('q-foreach')(Q);
 	 //<script src="../core/config.js"></script>
 	 
 

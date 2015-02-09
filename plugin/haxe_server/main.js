@@ -12,6 +12,7 @@ var haxe_server = (function(obj)
 		support.loadJS(plugin_path+"/haxe_completion.js");
 		support.loadJS(plugin_path+"/haxe_build_project.js");
 		support.loadJS(plugin_path+"/jquery_xml2json.js");
+		support.loadJS(plugin_path+"/library_completion.js");
 		
 		
 		if (sessionStorage.haxeServerStarted == undefined) // false

@@ -36,7 +36,9 @@ var editor = (function(obj)
 					showCursorWhenSelecting: true,
 					extraKeys: {
 						"Ctrl-Space": "completion",
-						"Cmd-Space": "completion"
+						"Cmd-Space": "completion",
+						"Ctrl-1": "library_completion",
+						"Cmd-1": "library_completion",
 						}
 					});  		
 			
@@ -63,6 +65,10 @@ var editor = (function(obj)
 					obj.haxeCompletionIsActive = false;
 					}					
 				});
+				
+			CodeMirror.commands.library_completion = function(cm) {				
+				console.log("library completion ctrl+1");
+			};
 
 			CodeMirror.commands.completion = function(cm) {
 				console.log("completion ctrlspace");
