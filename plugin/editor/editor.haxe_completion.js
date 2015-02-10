@@ -246,14 +246,6 @@ obj.haxeHint_roundBracket_hint = function ()
 	
 	obj._cm.on("completionShowed",function()
 		{
-		//console.log('completionShowed');
-		/*
-		var each = 0;
-		var str= prefix.hx_completion_list_all[each].d;
-		str = str.split("*");
-		str = str.join("<br/><br/>");
-		$("#completion_desc").html("<b>"+prefix.hx_completion_list_all[each].n+"</b><br/><small>"+prefix.hx_completion_list_all[each].t+"</small><p>"+str+"</p>");				
-		*/
 		CodeMirror.signal(obj._cm, "completionSelected", obj._cm);
 		
 		var w = Math.ceil($(".CodeMirror-hints").offset().left + $(".CodeMirror-hints").width()) +20;

@@ -4,7 +4,13 @@ var haxe_server = (function(obj)
 	var _chs = central.haxe_server;
 
 	obj.available_library = {};
-	obj.available_class_in_library = {};
+	//obj.available_class_in_library = {};
+	_c.haxe_server.available_class_in_library = {};
+	central.event.listen("project.open_project:project_loaded",function()
+		{
+		obj.library_completion();
+		})
+	
 	function getLibraryCompletion()
 		{
 		var deferred = Q.defer();
@@ -43,7 +49,8 @@ var haxe_server = (function(obj)
 		setTimeout(function()
 			{
 			obj.scan_library();
-			},500);
+			console.log(obj.available_class_in_library);
+			},2000);
 		}		
 
 
@@ -57,13 +64,38 @@ var haxe_server = (function(obj)
 				{
 				if(file_stat[key][i].isFile())
 					{
-					file_only.push([key,file_stat[key][i]['path'],file_stat[key][i]['name'].split(".")[0]])
+					var path = file_stat[key][i]['path'];
+					path = path.split(support.node.path.sep);
+					path.pop();
+					path.shift();
+					path = path.join(".");
+					
+					var name = file_stat[key][i]['name'].split(".")[0];
+					
+					var lib = [key,path,name].join(".");
+					lib = lib.replace("..",".");
+					file_only.push(lib);
 					}
 				}
 			}
-		//console.log(file_only);
-		obj.available_class_in_library = file_only;
+		_c.haxe_server.available_class_in_library = file_only;
 		}
+		
+	obj.find_in_library = function(text)
+		{
+		var ret = []
+		for (var i = 0; i < _c.haxe_server.available_class_in_library.length;i++)
+			{
+			var cur = _c.haxe_server.available_class_in_library[i];
+			cur = cur.toLowerCase();
+			//console.log(cur +" ,"+ )
+			if (cur.indexOf(text.toLowerCase()) != -1)
+				{
+				ret.push(_c.haxe_server.available_class_in_library[i]);
+				}
+			}
+		return ret;
+		}	
 
 		
 	function build_library_completion ()	
@@ -108,7 +140,8 @@ var haxe_server = (function(obj)
 					}
 				}
 			
-			});
+			})
+		.done();
 			/*
 		.then(function(data)
 			{

@@ -65,9 +65,11 @@ var project = (function(obj)
 			output = output.join(" ");
 			_cp.projectParameter = output;
 			//_c.filesystem.fileActive = "";
+			central.event.broadcast("project.open_project:project_loaded","project.open_project","");
 			deferred.resolve(output);
 			return deferred.promise;
-			});		
+			
+			})
 		}
 			
 	obj.open_project = function(filename)

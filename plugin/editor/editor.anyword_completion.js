@@ -1,5 +1,6 @@
 var editor = (function(obj)
 {
+obj.library_completion = false;
 function scanWordsInEditor()
 	{
 		var content = obj.getValue();
@@ -202,6 +203,33 @@ function scanWordsInEditor()
 		return updated_completion;
 		};
 	CodeMirror.registerHelper("hint","anyword", obj.anywordHint);	
+
+
+
+
+	obj.libraryHint = function (cm,options)
+		{
+		var anyword_completion = obj.libraryHint_list;
+		/*
+		if (anyword_completion != undefined)
+			{
+			var updated_completion = anywordHint_update(obj._cm,anyword_completion);
+			}
+		else
+			{
+			var updated_completion = [];
+			}
+		*/
+		
+		updated_completion = anyword_completion;
+		return updated_completion;
+		};
+	CodeMirror.registerHelper("hint","library", obj.libraryHint);	
+		
+
+
+
+
 		
 	return obj;
 })(editor);

@@ -2,6 +2,8 @@ var editor = (function(obj)
 {
 	obj.haxeCompletionIsActive = false;
 	obj.anyWordCompletionIsActive = false;
+	
+	obj.libraryHint_list = [];
 	function openEditor()
   		{
   		if (central.editor.isEditorOpened == false)
@@ -68,6 +70,62 @@ var editor = (function(obj)
 				
 			CodeMirror.commands.library_completion = function(cm) {				
 				console.log("library completion ctrl+1");
+				var cur = obj.getCursor();
+				var _index = cm.indexFromPos(cur);
+				var _char = obj.getValue().charAt(_index - 1);
+				
+				var findTheseWords = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_".split("");
+		
+		
+				var _index = cm.indexFromPos(cur);
+				var _index_0char = cm.indexFromPos({line:cur.line,ch:0});
+				
+				var start;
+				var _char = obj.getValue().charAt(_index-1);
+				var available = findTheseWords.indexOf(_char);
+				if (available == -1)
+					{
+					start = cur.ch;
+					}
+				else if (available != -1)
+					{
+					var s = 1;
+					var loop = true;			
+					while(loop)
+						{
+						var _char = obj.getValue().charAt(_index -s);
+						var available = findTheseWords.indexOf(_char);
+						if (available == -1)
+							{
+							start = cur.ch -s+1;
+							loop = false;
+							}
+						s += 1;
+						}
+					}
+				
+				var char_at_minus1 = obj.getValue().charAt(cm.indexFromPos({line:cur.line,ch:start-1}));
+				
+				//console.log(start);
+				//console.log(cur.ch);
+				//console.log(cm.getLine(cur.line));
+
+				var find_this_word = cm.getLine(cur.line).slice(start,cur.ch);
+				var available_library = haxe_server.find_in_library(find_this_word);
+				//console.log(available_library);
+				//obj.libraryHint_list = available_library;
+				var useThis = available_library[0];
+				//console.log(useThis);
+				
+				// replace the current text
+				var replaceTheText = useThis.split(".").pop();
+				editor._cm.doc.replaceRange(replaceTheText,{'line':cur.line,'ch':start},{'line':cur.line,'ch':cur.ch});
+				
+				
+				
+				
+				//editor._cm.doc.replaceRange(useThis+"\n",{'line':1,'ch':0},{'line':1,'ch':0})
+				//cm.showHint({hint: editor.libraryHint,completeSingle:false});
 			};
 
 			CodeMirror.commands.completion = function(cm) {
@@ -105,9 +163,9 @@ var editor = (function(obj)
 						s += 1;
 						}
 					}
-				console.log(start);
+				//console.log(start);
 				var char_at_minus1 = obj.getValue().charAt(cm.indexFromPos({line:cur.line,ch:start-1}));
-				console.log(char_at_minus1);
+				//console.log(char_at_minus1);
 				
 				
 				if (char_at_minus1 == "(" ) // should fetch haxe completion
@@ -162,6 +220,7 @@ var editor = (function(obj)
 					{
 					if (obj.haxeCompletionIsActive == false)
 						{
+						var curline_val = cm.getLine(cur.line);
 						editor.anywordHint();
 						cm.showHint({hint: editor.anywordHint,completeSingle:false});
 						}
