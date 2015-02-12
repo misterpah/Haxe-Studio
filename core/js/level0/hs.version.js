@@ -1,7 +1,10 @@
-hs.version = "0.5.1";
+hs.version = "0.5.2";
 hs.releaseNote = {};
 
 
+hs.releaseNote['0.5.2'] = [];
+hs.releaseNote['0.5.2'].push("add auto-include library via CTRL+1");
+hs.releaseNote['0.5.2'].push("Ctrl-Tab and Shift-Ctrl-Tab to navigate to next/previous tab");
 
 
 hs.releaseNote['0.5.1'] = [];
