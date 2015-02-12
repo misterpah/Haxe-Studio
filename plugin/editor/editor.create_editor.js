@@ -4,6 +4,7 @@ var editor = (function(obj)
 	obj.anyWordCompletionIsActive = false;
 	
 	obj.libraryHint_list = [];
+	obj.is_library_completion = false;
 	function openEditor()
   		{
   		if (central.editor.isEditorOpened == false)
@@ -41,11 +42,19 @@ var editor = (function(obj)
 						"Cmd-Space": "completion",
 						"Ctrl-1": "library_completion",
 						"Cmd-1": "library_completion",
+						"Ctrl-Tab": "nextTab",
+						"Cmd-Tab": "nextTab",
+						"Shift-Ctrl-Tab": "previousTab",
+						"Shift-Cmd-Tab": "previousTab"
 						}
 					});  		
 			
 			obj._cm.on("change",function(cm)
 				{
+				if (obj.is_library_completion == true)
+					{
+					return;
+					}
 				var _char = obj.getValue().charAt(cm.indexFromPos(cm.getCursor()) -1);
 				var triggerAnywordCompletion = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_".split("");
 				var availableInWords = triggerAnywordCompletion.indexOf(_char);
@@ -68,8 +77,15 @@ var editor = (function(obj)
 					}					
 				});
 				
+			obj.addLine = function (content,line)
+				{
+				obj._cm.doc.replaceRange(content,{'line':line,'ch':0});
+				//obj._cm.doc.replaceRange("\r\n",{'line':line,'ch':content.length-1});
+				}
+				
 			CodeMirror.commands.library_completion = function(cm) {				
-				console.log("library completion ctrl+1");
+				//console.log("library completion ctrl+1");
+				obj.is_library_completion = true;
 				var cur = obj.getCursor();
 				var _index = cm.indexFromPos(cur);
 				var _char = obj.getValue().charAt(_index - 1);
@@ -105,28 +121,88 @@ var editor = (function(obj)
 					}
 				
 				var char_at_minus1 = obj.getValue().charAt(cm.indexFromPos({line:cur.line,ch:start-1}));
-				
-				//console.log(start);
-				//console.log(cur.ch);
-				//console.log(cm.getLine(cur.line));
 
 				var find_this_word = cm.getLine(cur.line).slice(start,cur.ch);
 				var available_library = haxe_server.find_in_library(find_this_word);
-				//console.log(available_library);
-				//obj.libraryHint_list = available_library;
+
 				var useThis = available_library[0];
 				//console.log(useThis);
-				
-				// replace the current text
 				var replaceTheText = useThis.split(".").pop();
 				editor._cm.doc.replaceRange(replaceTheText,{'line':cur.line,'ch':start},{'line':cur.line,'ch':cur.ch});
-				
-				
-				
-				
-				//editor._cm.doc.replaceRange(useThis+"\n",{'line':1,'ch':0},{'line':1,'ch':0})
-				//cm.showHint({hint: editor.libraryHint,completeSingle:false});
+
+				central.event.broadcast("library_completion","editor.library_completion",useThis);
 			};
+			
+			
+			central.event.listen("library_completion",function(p1,p2)
+				{
+				
+				
+				var a = obj.getValue().split("\n");
+				var addAtThisPos = 0;
+				var library_already_available = false;
+				for(each in a){
+				
+					if (a[each].indexOf(p1.message) != -1)
+						{
+						library_already_available = true
+						}
+					
+				
+					if(a[each].indexOf("import") != -1) {
+						addAtThisPos = parseInt(each)+1;
+						}
+					}				
+				if (library_already_available == false)
+					{
+					obj._cm.doc.replaceRange("import "+p1.message+";\n",{'line':addAtThisPos,'ch':0});
+					}
+				});
+
+			CodeMirror.commands.nextTab = function(cm) {
+			console.log("next tab");
+			var tab_active = $("#editor_tab ul li div.active a").attr("data-path");
+			var tab_list = [];
+			$("#editor_tab ul li div a").each(function(){
+				tab_list.push($(this).attr("data-path"));
+				})
+				
+			var index = tab_list.indexOf(tab_active);
+			console.log(index);			
+			var index_plus = index+1;
+
+			var show_tab = "";
+			if (index_plus < tab_list.length)
+				{
+				show_tab = tab_list[index_plus];
+				console.log(show_tab);
+				editor.switch_tab($("#editor_tab ul li div a[data-path='"+show_tab+"']"));
+				}
+			}
+			
+			CodeMirror.commands.previousTab = function(cm) {
+			console.log("previous tab");
+			
+			var tab_active = $("#editor_tab ul li div.active a").attr("data-path");
+			var tab_list = [];
+			$("#editor_tab ul li div a").each(function(){
+				tab_list.push($(this).attr("data-path"));
+				})
+				
+			var index = tab_list.indexOf(tab_active);
+			
+			var index_plus = index+1;
+			var index_minus = index-1;
+			var show_tab = "";
+			if (index_minus >= 0)
+				{
+				show_tab = tab_list[index_minus];
+				editor.switch_tab($("#editor_tab ul li div a[data-path='"+show_tab+"']"));
+				}
+			
+			
+			}			
+
 
 			CodeMirror.commands.completion = function(cm) {
 				console.log("completion ctrlspace");

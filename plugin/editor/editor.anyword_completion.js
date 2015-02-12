@@ -207,28 +207,6 @@ function scanWordsInEditor()
 
 
 
-	obj.libraryHint = function (cm,options)
-		{
-		var anyword_completion = obj.libraryHint_list;
-		/*
-		if (anyword_completion != undefined)
-			{
-			var updated_completion = anywordHint_update(obj._cm,anyword_completion);
-			}
-		else
-			{
-			var updated_completion = [];
-			}
-		*/
-		
-		updated_completion = anyword_completion;
-		return updated_completion;
-		};
-	CodeMirror.registerHelper("hint","library", obj.libraryHint);	
-		
-
-
-
 
 		
 	return obj;
