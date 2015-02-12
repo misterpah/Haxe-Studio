@@ -4,14 +4,18 @@ if you're searching the IDE written in Haxe, please visit project [HIDE](https:/
 Haxe Studio
 ===========
 Text Editor specially made for Haxe Programming Language.
-![Haxe Studio splash screen](http://i.imgur.com/pEGb8zA.png)
+![Haxe Studio splash screen](http://i.imgur.com/k0gdtsA.png)
 
 
-What's new v0.5.1
+What's new v0.5.2
+=================
+- add auto-include library via CTRL+1
+- Ctrl-Tab and Shift-Ctrl-Tab to navigate to next/previous tab
+
+
+v0.5.1
 =================
 - change ugly theme to black
-
-
 
 v0.5
 =============
