@@ -90,7 +90,7 @@ var editor = (function(obj)
 				var _index = cm.indexFromPos(cur);
 				var _char = obj.getValue().charAt(_index - 1);
 				
-				var findTheseWords = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_".split("");
+				var findTheseWords = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_.".split("");
 		
 		
 				var _index = cm.indexFromPos(cur);
@@ -124,13 +124,16 @@ var editor = (function(obj)
 
 				var find_this_word = cm.getLine(cur.line).slice(start,cur.ch);
 				var available_library = haxe_server.find_in_library(find_this_word);
+				if (available_library > 0)
+					{
+					//console.log(available_library);
+					var useThis = available_library[0];
+					//console.log(useThis);
+					var replaceTheText = useThis.split(".").pop();
+					editor._cm.doc.replaceRange(replaceTheText,{'line':cur.line,'ch':start},{'line':cur.line,'ch':cur.ch});
 
-				var useThis = available_library[0];
-				//console.log(useThis);
-				var replaceTheText = useThis.split(".").pop();
-				editor._cm.doc.replaceRange(replaceTheText,{'line':cur.line,'ch':start},{'line':cur.line,'ch':cur.ch});
-
-				central.event.broadcast("library_completion","editor.library_completion",useThis);
+					central.event.broadcast("library_completion","editor.library_completion",useThis);
+					}
 			};
 			
 			

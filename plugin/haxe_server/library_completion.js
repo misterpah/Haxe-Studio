@@ -48,6 +48,7 @@ var haxe_server = (function(obj)
 		build_library_completion();
 		setTimeout(function()
 			{
+			//console.log(obj.available_library);
 			obj.scan_library();
 			console.log(obj.available_class_in_library);
 			},2000);
@@ -65,6 +66,10 @@ var haxe_server = (function(obj)
 				if(file_stat[key][i].isFile())
 					{
 					var path = file_stat[key][i]['path'];
+					if (path.endsWith(".hx") == false)
+						{
+						continue;
+						}
 					path = path.split(support.node.path.sep);
 					path.pop();
 					path.shift();
@@ -73,6 +78,14 @@ var haxe_server = (function(obj)
 					var name = file_stat[key][i]['name'].split(".")[0];
 					
 					var lib = [key,path,name].join(".");
+					
+					var point_of_entry = obj.library_completion_pointOfEntry(key);
+					if (point_of_entry != "")
+						{
+						//var point_of_entry = obj.library_completion_pointOfEntry(lib_name);
+						var lib = [point_of_entry,path,name].join(".");
+						}
+					
 					lib = lib.replace("..",".");
 					file_only.push(lib);
 					}
@@ -135,8 +148,21 @@ var haxe_server = (function(obj)
 				if (support.node.fs.existsSync(value + support.node.path.sep+"haxelib.json") )
 					{
 					var lib_name = JSON.parse(support.node.fs.readFileSync(value + support.node.path.sep+"haxelib.json")).name;
-					var path = value +""+ support.node.path.sep +""+ lib_name +""+ support.node.path.sep;
-					obj.available_library[lib_name] = path;
+					var path = value +""+ support.node.path.sep +""+ lib_name ;
+					console.log(lib_name);
+					var point_of_entry = obj.library_completion_pointOfEntry(lib_name);
+					if (point_of_entry != "")
+						{
+						path_split = path.split(support.node.path.sep)
+						path_split.pop()
+						path = path_split.join(support.node.path.sep);
+						path = path +support.node.path.sep+ point_of_entry;
+						}
+					console.log(path);
+					if (support.node.fs.existsSync(path))
+						{
+						obj.available_library[lib_name] = path;
+						}
 					}
 				}
 			
