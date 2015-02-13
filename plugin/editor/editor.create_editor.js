@@ -84,7 +84,7 @@ var editor = (function(obj)
 				}
 				
 			CodeMirror.commands.library_completion = function(cm) {				
-				//console.log("library completion ctrl+1");
+				console.log("library completion ctrl+1");
 				obj.is_library_completion = true;
 				var cur = obj.getCursor();
 				var _index = cm.indexFromPos(cur);
@@ -124,15 +124,19 @@ var editor = (function(obj)
 
 				var find_this_word = cm.getLine(cur.line).slice(start,cur.ch);
 				var available_library = haxe_server.find_in_library(find_this_word);
-				if (available_library > 0)
+				//console.log(available_library);
+				if (available_library.length > 0)
 					{
-					//console.log(available_library);
 					var useThis = available_library[0];
 					//console.log(useThis);
 					var replaceTheText = useThis.split(".").pop();
 					editor._cm.doc.replaceRange(replaceTheText,{'line':cur.line,'ch':start},{'line':cur.line,'ch':cur.ch});
 
 					central.event.broadcast("library_completion","editor.library_completion",useThis);
+					}
+				else
+					{
+					obj.is_library_completion = false;
 					}
 			};
 			
@@ -160,6 +164,8 @@ var editor = (function(obj)
 					{
 					obj._cm.doc.replaceRange("import "+p1.message+";\n",{'line':addAtThisPos,'ch':0});
 					}
+					
+				obj.is_library_completion = false;
 				});
 
 			CodeMirror.commands.nextTab = function(cm) {
