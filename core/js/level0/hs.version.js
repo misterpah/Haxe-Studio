@@ -1,5 +1,10 @@
-hs.version = "0.5.2";
+hs.version = "0.5.3";
 hs.releaseNote = {};
+
+
+hs.releaseNote['0.5.3'] = [];
+hs.releaseNote['0.5.3'].push("3 mouse click to update");
+hs.releaseNote['0.5.3'].push("initial integration with API");
 
 
 hs.releaseNote['0.5.2'] = [];
