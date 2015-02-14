@@ -23,7 +23,7 @@ font-size:16em;
 </style>
 
 <script>
-		function hs_update(url, callback) 
+		function api(url, callback) 
 			{
 			var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
 			window[callbackName] = function(data) 
@@ -42,19 +42,20 @@ font-size:16em;
 			{
 			$("#action_button").html("");
 			$("#icon").html("<span class='glyphicon glyphicon-cloud-download'></span><br><br><b>Checking with server</b>");
-			hs_update("http://api.haxestudio.com/api.php?interface=update_hs",function(data)
+			api("http://api.haxestudio.com/api.php?interface=update_hs",function(data)
 				{
 				console.log(hs.version);
-				console.log(data[data.length-1]);
-				if (hs.version < data[data.length-1][0])
+				console.log(data);
+				
+				if (hs.version < data[0]['version'])
 					{
 					$("#icon").html("<span class='glyphicon glyphicon-question-sign'></span><br><br><b>Update available. Download?</b>")
-					var url = data[data.length-1][1];
+					var url = data[0]['url'];
 					$("#action_button").html("<button type='button' onclick='download_update(\""+url+"\");'class='btn btn-default btn-lg'>Download update</button>")
 					}
 				else
 					{
-					$("#icon").html("<span class='glyphicon glyphicon-ok'></span><br><br><b>you're up to date!</b>")
+					$("#icon").html("<span class='glyphicon glyphicon-ok'></span><br><br><b>you're up to date!</b><p>Latest Version : "+data[0]['version']+"</p>")
 					}
 				});	
 			}
@@ -72,18 +73,17 @@ font-size:16em;
 					}
 				else
 					{
+					var file = url_to_download.split("/").pop();
 					$("#icon").html("<span class='glyphicon glyphicon-floppy-saved'></span><br><br><b>Download Complete</b>");			
-					$("#action_button").html("<button type='button' onclick='patch()'class='btn btn-default btn-lg'>Apply Update</button>")			
+					$("#action_button").html("<button type='button' onclick='patch(\""+file+"\")'class='btn btn-default btn-lg'>Apply Update</button>")			
 					}
 				});
 			}
 		
-		function patch()
+		function patch(file)
 			{
-			console.log('test');
-			return;
 			$("#action_button").html("");
-			var zip = new admZip("./HaxeStudio-patch.zip");
+			var zip = new admZip("./"+file);
 			zip.extractAllTo("../", true);
 			console.log("patch complete");
 			$("#icon").html("<span class='glyphicon glyphicon-ok'></span><br><br><b>you're up to date!</b>")
@@ -110,28 +110,37 @@ font-size:16em;
 			console.log("patch complete");
 			$("#icon").html("<span class='glyphicon glyphicon-ok'></span><br><br><b>Patch Complete!</b>")
 			}
+			
+		$(document).ready(function()
+			{
+			$("#curVersion").html(hs.version);
+			});
 		
 </script>
 
 <body>
 	<div class="container">
-		<div class="col-md-offset-3 col-md-3 text-center">
+		<div class="col-md-offset-3 col-md-6 text-center">
 		
-			<br/><br/>
-			<div id="icon">
-				
+			<br/>
+			<div id="icon">				
 				<img style="box-shadow: 1px 1px 20px #888888;" src="./haxe-studio.png" />
 			</div> 
 			<h2>Haxe Studio Update</h2>
-			
+			<p>Current version : <span id="curVersion"></span></p>
 			<br/>
 
 			<div id="action_button">
-			<button style='display:none' type="button" onclick="alert('sorry.for future release')/*check_update()*/"class="btn btn-default btn-lg">Check for Update</button>
-			<input style="margin:0 auto;" id="fileDialog" type="file" />
-			<br/><br/>
-			<button type="button" onclick="patch_file($('#fileDialog').val());" class="btn btn-default btn-lg">Patch!</button>
-			
+			<button type="button" onclick="check_update()"class="btn btn-default btn-lg">Check for Update</button>
+			<br/>
+			<hr/>
+			<div class="well">
+				<h3>Manual Update/Downgrade</h3>
+				<br/>
+				<input style="margin:0 auto;" id="fileDialog" type="file" />
+				<br/><br/>
+				<button type="button" onclick="patch_file($('#fileDialog').val());" class="btn btn-default btn-lg">Patch!</button>
+			</div>			
 			</div>
 		</div>
 	</div>
