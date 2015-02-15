@@ -1,0 +1,11 @@
+{
+"name":"code_formatter",
+"author":"misterpah",
+"version":0.1,
+"description":"Provide code formatting",
+"website":"http://haxestudio.com",
+"dependency":[],
+"configuration":{
+	"default":0
+	}
+}

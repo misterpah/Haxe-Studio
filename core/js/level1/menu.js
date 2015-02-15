@@ -68,6 +68,23 @@ var tools_dropdown = support.dropdownMenu("Tools",tools_menu.join("\n"));
 $("#main_menu").append(tools_dropdown);
 
 
+
+
+
+
+var plugin_menu = [];
+
+plugin_menu.push(support.dropdownMenuItem("Sample Plugin","PluginMenu.sample_plugin",""));
+central.event.listen("PluginMenu.sample_plugin",function(){
+debug.info("this is a sample plugin");
+});	
+
+
+var plugin_dropdown = support.dropdownMenu("Plugin",plugin_menu.join("\n"));
+$("#main_menu").append(plugin_dropdown);
+
+
+
 var help_menu = [];
 help_menu.push(support.dropdownMenuItem("Update","HelpMenu.update",''));
 central.event.listen("HelpMenu.update",function(){
