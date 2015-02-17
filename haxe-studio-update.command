@@ -1,4 +1,4 @@
 #!/bin/bash
-cd "$(dirname "$0")"
-open -n -a $(dirname "$0")/runtime/osx/node-webkit.app --args $(dirname "$0")/update
-#."$(dirname "$0")/runtime/osx/node-webkit/Contents/MacOS/node-webkit"
+path="$(cd "$(dirname "$BASH_SOURCE")" && pwd)"
+cd "$path"
+open "./runtime/osx/node-webkit.app" --args "$path/update"
