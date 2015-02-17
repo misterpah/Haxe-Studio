@@ -54,6 +54,34 @@ var hs = (function(obj)
 	
 	
 	
+
+obj.executeFunctionByNameDefered = function (functionName, context,execute /*, args */) {
+var defer = Q.defer()
+
+  if (execute == undefined)
+  	{
+  	execute = true;
+  	}
+  var args = [].slice.call(arguments).splice(3);
+  var namespaces = functionName.split(".");
+  var func = namespaces.pop();
+  for(var i = 0; i < namespaces.length; i++) {
+    context = context[namespaces[i]];
+  }
+  if (execute == true)
+  	{
+  	context[func].apply(this, args);
+  	defer.resolve(["ok",functionName]);
+  	}
+  else
+  	{
+  	context[func];
+  	defer.resolve(["fail",functionName]);
+  	}
+  return defer.promise;
+}	
+
+
 	
 	
 	
@@ -109,43 +137,56 @@ obj.init = function()
 		})
 	.then(function(data)
 		{
-		console.dir(data);
+		//console.dir(data);
 		return hs.loadLevel2();
 		})
 	.then(function(data)
 		{
-		console.dir(data);
 		return hs.load_all_plugins();
+		
 		})		
 	.then(function(data)
 		{
-		console.dir(data);
+		
+		var promises = [];
 		for (var i = 0; i < data[1].length;i++)
 			{
-			hs.executeFunctionByName(data[1][i]+".init",window);
+				promises.push(hs.executeFunctionByNameDefered(data[1][i]+".init",window));
+				console.log(data[1][i]);
+				$("#loadingStatus").html('<p>execute plugin : '+data[1][i]+'</p>')
 			}
-		})
-	.then(function(data)
-		{
-		central.event.broadcast("hs.init","hs.js","complete");
-		})
-	.then(function(data)
-		{
-		var plugins = support.readDir("../plugin");
-		var promises = [];
-		for (var i = 0; i < plugins.length;i++)
-			{
-			var keys = Object.keys(window[plugins[i]]);
 			
-			if (keys.indexOf("integrate") != -1)
+		
+		Q.all(promises).then(function(results)
+			{
+			results.forEach(function(result)
 				{
-				console.log("Run integration for plugin "+plugins[i]);
-				hs.executeFunctionByName(plugins[i]+".integrate",window);
-				}
-			}			
-		});			
+				debug.info ("execute plugin "+result[1]);
+				})
+			central.event.broadcast("hs.init","hs.js","complete");
+			});
+		}).done();
 	}
 	
+obj.integrate = function()
+	{
+	var plugins = support.readDir("../plugin");
+	var promises = [];
+	for (var i = 0; i < plugins.length;i++)
+		{
+		var keys = Object.keys(window[plugins[i]]);
+		
+		if (keys.indexOf("integrate") != -1)
+			{
+			//console.log("Run integration for plugin "+plugins[i]);
+			debug.info ("integrate plugin "+plugins[i]);
+			hs.executeFunctionByName(plugins[i]+".integrate",window);
+			}
+		}	
+	$("#loadingStatus").html('<p>loading complete</p>');	
+	
+	debug.info ("<b>[Haxe Studio Ready]</b>");
+	};
 
 	return obj;
 })(hs || {});

@@ -5,7 +5,7 @@ support.node.os = require("os");
 support.node.gui = require('nw.gui');
 
 support.node.exec = require('child_process').exec;
-//support.node.spawn = require('child_process').spawn;
+support.node.spawn = require('child_process').spawn;
 support.node.path = require("path");
 
 

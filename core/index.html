@@ -97,6 +97,7 @@
 
     	
     	$("title").html( $("title").html() +" v"+hs.version); $(".hs_version").html(hs.version);
+    	$(".sweet-alert h2").append('<div id="loadingStatus"><p>loading...</p></div>');
     	hs.init();
     	});
     	
@@ -112,6 +113,9 @@
     	$("#power_menu").append(CompilerPanel);
     	$("#power_menu").append(InspectorPanel);
     	showHideDebug();
+    	
+    	
+    	hs.integrate();
     	});
 	</script>
     <style>
@@ -134,6 +138,11 @@
     .dropdown-menu
     {
     min-width:250px;
+    }
+    
+    #loadingStatus
+    {
+    font-size:8px;
     }
     </style>
   </head>

@@ -8,6 +8,7 @@ var haxe_server = (function(obj)
 	function startTheHaxeServerOnPort(port)
 		{
 		obj.haxe_server_spawn = support.node.spawn("haxe", ["--wait", port]);
+		sessionStorage.haxeServerStarted = true;
 		}
 		
 	function killHaxeServer()
@@ -24,5 +25,12 @@ var haxe_server = (function(obj)
 		{
 		killHaxeServer();
 		}
+		
+		
+	if (sessionStorage.haxeServerStarted == undefined) // false
+		{
+		obj.start_haxe_server();
+		}		
+		
 	return obj;
 })(haxe_server);
