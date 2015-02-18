@@ -23,6 +23,10 @@ font-size:16em;
 </style>
 
 <script>
+if (hs.version == undefined)
+	{
+	hs.version = "0";
+	}
 		function api(url, callback) 
 			{
 			var callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
