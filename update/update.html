@@ -13,6 +13,50 @@
 	
 	<title>Haxe Studio Update</title>
 </head>
+
+
+<script>
+// Return 1 if a > b
+// Return -1 if a < b
+// Return 0 if a == b
+function compare(a, b) {
+    if (a === b) {
+       return 0;
+    }
+
+    var a_components = a.split(".");
+    var b_components = b.split(".");
+
+    var len = Math.min(a_components.length, b_components.length);
+
+    // loop while the components are equal
+    for (var i = 0; i < len; i++) {
+        // A bigger than B
+        if (parseInt(a_components[i]) > parseInt(b_components[i])) {
+            return 1;
+        }
+
+        // B bigger than A
+        if (parseInt(a_components[i]) < parseInt(b_components[i])) {
+            return -1;
+        }
+    }
+
+    // If one's a prefix of the other, the longer one is greater.
+    if (a_components.length > b_components.length) {
+        return 1;
+    }
+
+    if (a_components.length < b_components.length) {
+        return -1;
+    }
+
+    // Otherwise they are the same.
+    return 0;
+}
+</script>
+
+
 <style>
 .glyphicon
 {
@@ -48,18 +92,34 @@ if (hs.version == undefined)
 			$("#icon").html("<span class='glyphicon glyphicon-cloud-download'></span><br><br><b>Checking with server</b>");
 			api("http://api.haxestudio.com/api.php?interface=update_hs",function(data)
 				{
+				
 				console.log(hs.version);
 				console.log(data);
+
+				var latest_version = hs.version;
+				var latest_version_url = "";
+				for (var i = 0;i < data.length;i++)
+					{
+						//latest_version = versionCompare(latest_version,data[i]['version']);
+						if (compare(latest_version,data[i]['version']) == -1)
+							{
+							latest_version = data[i]['version'];
+							latest_version_url = data[i]['url'];
+							}
+					}
+				//console.log(latest_version);
+				//return;
 				
-				if (hs.version < data[0]['version'])
+				
+				if (compare(hs.version,latest_version) == -1)
 					{
 					$("#icon").html("<span class='glyphicon glyphicon-question-sign'></span><br><br><b>Update available. Download?</b>")
-					var url = data[0]['url'];
+					var url = latest_version_url;
 					$("#action_button").html("<button type='button' onclick='download_update(\""+url+"\");'class='btn btn-default btn-lg'>Download update</button>")
 					}
 				else
 					{
-					$("#icon").html("<span class='glyphicon glyphicon-ok'></span><br><br><b>you're up to date!</b><p>Latest Version : "+data[0]['version']+"</p>")
+					$("#icon").html("<span class='glyphicon glyphicon-ok'></span><br><br><b>you're up to date!</b><p>Latest Version : "+latest_version+"</p>")
 					}
 				});	
 			}
