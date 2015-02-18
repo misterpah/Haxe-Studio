@@ -9,7 +9,6 @@ support.node.spawn = require('child_process').spawn;
 support.node.path = require("path");
 
 
-
 support.loadJSPromise = function(_script)
 	{
 	var deferred = Q.defer();
@@ -20,30 +19,8 @@ support.loadJSPromise = function(_script)
 		deferred.resolve("[loadjs][success]"+_script);
 	  })
 	  .fail(function( jqxhr, settings, exception ) {
-		//$( "div.log" ).text( "Triggered ajaxError handler." );
 		throw new Error("Can't load "+_script);
 	});	
-	/*
-    $.ajax({
-        url: script,
-        dataType: "script",
-        async: false,
-        success: function () 
-        	{
-        		//gvar.event.broadcast("loadJS","support.loadJS",{'status':"success","file":script});
-        		debug.debug("loadJS",script,"success");
-        		deferred.resolve("[loadjs][success]"+script);
-		    },
-		    error: function () 
-		    {
-			    ////gvar.event.broadcast("loadJS:error","support.loadJS",script);
-			    //gvar.event.broadcast("loadJS","support.loadJS",{'status':"fail","file":script});
-			    debug.error("loadJS",script,"fail");
-			    deferred.resolve("[loadjs][fail]"+script);
-			    throw new Error("Can't load "+script);
-		    }
-			});	
-	*/
 	return deferred.promise;
 	};
 
@@ -56,13 +33,10 @@ support.loadJS = function(script)
         async: false,
         success: function () 
         	{
-        		//gvar.event.broadcast("loadJS","support.loadJS",{'status':"success","file":script});
         		debug.debug("loadJS",script,"success");
 		    },
 		    error: function () 
 		    {
-			    ////gvar.event.broadcast("loadJS:error","support.loadJS",script);
-			    //gvar.event.broadcast("loadJS","support.loadJS",{'status':"fail","file":script});
 			    debug.debug("loadJS",script,"fail");
 		    }
 			});	
@@ -72,20 +46,6 @@ support.loadJS = function(script)
 support.loadCSS = function(css)
 	{
 	$("body").append('<link rel="stylesheet" type="text/css" href="'+css+'" />');
-	/*
-    $.ajax({
-          url: css,
-          dataType: 'css',
-          success: function(){                  
-                $('<link rel="stylesheet" type="text/css" href="'+href+'" />').appendTo("head");
-                //$("body").append('<link rel="stylesheet" type="text/css" href="'+css+'" />');
-                ////gvar.event.broadcast("loadCSS:success","support.loadCSS",css);
-            },
-		  error: function () {
-			    ////gvar.event.broadcast("loadCSS:error","support.loadCSS",css);
-		    }            
-	    });	
-	*/
 	}
 	
 
@@ -93,7 +53,6 @@ support.loadCSS = function(css)
 support.dirRead = support.readDir; // alias
 support.readDir = function(path)
 	{
-	////gvar.event.broadcast("read_directory:start","support.readDir",path);
 	return support.node.fs.readdirSync(path);
 	}
 	
@@ -104,14 +63,11 @@ support.fileExist = function(filename)
 	
 support.fileNew = function(filename)
 	{
-	////gvar.event.broadcast("file_new:start","support.fileNew",filename);	
 	support.node.fs.openSync(filename,"a+");
-	////gvar.event.broadcast("file_new:end","support.fileNew",filename);	
 	}
 
 support.fileRead = function(filename)
 	{
-	////gvar.event.broadcast("file_read:start","support.fileRead",filename);	
 	return support.node.fs.readFileSync(filename,"utf-8");
 	}
 
@@ -124,9 +80,7 @@ support.isFile = function(path)
 
 support.fileSave = function(filename, content)
 	{
-	////gvar.event.broadcast("file_save:start","support.fileSave",filename);	
 	support.node.fs.writeFileSync(filename, content);
-	////gvar.event.broadcast("file_save:end","support.fileSave",filename);	
 	}	
 	
 
@@ -166,16 +120,6 @@ support.dropdownMenuItem = function(label,message_name,shortcut_key)
 
 support.dropdownMenu = function(label,dropdownContent)
 	{
-	/*
-	<li class="dropdown">
-	  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Help <span class="caret"></span></a>
-	  <ul class="dropdown-menu" role="menu">
-		<li><a href="#">Contribution</a></li>
-		<li class="divider"></li>
-		<li><a href="#">Check for update <div style="display:inline;float:right;"><span class="label label-primary">Ctrl</span> <span class="label label-success">U</span></div></a></li>
-	  </ul>
-	</li>		
-	*/
 	
 	var ret = ['<li class="dropdown '+label+'_dropdown">',
 	'<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">'+label+' <span class="caret"></span></a>',
@@ -217,10 +161,8 @@ support.build_seperator = function()
 
 support.watchOnce = function(variable,attribute,callback)
 	{
-	//console.log("watchOnce "+variable+"["+attribute+"]");
 	var temp_callback = function () 
 		{
-		//console.log('should be watching once :'+attribute);
 		callback();
 		unwatch(variable,attribute,temp_callback);
 		}
@@ -231,20 +173,16 @@ support.watchOnce = function(variable,attribute,callback)
 
 support.watch = function (variable,attribute,callback)
 	{
-	//console.log("watch "+variable+"["+attribute+"]");
 	if (callback.name == "")
 		{
-		////console.log("anonymous function detected. please use non-anonymous function (function with names).");
 		}
 	watch(variable,attribute,callback);
 	}
 
 support.unwatch = function (variable,attribute,callback)
 	{
-	//console.log("unwatch "+variable+"["+attribute+"]");
 	if (callback.name == "")
 		{
-		////console.log("anonymous function detected. please use non-anonymous function (function with names).");
 		}
 	unwatch(variable,attribute,callback);
 	}
@@ -332,7 +270,6 @@ support.exec = function (lines_to_exec,callbackFunction)
 		if(error != null) {
 			//if(stdout != "") notify(stdout,"danger");
 		}
-		//support.node.execResult = {"error":error,"stdout":stdout,"stderr":stderr};
 		callbackFunction(error,stdout,stderr);
 	});
 
