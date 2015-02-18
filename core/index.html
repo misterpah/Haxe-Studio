@@ -70,6 +70,47 @@
     </script>
     
    
+<script>
+// Return 1 if a > b
+// Return -1 if a < b
+// Return 0 if a == b
+function compare(a, b) {
+    if (a === b) {
+       return 0;
+    }
+
+    var a_components = a.split(".");
+    var b_components = b.split(".");
+
+    var len = Math.min(a_components.length, b_components.length);
+
+    // loop while the components are equal
+    for (var i = 0; i < len; i++) {
+        // A bigger than B
+        if (parseInt(a_components[i]) > parseInt(b_components[i])) {
+            return 1;
+        }
+
+        // B bigger than A
+        if (parseInt(a_components[i]) < parseInt(b_components[i])) {
+            return -1;
+        }
+    }
+
+    // If one's a prefix of the other, the longer one is greater.
+    if (a_components.length > b_components.length) {
+        return 1;
+    }
+
+    if (a_components.length < b_components.length) {
+        return -1;
+    }
+
+    // Otherwise they are the same.
+    return 0;
+}
+</script>   
+   
     
     
     <script src="../core/js/level0/hs.js"></script>
@@ -133,12 +174,33 @@
     	showHideDebug();
     	
     	
+    	
+    	
+    	
+    	
 		api("http://api.haxestudio.com/api.php?interface=update_hs",function(data)
 			{
-			if (hs.version < data[0]['version'])
-				{
-				$(".sweet-alert h2").html("New version available!<br/> Update to "+data[0]['version']);
-				}
+				var latest_version = hs.version;
+				var latest_version_url = "";
+				for (var i = 0;i < data.length;i++)
+					{
+						//latest_version = versionCompare(latest_version,data[i]['version']);
+						if (compare(latest_version,data[i]['version']) == -1)
+							{
+							latest_version = data[i]['version'];
+							latest_version_url = data[i]['url'];
+							}
+					}
+				
+				if (compare(hs.version,latest_version) == -1)
+					{
+					
+					$(".sweet-alert h2").html("New version available!<br/> Update to "+data[0]['version']);
+					}
+				else
+					{
+					debug.debug('Haxe Studio is up to date');
+					}
 			});    	
     	hs.integrate();
     	});
