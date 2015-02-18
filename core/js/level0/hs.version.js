@@ -1,5 +1,12 @@
-hs.version = "0.5.3";
+hs.version = "0.5.4";
 hs.releaseNote = {};
+
+hs.releaseNote['0.5.4'] = [];
+hs.releaseNote['0.5.4'].push("New plugin 'Code Formatter'. just click 'menu->plugin->prettify code' ");
+hs.releaseNote['0.5.4'].push("(bugfix) Haxe Studio won't start on OSX");
+hs.releaseNote['0.5.4'].push("Haxe Studio auto check API for new release");
+hs.releaseNote['0.5.4'].push("Improve Haxe Studio plugin loading mechanism");
+
 
 
 hs.releaseNote['0.5.3'] = [];
