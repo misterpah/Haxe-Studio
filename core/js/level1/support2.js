@@ -1,5 +1,6 @@
-support.build_modal = function(title,content,functionAfterClose)
+support.build_modal = function(title,content,functionAfterClose,closeButton)
 	{
+	closeButton = (typeof closeButton === "undefined") ? "Close" : closeButton;
 	if ($(".sweet-alert").css("display") != "none")
 		{
 		console.log("splash aren't closed yet.");
@@ -23,7 +24,7 @@ support.build_modal = function(title,content,functionAfterClose)
 content,
 '      </div>',
 '      <div class="modal-footer">',
-'        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>',
+'        <button type="button" class="btn btn-default" data-dismiss="modal">'+closeButton+'</button>',
 '      </div>',
 '    </div>',
 '  </div>',
