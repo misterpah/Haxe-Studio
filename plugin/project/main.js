@@ -6,7 +6,7 @@ var project = (function(obj)
 	obj.init = function()
 		{
 		central.project = {};
-		support.loadJS(plugin_path+"/new_project.js");
+		//support.loadJS(plugin_path+"/new_project.js");
 		support.loadJS(plugin_path+"/open_project.js");
 		support.loadJS(plugin_path+"/project_tree.js");
 		support.loadJS(plugin_path+"/compile.ui.js");
