@@ -1,0 +1,11 @@
+{
+"name":"lib_integration",
+"author":"misterpah",
+"version":0.1,
+"description":"Integrate Haxe library with Haxe Studio",
+"website":"http://haxestudio.com",
+"dependency":[],
+"configuration":{
+	"default":0
+	}
+}

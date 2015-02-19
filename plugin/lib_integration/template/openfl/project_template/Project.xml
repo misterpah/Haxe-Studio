@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	
+	<meta title="%OPENFL:NAME%" package="%OPENFL:PACKAGE%" version="%OPENFL:VERSION%" company="%OPENFL:COMPANY%" />
+	<app main="Main" path="Export" file="%OPENFL:FILE%" />
+	
+	<source path="Source" />
+	
+	<haxelib name="openfl" />
+	
+	<assets path="Assets" rename="assets" exclude="openfl.svg" />
+	<icon path="Assets/openfl.svg" />
+	
+</project>
