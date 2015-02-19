@@ -1,6 +1,8 @@
 var support = {};
 support.node = {};
-support.node.fs = require("fs");
+support.node.fs = require("fs-extra");
+//require("fs-extra");
+
 support.node.os = require("os");
 support.node.gui = require('nw.gui');
 
