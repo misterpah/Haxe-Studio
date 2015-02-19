@@ -10,7 +10,7 @@ else if (config.ctrlOrMeta == "metaKey")
 
 var file_menu = [];
 file_menu.push(support.dropdownMenuItem("New Project","FileMenu.newProject",ctrlOrMeta+"+Shift+N"));
-$.keyStroke( 78, { modKeys: [config.ctrlOrMeta,'shiftKey'] }, function(){  central.event.broadcast("FileMenu.openProject","shortcut_key",""); });
+$.keyStroke( 78, { modKeys: [config.ctrlOrMeta,'shiftKey'] }, function(){  central.event.broadcast("FileMenu.newProject","shortcut_key",""); });
 
 file_menu.push(support.dropdownMenuItem("Open Project...","FileMenu.openProject",ctrlOrMeta+"+Shift+O"));
 $.keyStroke( 79, { modKeys: [config.ctrlOrMeta,'shiftKey'] }, function(){  central.event.broadcast("FileMenu.openProject","shortcut_key",""); });
