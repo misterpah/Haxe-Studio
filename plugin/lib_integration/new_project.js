@@ -124,7 +124,11 @@ var lib_integration = (function(obj)
 				}
 				
 			var projectFolder = $("#genModal #projectFolder").val()
-			obj.create_project(newProjectResult['library_to_use'],projectFolder,temp);
+			
+			if (sessionStorage.genModalClicked == "true")
+				{
+				obj.create_project(newProjectResult['library_to_use'],projectFolder,temp);
+				}
 			},"Create !");
 			
 		var mw = new metawidget.Metawidget( document.getElementById( 'metawidget_container' ),{layout:new metawidget.bootstrap.layout.BootstrapDivLayout({'divStyleClasses':['metawidget_parent'],'labelStyleClass':"metawidget_label"})});
@@ -173,10 +177,15 @@ var lib_integration = (function(obj)
 				
 			temp['library_to_use'] = $("#genModal #library_to_use").val();
 			
-			setTimeout(function()
+			
+			if (sessionStorage.genModalClicked == "true")
 				{
-				obj.newProjectWindowConfigure(temp);
-				},500);
+				setTimeout(function()
+					{
+					obj.newProjectWindowConfigure(temp);
+					},500);				
+				}			
+			
 			//console.log(temp);
 			
 			},"Next");

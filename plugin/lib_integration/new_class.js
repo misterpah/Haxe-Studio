@@ -70,25 +70,29 @@ var lib_integration = (function(obj)
 
 			support.build_modal("New Class",content,function()
 				{
-				var folderName = filename.split(sep)
-				folderName.pop()
-				folderName = folderName.join(sep)
-				console.log(folderName);
-				console.log(filename);
-				if (support.node.fs.existsSync(folderName) == false)
-					{
-					support.node.fs.mkdirpSync(folderName);
-					}
+				if (sessionStorage.genModalClicked == "true")
+					{				
+				
+					var folderName = filename.split(sep)
+					folderName.pop()
+					folderName = folderName.join(sep)
+					console.log(folderName);
+					console.log(filename);
+					if (support.node.fs.existsSync(folderName) == false)
+						{
+						support.node.fs.mkdirpSync(folderName);
+						}
 					
-				if (support.node.fs.existsSync(filename) == false)
-					{
-					support.fileSave(filename,$("#snipets_generated").html());
-					debug.info('Class created!');
+					if (support.node.fs.existsSync(filename) == false)
+						{
+						support.fileSave(filename,$("#snipets_generated").html());
+						debug.info('Class created!');
+						}
+					else
+						{
+						debug.error('Class already available!');
+						}	
 					}
-				else
-					{
-					debug.error('Class already available!');
-					}	
 				},"Create !");
 		
 			$("#snipets_list").append("<option value='null'>choose ...</option>");
