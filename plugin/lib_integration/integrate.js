@@ -1,7 +1,5 @@
 var lib_integration = (function(obj)
 {
-	var _c = central.filesystem;
-
 
 	function hook_event()
 	{
@@ -9,6 +7,14 @@ var lib_integration = (function(obj)
 		{
 		obj.openNewProjectWindow();
 		});	
+		
+		
+	central.event.listen("FileMenu.newFile",function()
+		{
+		obj.new_class();
+		});			
+
+		
 	}
 
 	
