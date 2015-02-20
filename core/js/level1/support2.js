@@ -1,5 +1,6 @@
 support.build_modal = function(title,content,functionAfterClose,closeButton)
 	{
+	delete(sessionStorage.genModalClicked);
 	closeButton = (typeof closeButton === "undefined") ? "Close" : closeButton;
 	if ($(".sweet-alert").css("display") != "none")
 		{
@@ -12,6 +13,7 @@ support.build_modal = function(title,content,functionAfterClose,closeButton)
 		console.log("only 1 modal per time");
 		return;
 		}
+	var clicked_input = "";
 	var ret =
 	['<div class="modal fade" id="genModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">',
 '  <div class="modal-dialog">',
@@ -24,7 +26,7 @@ support.build_modal = function(title,content,functionAfterClose,closeButton)
 content,
 '      </div>',
 '      <div class="modal-footer">',
-'        <button type="button" class="btn btn-default" data-dismiss="modal">'+closeButton+'</button>',
+'        <button type="button" class="btn btn-default" onClick="sessionStorage.genModalClicked=\'true\'"  data-dismiss="modal"  >'+closeButton+'</button>',
 '      </div>',
 '    </div>',
 '  </div>',
