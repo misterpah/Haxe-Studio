@@ -8,6 +8,9 @@ var lib_integration = (function(obj)
 		central.lib_integration = {};
 		support.loadJS(plugin_path+"/integrate.js");
 		support.loadJS(plugin_path+"/new_project.js");
+		support.loadJS(plugin_path+"/new_class.js");
+		
+		
 		};
 		
 	obj.destroy = function()
