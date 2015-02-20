@@ -1,0 +1,9 @@
+{
+"snipets_name": "sprite",
+"snipets_description": "create a new class which extens Sprite",
+"snipets_variables" :
+	{
+	"Package":"",
+	"Class":"Default"
+	}
+}
