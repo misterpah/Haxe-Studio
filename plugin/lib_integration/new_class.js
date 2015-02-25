@@ -151,7 +151,7 @@ var lib_integration = (function(obj)
 							}
 						}
 					
-					filename = central.project.projectFolder + sep +"source"+sep+ package_folder + sep + updated_var['Class'] +".hx";					
+					filename = central.project.projectFolder + sep +configJson['source_folder']+sep+ package_folder + sep + updated_var['Class'] +".hx";					
 					
 					
 					$(".metawidget_parent input").on("input",function()
@@ -177,7 +177,7 @@ var lib_integration = (function(obj)
 								}
 							}
 						
-						filename = central.project.projectFolder + sep +"source"+sep+ package_folder + sep + updated_var['Class'] +".hx";
+						filename = central.project.projectFolder + sep +configJson['source_folder']+sep+ package_folder + sep + updated_var['Class'] +".hx";
 						});
 					}
 				});
