@@ -14,6 +14,9 @@ var editor = (function(obj)
 			$("#editor_position").prepend("<div id='editor_tab'><ul class='nav nav-tabs'></ul></div>");
 			$("#editor_position").append("<div id='editor_editor' ><textarea id='cm_textarea'></textarea></div>");
 			$("#editor_editor").css("display","none");
+			
+			var el = $(".nav-tabs")[0];
+			var sortable = Sortable.create(el);			
   			
   			central.editor.isEditorOpened = true;
   			$("#editor_editor").css("display","block");
