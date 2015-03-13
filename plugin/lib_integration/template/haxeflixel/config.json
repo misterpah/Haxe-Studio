@@ -1,1 +1,1 @@
-{"image":"haxeflixel.svg","compiler":"lime","project_file":"Project.xml", "apply_template_variables":["Project.xml"],"template_variables":{"Name":"sample","Version":"1","Company":"yourcompany","File":"main"}}
+{"image":"haxeflixel.svg","compiler":"lime","project_file":"Project.xml", "apply_template_variables":["Project.xml"],"supported_target":["windows","mac","linux","html5","flash","android","ios","neko -32","neko -64"],"template_variables":{"Name":"sample","Version":"1","Company":"yourcompany","File":"main"}}
