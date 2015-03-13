@@ -5,7 +5,6 @@ var project = (function(obj)
 
 	function build_userInterface()
 		{
-		$("#compiler_position").html("");
 		var compile_target = ['<select width="100%" style="width:100%;" id="compileTarget" class="btn-group-sm">',
 		'<option>flash</option>',
 		'<option>html5</option>',
@@ -31,13 +30,11 @@ var project = (function(obj)
 		'</select>'].join('\n');
 
 		//$("#compiler_position").attr("style","padding:10px;");
-		$("#compiler_position").append("<br/>");
-		$("#compiler_position").append(compile_target);
-		$("#compiler_position").append("<br/><br/>");
-		$("#compiler_position").append(compile_parameter);
-		$("#compiler_position").append("<br/><br/>");
-		$("#compiler_position").append('<div class="col-xs-6" style="padding:0px;"><button style="width:100%;" type="button" onclick="project.compile_project_request()" class="btn btn-default btn-xs shadowme"><b>Compile</b></button></div> <div class="col-xs-6" style="padding:0px;padding-left:5px;"><button style="width:100%;" type="button" onclick="central.event.broadcast(\'ToolsMenu.checkForError\',\'compile.ui.js\',\'\');" class="btn btn-default btn-xs shadowme">Check Err</button></div>');
-		$("#compiler_position").append("<br/><br/>");
+		$("#compiler_target").html(compile_target);
+		$("#compiler_parameter").html(compile_parameter);
+		$("#compiler_button_compile").append('<p style="padding-left:5px;"><button style="width:100%;" type="button" onclick="project.compile_project_request()" class="btn btn-default btn-xs shadowme"><b>Compile</b></button></p>');
+		$("#compiler_button_checkError").append('<p style="padding-left:5px;"><button style="width:100%;" type="button" onclick="central.event.broadcast(\'ToolsMenu.checkForError\',\'compile.ui.js\',\'\');" class="btn btn-default btn-xs shadowme">Check Error</button></p>');
+		//$("#compiler_position").append("<br/><br/>");
 		//$("#compiler_position").append("<div id='compiler_error'></div>");
 		
 		central.event.broadcast("display_compiler.complete","project.compile_project","");
@@ -50,9 +47,27 @@ var project = (function(obj)
 		central.event.broadcast("compile_request","project.compile_project.js",{"parameter":$("#compileParameter").val(),"target":$("#compileTarget").val()});
 		};
 
-	obj.compile_project_ui = function(filename)
+	obj.compile_project_ui = function()
 		{
+		if(typeof $("#compiler_target").html() == "undefined")
+			{
+			$("#main_menu").append("<li style='margin-top:6px;margin-right:6px;' id='compiler_target'></li>");
+			}
+		if(typeof $("#compiler_parameter").html() == "undefined")
+			{			
+			$("#main_menu").append("<li style='margin-top:6px' id='compiler_parameter'></li>");
+			}
+		if(typeof $("#compiler_button_compile").html() == "undefined")
+			{			
+			$("#main_menu").append("<li style='margin-top:6px' id='compiler_button_compile'></li>");
+			}		
+		if(typeof $("#compiler_button_checkError").html() == "undefined")
+			{			
+			$("#main_menu").append("<li style='margin-top:6px' id='compiler_button_checkError'></li>");
+			}					
 		build_userInterface();
 		}
+	central.event.listen("openProject.complete",obj.compile_project_ui);
+		
 	return obj;
 })(project);
