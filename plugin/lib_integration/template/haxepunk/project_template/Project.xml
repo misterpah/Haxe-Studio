@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<meta title="%HAXEPUNK:NAME%" package="%HAXEPUNK:PACKAGE%" version="%HAXEPUNK:VERSION%" company="%HAXEPUNK:COMPANY%" />
+
+ 	<app file="%HAXEPUNK:FILE%" main="Main" path="bin" />
+
+	<window fps="60" background="0x333333" />
+	<window width="640" height="480" resizable="true" unless="mobile" />
+	<window fullscreen="true" if="mobile" />
+	<window orientation="landscape" vsync="true" antialiasing="0" if="cpp" />
+
+	<source path="src" />
+
+	<haxelib name="HaxePunk" />
+
+	<assets path="assets/graphics" rename="graphics" include="*.png|*.jpg" />
+	<assets path="assets/audio" rename="audio" include="*.mp3" if="flash" />
+	<assets path="assets/audio" rename="audio" include="*.wav|*.ogg" unless="flash" />
+	<assets path="assets/font" rename="font" include="*.ttf" />
+
+	<icon path="assets/HaxePunk.svg" />
+</project>

@@ -1,0 +1,9 @@
+{
+"snipets_name": "simple",
+"snipets_description": "create a new simple class",
+"snipets_variables" :
+	{
+	"Package":"",
+	"Class":"Default"
+	}
+}

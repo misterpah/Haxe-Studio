@@ -8,7 +8,7 @@ ret = {};
 ret[name] = '';
 ret['flixel-addons'] = 'flixel';
 ret['flixel-ui']= 'flixel';
-
+ret['HaxePunk']= 'com';
 return ret[name];
 }
 

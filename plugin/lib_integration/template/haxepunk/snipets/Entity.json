@@ -1,0 +1,9 @@
+{
+"snipets_name": "Entity",
+"snipets_description": "create a new class which extens Entity",
+"snipets_variables" :
+	{
+	"Package":"",
+	"Class":"Default"
+	}
+}
