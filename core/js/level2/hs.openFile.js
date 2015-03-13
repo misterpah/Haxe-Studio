@@ -33,7 +33,10 @@
 					var doc = CodeMirror.Doc(central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].content,"haxe");
 					central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].doc = doc
 					}
-		
+				if ($("#editor_editor").css("display") == "none")
+					{
+					$("#editor_editor").css("display","block");
+					}
 				editor.setDoc(central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].doc)
 				editor.show_tab(encodeURIComponent(central.filesystem.fileActive));
 				editor.show_inspector();
@@ -85,6 +88,10 @@
 					var doc = CodeMirror.Doc(central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].content,"haxe");
 					central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].doc = doc
 					}
+				if ($("#editor_editor").css("display") == "none")
+					{
+					$("#editor_editor").css("display","block");
+					}					
 				editor.setDoc(central.filesystem.fileStack[encodeURIComponent(central.filesystem.fileActive)].doc)
 				editor.show_tab(encodeURIComponent(central.filesystem.fileActive));
 				editor.show_inspector();
