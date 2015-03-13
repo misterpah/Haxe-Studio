@@ -1,5 +1,20 @@
-hs.version = "0.5.4";
+hs.version = "0.5.5";
 hs.releaseNote = {};
+
+
+hs.releaseNote['0.5.5'] = [];
+hs.releaseNote['0.5.5'].push("New plugin 'file_tree'. Show your project Files and Folder");
+hs.releaseNote['0.5.5'].push("Improve plugin 'lib_integration'. Now any library may be easily integrated with Haxe Studio");
+hs.releaseNote['0.5.5'].push("'lib_integration' supports snipets (a.k.a class template), depends on your project");
+hs.releaseNote['0.5.5'].push("'lib_integration' supports for haxeflixel");
+hs.releaseNote['0.5.5'].push("'lib_integration' supports for openfl");
+hs.releaseNote['0.5.5'].push("'lib_integration' supports for haxepunk");
+hs.releaseNote['0.5.5'].push("'lib_integration' shows only supported compile-target depends on your project");
+hs.releaseNote['0.5.5'].push("Code Folding for curly brackets & multiline comment");
+hs.releaseNote['0.5.5'].push("Search using (CTRL/META)+F ");
+hs.releaseNote['0.5.5'].push("Search&Replace using (CTRL/META)+H ");
+
+
 
 hs.releaseNote['0.5.4'] = [];
 hs.releaseNote['0.5.4'].push("New plugin 'Code Formatter'. just click 'menu->plugin->prettify code' ");
