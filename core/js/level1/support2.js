@@ -32,8 +32,14 @@ content,
 '  </div>',
 '</div>'].join("\n");	
 $("body").append(ret);
-	$('#genModal').modal('show');
 
+	$('#genModal').modal('show');
+		
+	$('#genModal').on('shown.bs.modal', function (e) {
+		$("#genmodal button").focus();
+		});
+	
+	
 	$('#genModal').on('hidden.bs.modal', function (e) {
 	
 		Q.fcall(function()
@@ -46,5 +52,6 @@ $("body").append(ret);
   			});
 	});
 	}
+
 
 
