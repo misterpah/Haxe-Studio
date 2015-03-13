@@ -10,8 +10,6 @@ var project = (function(obj)
 		support.loadJS(plugin_path+"/open_project.js");
 		support.loadJS(plugin_path+"/project_tree.js");
 		support.loadJS(plugin_path+"/compile.ui.js");
-		support.loadCSS(plugin_path+"/project_tree.css");
-		support.loadJS(plugin_path+"/project_tree_context_menu.js");
 		
 		support.loadJS(plugin_path+"/compile.js");
 		
