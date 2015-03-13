@@ -33,13 +33,15 @@ var editor = (function(obj)
 					cursorHeight:0.85,
 					mode:'haxe',
 				
-					/*viewportMargin: Infinity,
-					matchBrackets:true,*/
+					/*viewportMargin: Infinity,*/
+					matchBrackets:true,
 					autoCloseBrackets:true,
 					styleActiveLine: true,
 					foldCode:true,
 					foldGutter:true,
 					showCursorWhenSelecting: true,
+					
+				    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
 					extraKeys: {
 						"Ctrl-Space": "completion",
 						"Cmd-Space": "completion",
@@ -48,7 +50,8 @@ var editor = (function(obj)
 						"Ctrl-Tab": "nextTab",
 						"Cmd-Tab": "nextTab",
 						"Shift-Ctrl-Tab": "previousTab",
-						"Shift-Cmd-Tab": "previousTab"
+						"Shift-Cmd-Tab": "previousTab",
+						"Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor())}
 						}
 					});  		
 			
@@ -127,15 +130,27 @@ var editor = (function(obj)
 
 				var find_this_word = cm.getLine(cur.line).slice(start,cur.ch);
 				var available_library = haxe_server.find_in_library(find_this_word);
-				//console.log(available_library);
 				if (available_library.length > 0)
 					{
+					
+					
+					var writeThisString = "";
+					for (each in available_library)
+						{
+						var eachStr = "editor.library_completion_replaceText('"+available_library[each]+"',"+cur.line+","+start+","+cur.line+","+cur.ch+");";
+						writeThisString += "<li><a onClick=\""+eachStr+"\">"+available_library[each]+"</a></li>";
+						}
+					
+					debug.warn("MULTI LIBRARY DETECTED : <ol>" + writeThisString+"</ol>");
+					
+					/*
 					var useThis = available_library[0];
 					//console.log(useThis);
 					var replaceTheText = useThis.split(".").pop();
 					editor._cm.doc.replaceRange(replaceTheText,{'line':cur.line,'ch':start},{'line':cur.line,'ch':cur.ch});
 
 					central.event.broadcast("library_completion","editor.library_completion",useThis);
+					*/
 					}
 				else
 					{
@@ -143,6 +158,18 @@ var editor = (function(obj)
 					}
 			};
 			
+			
+			obj.library_completion_replaceText = function(useThis, fromLine,fromCh, toLine,toCh)
+				{
+				var replaceTheText = useThis.split(".").pop();
+				editor._cm.doc.replaceRange(replaceTheText,{'line':fromLine,'ch':fromCh},{'line':toLine,'ch':toCh});
+				central.event.broadcast("library_completion","editor.library_completion",useThis);
+				obj.setCursor(toLine+1,toCh);
+				obj._cm.focus();
+				
+				// WARN always be deleted
+				$(".debug-level-warn").each(function(){$(this).remove()});
+				}
 			
 			central.event.listen("library_completion",function(p1,p2)
 				{
