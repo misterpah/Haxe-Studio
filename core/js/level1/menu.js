@@ -14,10 +14,10 @@ $.keyStroke( 78, { modKeys: [config.ctrlOrMeta,'shiftKey'] }, function(){  centr
 
 file_menu.push(support.dropdownMenuItem("Open Project...","FileMenu.openProject",ctrlOrMeta+"+Shift+O"));
 $.keyStroke( 79, { modKeys: [config.ctrlOrMeta,'shiftKey'] }, function(){  central.event.broadcast("FileMenu.openProject","shortcut_key",""); });
-
+/*
 file_menu.push(support.dropdownMenuItem("Close Project","FileMenu.closeProject",ctrlOrMeta+"+Shift+W"));
 $.keyStroke( 87, { modKeys: [config.ctrlOrMeta,'shiftKey'] }, function(){  central.event.broadcast("FileMenu.closeFile","shortcut_key",""); });
-
+*/
 file_menu.push(support.dropdownMenuItemSeperator());
 file_menu.push(support.dropdownMenuItem("New File...","FileMenu.newFile",ctrlOrMeta+"+N"));
 $.keyStroke( 78, { modKeys: [config.ctrlOrMeta] }, function(){  central.event.broadcast("FileMenu.newFile","shortcut_key",""); }); // CTRL + N
@@ -66,11 +66,6 @@ gui.Window.get().reload();
 
 var tools_dropdown = support.dropdownMenu("Tools",tools_menu.join("\n"));
 $("#main_menu").append(tools_dropdown);
-
-
-
-
-
 
 var plugin_menu = [];
 
