@@ -108,6 +108,7 @@ support.dropdownMenuItemSeperator = function()
 
 support.dropdownMenuItem = function(label,message_name,shortcut_key)
 	{
+	if (shortcut_key != "") { shortcut_key = "<kbd>"+shortcut_key+"</kbd>";}
 	var event = 'central.event.broadcast("'+message_name+'","menu","");'
 	var ret = ["<li>",
 	"<a onclick='"+event+"'>",
