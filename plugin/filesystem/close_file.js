@@ -10,6 +10,7 @@ var filesystem = (function(obj)
   			}
   		var path_encoded = encodeURIComponent(name);
   		delete _c.fileStack[path_encoded];
+  		central.event.broadcast("filesystem.closeFile","filesystem",name);
   		}
   		
   	obj.closeFile = function(optional_filename)

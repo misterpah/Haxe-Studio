@@ -16,6 +16,9 @@ var filesystem = (function(obj)
 		support.loadJS(plugin_path+"/read_file_and_put_in_stack.js");
 		support.loadJS(plugin_path+"/read_stack_and_put_in_file.js");
 		
+		support.loadJS(plugin_path+"/integrate.js");
+		
+		
 		
 		};
 		

@@ -50,8 +50,11 @@ var editor = (function(obj)
 		{
 		obj.switch_tab(clicked_obj);
 		central.event.broadcast("FileMenu.closeFile","editor.tab.js","");
+
 		}
-		
+	
+
+	
 	obj.switch_tab = function(clicked_obj)
 		{
 		if ($("#editor_tab div.active a").attr("data-path") != undefined)

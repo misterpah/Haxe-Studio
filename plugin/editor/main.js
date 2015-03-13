@@ -34,11 +34,32 @@ var editor = (function(obj)
 		support.loadJS(cm_folder+"/lib/codemirror.js");
 		support.loadJS(cm_folder+"/keymap/sublime.js");
 		support.loadJS(cm_folder+"/mode/haxe/haxe.js");
-		support.loadJS(cm_folder+"/mode/javascript/javascript.js");
-		support.loadJS(cm_folder+"/mode/xml/xml.js");
+		//support.loadJS(cm_folder+"/mode/javascript/javascript.js");
+		//support.loadJS(cm_folder+"/mode/xml/xml.js");
 		support.loadJS(cm_folder+"/addon/selection/active-line.js");
 		support.loadJS(cm_folder+"/addon/hint/show-hint.js");
 		support.loadCSS(cm_folder+"/addon/hint/show-hint.css");
+		support.loadCSS(cm_folder+"/addon/edit/matchbrackets.js");		
+
+		support.loadJS(cm_folder+"/addon/fold/foldcode.js");
+		
+		support.loadJS(cm_folder+"/addon/fold/foldgutter.js");
+		support.loadCSS(cm_folder+"/addon/fold/foldgutter.css");
+
+
+
+		support.loadJS(cm_folder+"/addon/fold/brace-fold.js");
+		support.loadJS(cm_folder+"/addon/fold/comment-fold.js");
+
+		
+
+		support.loadJS(cm_folder+"/addon/search/search.js");
+		support.loadJS(cm_folder+"/addon/search/searchcursor.js");
+		support.loadJS(cm_folder+"/addon/dialog/dialog.js");
+		support.loadCSS(cm_folder+"/addon/dialog/dialog.css");
+		
+		
+		
 		support.loadCSS(cm_folder+"/lib/codemirror.css");
 		support.loadCSS(cm_folder +"/theme/"+config.editor_theme+".css");
 
