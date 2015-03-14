@@ -4,7 +4,7 @@ if you're searching the IDE written in Haxe, please visit project [HIDE](https:/
 Haxe Studio
 ===========
 Text Editor specially made for Haxe Programming Language.
-![Haxe Studio splash screen](http://i.imgur.com/k0gdtsA.png)
+![Haxe Studio splash screen](http://www.haxestudio.com/images/latest.png)
 
 
 What's new v0.5.5
