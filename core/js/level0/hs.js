@@ -186,6 +186,7 @@ obj.integrate = function()
 	$("#loadingStatus").html('<p>loading complete</p>');	
 	
 	debug.info ("<b>[Haxe Studio Ready]</b>");
+	central.event.broadcast("HaxeStudio.ready","hs.js");
 	};
 
 	return obj;
