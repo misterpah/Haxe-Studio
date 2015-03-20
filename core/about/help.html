@@ -12,7 +12,6 @@ font-size:16em;
 }
 body
 {
-background:url("bg.jpg");
 color:#000000;
 }
 
@@ -25,24 +24,83 @@ text-align:left;
 <script>
 $(document).ready(function()
 	{
-	$("#version").html("version "+hs.version);
-	
-	for (var i = 0;i < hs.releaseNote[""+hs.version].length;i++)
-		{
-		$("#changelog").append("<li>"+hs.releaseNote[""+hs.version][i]+"</li>");
-		}
+	//$("#version").html("version "+hs.version);
 	});
 </script>
 
 <body>
 	<div class="container">
-		<div class="col-md-offset-3 col-md-3 col-sm-3 col-xs-12 text-center">
+		<div class="col-xs-12">
 			<div id="icon">
 				<h2>Haxe Studio Help</h2>
 			</div> 
-			<h4 style="text-align:left;">changelog</h4>
-			<div id="changelog"></div>
+			<h2>About</h2>
+			<p> Haxe Studio is a text editor for Haxe Project. It tries to integrate with your project by reading <code>haxestudio.config</code> file in your project folder. Currently , Haxe Studio supports :</p>
+				<ul>
+					<li><b>Lime</b></li>
+					<ul>
+						<li>OpenFL</li>
+						<li>HaxeFlixel</li>
+						<li>HaxePunk</li>
+					</ul>
+				</ul>
 
+
+			<hr/>
+			<h2>First Run</h2>
+			<p>Haxe Studio is distributed using the update system, but you need the core file first. The core file are the node-webkit runtime and some script to help you run. Simply follow this guideline :</p>
+				<ol>
+					<li>Download the core here</li>
+					<li>Extract the core to the lowest folder of your hard drive <code>a.k.a c:\ or ~</code></li>
+					<li>Run <code>Haxe-Studio-Update</code> (.bat/.sh/.command depends on your OS)</li>
+					<li>Click <b>Check for Update</b></li>
+					<li>Click <b>Download Update</b></li>
+					<li>Click <b>Download Update</b> and wait for the patch to be downloaded</li>
+					<li>Click <b>Apply Update</b></li>
+					<li>Close <code>Haxe-Studio-Update</code></li>
+					<li>Run <code>Haxe-Studio</code> (.bat/.sh/.command depends on your OS)</li>
+					<li>Done!</li>
+				</ol>
+
+			
+			<hr/>
+			<h2>How to use</h2>
+			<p><b>Reminder : Haxe Studio only works with a project. If you want to edit a File, please use <a href="https://atom.io/">ATOM editor</a> with <a href="https://github.com/snowkit/atom-haxe">Haxe plugin</a>, or any other editors.</b></p>
+			<p>Working with Haxe Studio might be different from your favourite editor. So, we suggest you follow this guideline</p>
+			<ol>
+				<li>Create or Open a project (H/XML)</li>
+				<li>Choose your file to edit</li>
+				<li>Write your code</li>
+				<li>Build/Compile</li>
+				<li>repeat from #2</li>
+			</ol>
+			
+			<hr/>
+			<h2>Integrate your Project</h2>
+			<p>If you tried to open a non-compatible project (H/XML), you'll notice it didn't integrate well with Haxe Studio. To remedy this, You can simply add <code>haxestudio.config</code> file to your non-compatible project to make it compatible.</p>
+			<code><pre>
+{
+"compiler":"lime",
+"base_library":"openfl",
+"source_folder":"Source"
+}
+			</pre></code>
+			
+			<ul>
+				<li>
+				<b>compiler :</b><br/>
+				<p>The guy who compile your code to the respected target. Supported compiler are written in About Section</p>
+				</li>
+				<li>
+				<b>base_library :</b><br/>
+				<p>The library you depends on. This integrate with the <kbd>new file</kbd> menu and show you the template.</p>
+				</li>
+				<li>
+				<b>source_folder :</b><br/>
+				<p>Your -src folder. This integrate with the <kbd>new file</kbd> menu and handle the file creation</p>
+				</li>
+			</ul>
+			
 		</div>
 	</div>
 </body>

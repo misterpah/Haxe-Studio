@@ -81,6 +81,19 @@ $("#main_menu").append(plugin_dropdown);
 
 
 var help_menu = [];
+
+help_menu.push(support.dropdownMenuItem("Help","HelpMenu.help",''));
+central.event.listen("HelpMenu.help",function(){
+gui.Window.open("./about/help.html",{
+		"title": "Help",
+		"toolbar": true,
+		"frame": true,
+		"position": "center",
+		"show": true,
+	});
+});	
+
+
 help_menu.push(support.dropdownMenuItem("Update","HelpMenu.update",''));
 central.event.listen("HelpMenu.update",function(){
 gui.Window.open("../update/update.html",{
