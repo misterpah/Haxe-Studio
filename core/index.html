@@ -4,8 +4,8 @@
     <script src="../base/js/mediator.min.js"></script>
     <script src="../base/js/jquery-2.0.3.min.js"></script>
     <script src="../base/js/jquery.keystroke.min.js"></script>
-
-    
+	<script src="../base/js/splitter/jquery.splitter-0.14.0.js"></script>
+    <link  type="text/css" rel="stylesheet" href="../base/js/splitter/jquery.splitter.css" />
     
 
     <script src="../base/js/sweet/sweet-alert.min.js"></script>
@@ -147,8 +147,10 @@ function compare(a, b) {
     support.node.gui.App.setCrashDumpDir("../crashlog");
     jQuery(document).ready(function()
     	{
+    	
 		swal({   title: "Haxe Studio v"+hs.version,   text: "Standard Edition\n\n free to use for all\n\n",   imageUrl:'../update/haxe-studio.png' ,   confirmButtonText: "Close" });
     	
+		/*
 		$(".content_position").removeClass("col-md-9")
 		$(".content_position").addClass("col-sm-"+config.content_position_width);
 		$(".content_position").addClass("col-lg-"+config.large_screen_content_position_width);
@@ -156,8 +158,19 @@ function compare(a, b) {
 		$(".option_position").removeClass("col-md-3")
 		$(".option_position").addClass("col-sm-"+config.option_position_width);					
 		$(".option_position").addClass("col-lg-"+config.large_screen_option_position_width);					
+		*/
 		$("head").append("<style>.CodeMirror{font-size:"+config.font_size+";}</style>");
 
+    	
+		$('#contentArea').split({
+			orientation: 'vertical',
+			limit: 10,
+			position: config.sidebarWidth // if there is no percentage it interpret it as pixels
+		});    	
+
+    	
+    	
+    	
     	
     	$("title").html( $("title").html() +" v"+hs.version); $(".hs_version").html(hs.version);
     	$(".sweet-alert h2").append('<div id="loadingStatus"><p>loading...</p></div>');
@@ -176,11 +189,6 @@ function compare(a, b) {
     	$("#power_menu").append(CompilerPanel);
     	$("#power_menu").append(InspectorPanel);
     	showHideDebug();
-    	
-    	
-    	
-    	
-    	
     	
 		api("http://api.haxestudio.com/api.php?interface=update_hs",function(data)
 			{
@@ -212,6 +220,8 @@ function compare(a, b) {
   </head>
 <body style="overflow:hidden;height:100vh;">	
 		
+
+		
 		
 		<div class="row" style="height:100vh;">
 		
@@ -224,13 +234,11 @@ function compare(a, b) {
 			</nav>
 
 
-			<div style="padding-right:0px;height:95%;clear:both;">
-				<div style="padding-right:0px;height:100%;clear:both;" class="col-md-3 option_position">
-		
-		
+			<div id="contentArea" style="padding-right:0px;height:95%;clear:both;">
+				<div style="padding-left:15px;padding-right:0px;height:100%" class=" option_position">
 				</div>		
 		
-				<div style="padding-left:0px;padding-right:0px;margin-right:0px;height:100%;" class="col-md-9 content_position">
+				<div style="padding-left:0px;padding-right:0px;margin-right:0px;height:100%;width:100px;" class="content_position">
 					<div id="content_position" style="height:70%;"  class="ui-layout-center ui-layout-wrapper">
 						<div id='editor_position' style="height:100%;" ></div>
 					</div>
