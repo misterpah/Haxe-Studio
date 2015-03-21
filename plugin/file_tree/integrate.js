@@ -83,7 +83,9 @@ var file_tree = (function(obj)
 		if (typeof central.project.projectOpened != "undefined")
 			{
 			var folder_content = support.readDir(central.project.projectFolder);
-			$("#"+idFileTree+" button").html(central.project.projectFolder.split(support.node.path.sep).join( " "+support.node.path.sep+" "));
+			//$("#"+idFileTree+" input").val(central.project.projectFolder.split(support.node.path.sep).join( " "+support.node.path.sep+" "));
+			$("#"+idFileTree+" input").val(central.project.projectFolder);
+			$(".openProjectGlyph").css("color","#e18728");
 			for (each in folder_content)
 				{
 				var isfile = support.isFile(central.project.projectFolder + support.node.path.sep + folder_content[each]);
@@ -100,7 +102,18 @@ var file_tree = (function(obj)
 	obj.integrate = function()
 		{
 		
-		$(".option_position").append("<div id='"+idFileTree+"'><button onclick='central.event.broadcast(\"FileMenu.openProject\",\"bigButton\",\"\");' type='button' style='white-space:normal' class='btn btn-primary btn-lg btn-block'>Choose Project</button><br/><ul style='padding-left:0px;'></ul></div>");
+		
+
+//    <button onclick='central.event.broadcast(\"FileMenu.openProject\",\"bigButton\",\"\");' type='button' style='white-space:normal' class='btn btn-primary btn-lg btn-block'>Choose Project</button>
+    
+var ui = ['<div class="input-group" style="padding:10px">',
+'<input style="height:28px;" type="text" class="form-control" placeholder="Choose Project">',
+'<span class="input-group-btn">',
+'<button onclick="central.event.broadcast(\'FileMenu.openProject\',\'bigButton\',\'\');"  class="btn btn-default" type="button" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"><span style="color:#000000" class="openProjectGlyph glyphicon glyphicon-folder-open" ></span></button>',
+'</span>',
+'</div>'].join("\n"); 		
+		
+		$(".option_position").append("<div id='"+idFileTree+"'>"+ui+"<ul style='padding-left:0px;'></ul></div>");
 		central.event.listen("openProject.complete",obj.showFolder);
 		}
 		
