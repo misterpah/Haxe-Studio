@@ -5,7 +5,7 @@ var filesystem = (function(obj)
 	function openFileDialog()
 		{
 		var deferred = Q.defer();
-		jQuery("#temp").append('<input style="display:none;" id="fileDialog" type="file" />');
+		jQuery("#temp").html('<input style="display:none;" id="fileDialog" type="file" />');
 		$('#fileDialog').trigger('click');  
 		$('#fileDialog').change(function(evt) 
 			{

@@ -5,7 +5,7 @@ var filesystem = (function(obj)
 	
 	function openFolderDialog()
 		{
-		jQuery("#temp").append('<input style="display:none;" id="folderDialog" type="file" nwdirectory/>');
+		jQuery("#temp").html('<input style="display:none;" id="folderDialog" type="file" nwdirectory/>');
 		var name = '#folderDialog';
 		var chooser = $(name);
 		chooser.change(function(evt) 
