@@ -8,7 +8,8 @@ var filesystem = (function(obj)
   			console.log("no file selected!");
   			return;
   			}
-  		var path_encoded = encodeURIComponent(name);
+  		//var path_encoded = encodeURIComponent(name);
+  		var path_encoded = name;
   		delete _c.fileStack[path_encoded];
   		central.event.broadcast("filesystem.closeFile","filesystem",name);
   		}
