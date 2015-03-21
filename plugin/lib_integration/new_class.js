@@ -4,6 +4,11 @@ var lib_integration = (function(obj)
 	obj.new_class = function()
 		{
 		//console.log('new class');
+		if(central.project.projectFolder == undefined)
+		{
+		debug.error("You can't create a new class without opening a project!");
+		}
+		
 		var filename = "";
 		
 		var sep = support.node.path.sep;
@@ -31,6 +36,10 @@ var lib_integration = (function(obj)
 				debug.debug("malformed haxestudio.json");
 				}
 			
+			}
+		else
+			{
+			debug.error("Unknown project type. Please add <code>haxestudio.config</code> file in your project folder. View Help for the parameters.");
 			}
 		
 		

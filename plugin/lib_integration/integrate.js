@@ -9,7 +9,7 @@ var lib_integration = (function(obj)
 		});	
 		
 		
-	central.event.listen("FileMenu.newFile",function()
+	central.event.listen("FileMenu.newClass",function()
 		{
 		obj.new_class();
 		});			
