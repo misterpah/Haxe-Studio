@@ -3,7 +3,7 @@ var project = (function(obj)
 	var _c = central;
 	var _cp = central.project;
 
-	function build_userInterface()
+	function build_userInterface_lime()
 		{
 		var compile_target = ['<select width="100%" style="width:100%;" id="compileTarget" class="btn-group-sm">',
 		'<option>flash</option>',
@@ -29,13 +29,10 @@ var project = (function(obj)
 		'<option>build</option>',
 		'</select>'].join('\n');
 
-		//$("#compiler_position").attr("style","padding:10px;");
 		$("#compiler_target").html(compile_target);
 		$("#compiler_parameter").html(compile_parameter);
 		$("#compiler_button_compile").append('<p style="padding-left:5px;"><button style="width:100%;" type="button" onclick="project.compile_project_request()" class="btn btn-default btn-xs shadowme"><b>Compile</b></button></p>');
 		$("#compiler_button_checkError").append('<p style="padding-left:5px;"><button style="width:100%;" type="button" onclick="central.event.broadcast(\'ToolsMenu.checkForError\',\'compile.ui.js\',\'\');" class="btn btn-default btn-xs shadowme">Check Error</button></p>');
-		//$("#compiler_position").append("<br/><br/>");
-		//$("#compiler_position").append("<div id='compiler_error'></div>");
 		
 		central.event.broadcast("display_compiler.complete","project.compile_project","");
 		}
@@ -44,7 +41,7 @@ var project = (function(obj)
 		{
 		console.dir($("#compileParameter").val());
 		console.dir($("#compileTarget").val());
-		central.event.broadcast("compile_request","project.compile_project.js",{"parameter":$("#compileParameter").val(),"target":$("#compileTarget").val()});
+		central.event.broadcast("compile_request","project.compile_project.js",{"parameter":$("#compileParameter").val(),"target":$("#compileTarget").val(),"compiler":"lime"});
 		};
 
 	obj.compile_project_ui = function()
@@ -65,7 +62,7 @@ var project = (function(obj)
 			{			
 			$("#main_menu").append("<li style='margin-top:6px' id='compiler_button_checkError'></li>");
 			}					
-		build_userInterface();
+		build_userInterface_lime();
 		}
 	central.event.listen("openProject.complete",obj.compile_project_ui);
 		
