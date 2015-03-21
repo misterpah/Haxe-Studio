@@ -11,6 +11,8 @@ var filesystem = (function(obj)
 		central.filesystem.fileActive = "";
 		central.filesystem.fileStack = {};
 		support.loadJS(plugin_path+"/file_dialog.js");
+		support.loadJS(plugin_path+"/file_dialog_saveAs.js");
+		
 		support.loadJS(plugin_path+"/folder_dialog.js");
 		support.loadJS(plugin_path+"/close_file.js");
 		support.loadJS(plugin_path+"/read_file_and_put_in_stack.js");
