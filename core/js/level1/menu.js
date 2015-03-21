@@ -18,9 +18,18 @@ $.keyStroke( 79, { modKeys: [config.ctrlOrMeta,'shiftKey'] }, function(){  centr
 file_menu.push(support.dropdownMenuItem("Close Project","FileMenu.closeProject",ctrlOrMeta+"+Shift+W"));
 $.keyStroke( 87, { modKeys: [config.ctrlOrMeta,'shiftKey'] }, function(){  central.event.broadcast("FileMenu.closeFile","shortcut_key",""); });
 */
+
+file_menu.push(support.dropdownMenuItem("New Class...","FileMenu.newClass",""));
+
+
 file_menu.push(support.dropdownMenuItemSeperator());
-file_menu.push(support.dropdownMenuItem("New File...","FileMenu.newFile",ctrlOrMeta+"+N"));
-$.keyStroke( 78, { modKeys: [config.ctrlOrMeta] }, function(){  central.event.broadcast("FileMenu.newFile","shortcut_key",""); }); // CTRL + N
+
+
+
+
+
+file_menu.push(support.dropdownMenuItem("New File...","FileMenu.blankFile",""));
+$.keyStroke( 78, { modKeys: [config.ctrlOrMeta] }, function(){  central.event.broadcast("FileMenu.blankFile","shortcut_key",""); }); // CTRL + N
 
 file_menu.push(support.dropdownMenuItem("Open File...","FileMenu.openFile",ctrlOrMeta+"+O"));
 $.keyStroke( 79, { modKeys: [config.ctrlOrMeta] }, function(){  central.event.broadcast("FileMenu.openFile","shortcut_key",""); }); // CTRL + O
@@ -43,6 +52,43 @@ var file_dropdown = support.dropdownMenu("File",file_menu.join("\n"));
 $("#main_menu").append(file_dropdown);
 
 
+
+
+var view_menu = [];
+
+view_menu.push(support.dropdownMenuItem("Show/Hide Console","ViewMenu.showHideConsole",""));
+
+view_menu.push(support.dropdownMenuItem("Node Webkit Console","ViewMenu.developerTools",""));
+central.event.listen("ViewMenu.developerTools",function(){
+gui.Window.get().showDevTools();
+});
+
+//tools_menu.push(support.dropdownMenuItemSeperator());	
+
+
+var view_dropdown = support.dropdownMenu("View",view_menu.join("\n"));
+$("#main_menu").append(view_dropdown);
+
+
+
+
+
+
+
+
+var plugin_menu = [];
+/*
+plugin_menu.push(support.dropdownMenuItem("Sample Plugin","PluginMenu.sample_plugin",""));
+central.event.listen("PluginMenu.sample_plugin",function(){
+debug.info("this is a sample plugin");
+});	
+*/
+
+var plugin_dropdown = support.dropdownMenu("Plugin",plugin_menu.join("\n"));
+$("#main_menu").append(plugin_dropdown);
+
+
+
 var tools_menu = [];
 
 central.event.listen("ToolsMenu.checkForError",function(){
@@ -52,10 +98,6 @@ central.event.listen("ToolsMenu.checkForError",function(){
 
 tools_menu.push(support.dropdownMenuItem("Configure HaxeStudio","ToolsMenu.configureHS",""));
 
-tools_menu.push(support.dropdownMenuItem("Developer Console","ToolsMenu.developerTools",""));
-central.event.listen("ToolsMenu.developerTools",function(){
-gui.Window.get().showDevTools();
-});
 
 tools_menu.push(support.dropdownMenuItemSeperator());	
 
@@ -67,16 +109,6 @@ gui.Window.get().reload();
 var tools_dropdown = support.dropdownMenu("Tools",tools_menu.join("\n"));
 $("#main_menu").append(tools_dropdown);
 
-var plugin_menu = [];
-
-plugin_menu.push(support.dropdownMenuItem("Sample Plugin","PluginMenu.sample_plugin",""));
-central.event.listen("PluginMenu.sample_plugin",function(){
-debug.info("this is a sample plugin");
-});	
-
-
-var plugin_dropdown = support.dropdownMenu("Plugin",plugin_menu.join("\n"));
-$("#main_menu").append(plugin_dropdown);
 
 
 
