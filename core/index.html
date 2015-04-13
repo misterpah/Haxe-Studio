@@ -174,7 +174,8 @@ function compare(a, b) {
     	
     	$("title").html( $("title").html() +" v"+hs.version); $(".hs_version").html(hs.version);
     	$(".sweet-alert h2").append('<div id="loadingStatus"><p>loading...</p></div>');
-    	hs.init();
+    	
+		setTimeout(function(){hs.init();},500);
     	});
     	
     // position fix for power panel
@@ -189,7 +190,7 @@ function compare(a, b) {
     	$("#power_menu").append(CompilerPanel);
     	$("#power_menu").append(InspectorPanel);
     	showHideDebug();
-    	
+    	/*
 		api("http://api.haxestudio.com/api.php?interface=update_hs",function(data)
 			{
 				var latest_version = hs.version;
@@ -213,7 +214,8 @@ function compare(a, b) {
 					{
 					debug.debug('Haxe Studio is up to date');
 					}
-			});    	
+			});
+		*/
     	hs.integrate();
     	});
 	</script>

@@ -141,24 +141,31 @@ var haxe_server = (function(obj)
 			})
 		.then(function(data)
 			{
-			
 			for (var i = 0; i < data.length;i++)
 				{
 				value = data[i];
-				if (support.node.fs.existsSync(value + support.node.path.sep+"haxelib.json") )
+				var sep = support.node.path.sep;
+				
+				// windows introduce invisible break after each value. need to remove it
+				// also, separators in windows are weird. hence, hs uses forward slash.
+				if (support.node.os.type().indexOf("dows") != -1)
 					{
-					var lib_name = JSON.parse(support.node.fs.readFileSync(value + support.node.path.sep+"haxelib.json")).name;
-					var path = value +""+ support.node.path.sep +""+ lib_name ;
-					console.log(lib_name);
+					value = value.replace(/\s/g,"");
+					sep = "/";
+					}
+
+				if (support.node.fs.existsSync([value ,"haxelib.json"].join(sep)) )
+					{
+					var lib_name = JSON.parse(support.node.fs.readFileSync(value + sep+"haxelib.json")).name;
+					var path = value +""+ sep +""+ lib_name ;
 					var point_of_entry = obj.library_completion_pointOfEntry(lib_name);
 					if (point_of_entry != "")
 						{
-						path_split = path.split(support.node.path.sep)
+						path_split = path.split(sep)
 						path_split.pop()
-						path = path_split.join(support.node.path.sep);
-						path = path +support.node.path.sep+ point_of_entry;
+						path = path_split.join(sep);
+						path = path +sep+ point_of_entry;
 						}
-					console.log(path);
 					if (support.node.fs.existsSync(path))
 						{
 						obj.available_library[lib_name] = path;
@@ -168,58 +175,6 @@ var haxe_server = (function(obj)
 			
 			})
 		.done();
-			/*
-		.then(function(data)
-			{
-			
-			var defer2 = Q.defer();
-			Q.forEach(data, function (value) {
-			  var defer = Q.defer();
-			  setTimeout(function () {
-				defer.resolve(lsr(value));
-			  },100);
-			  return defer.promise;
-			}).then(function (resolutions)
-			{
-			  defer2.resolve(resolutions);
-			  //console.log('All 5 items completed!',resolutions); // Will output the order in which items were done... [5,4,3,2,1]
-			});			
-			return defer2.promise;
-					
-			var ret = {};
-			for (var i= 0;i< data.length;i++)
-				{
-				ret[data] = lsr(data[i]);
-				}
-			return ret;
-			
-			})
-			
-		.then(function(data)
-			{
-			console.log(data);
-			})
-
-		.then(function(data)
-			{
-			console.log(data);
-			for (var i = 0;i < data.length;i++)
-				{
-				var cur = data[i];
-				for (var j = 0; j < cur.length;j++)
-					{
-					if( cur[j].endsWith(".hx"))
-						{
-						console.log(cur[j]);
-						cur[j].split(support.node.path.sep).pop()
-						
-						}
-					
-					}
-				}
-			})
-			*/
-		//getHaxeCompletion(config.haxe_port,position,filename);
 		}		
 	return obj;
 })(haxe_server);

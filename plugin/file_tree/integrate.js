@@ -25,8 +25,7 @@ var file_tree = (function(obj)
 			icon = '<span class="glyphicon glyphicon-file"></span>';
 			name = filepath.split(support.node.path.sep).pop();
 			path = filepath;
-			var re = new RegExp(support.node.path.sep, 'g');
-			li_id = path.replace(re, '_');			
+			li_id = encodeURIComponent(path);				
 			className = "file"
 			onclick = 'central.event.broadcast(\'FileMenu.openFileDirectly\',\'file_tree.makeFolderContent\',\''+encodeURIComponent(path)+'\');';
 			}
@@ -35,31 +34,30 @@ var file_tree = (function(obj)
 			icon = '<span class="glyphicon glyphicon-folder-open"></span>';
 			name = filepath.split(support.node.path.sep).pop();
 			path = filepath;
-			var re = new RegExp(support.node.path.sep, 'g');
-			li_id = path.replace(re, '_');
+			li_id = encodeURIComponent(path);
 			className = "folder"
-			onclick = 'file_tree.showSubFolderContent(\''+path+'\',\''+li_id+'\');';
+			onclick = 'file_tree.showSubFolderContent(\''+encodeURIComponent(path)+'\');';
 			}
 		if (id_to_put_content == "0")
 			{
-			
-			
-//<a class="file xml" onclick="central.event.broadcast(&quot;FileMenu.openFileDirectly&quot;,&quot;project.project_tree.js&quot;,($(this).attr(&quot;data-path&quot;)));" data-path="%2Fhome%2Fpah%2Fdevelopment%2Fabangjambu%2FProject.xml"><span class="glyphicon glyphicon-file"></span> &nbsp;Project.xml</a>			
-			$("#"+idFileTree+" ul").append('<li id="'+li_id+'"><a class="'+className+'" onClick="'+onclick+'">'+icon+' '+name+'</a></li>');
+			//<a class="file xml" onclick="central.event.broadcast(&quot;FileMenu.openFileDirectly&quot;,&quot;project.project_tree.js&quot;,($(this).attr(&quot;data-path&quot;)));" data-path="%2Fhome%2Fpah%2Fdevelopment%2Fabangjambu%2FProject.xml"><span class="glyphicon glyphicon-file"></span> &nbsp;Project.xml</a>			
+			$("#"+idFileTree+" ul").append('<li data-path="'+li_id+'"><a class="'+className+'" onClick="'+onclick+'">'+icon+' '+name+'</a></li>');
 			}
 		else
 			{
-			$("#"+id_to_put_content+" ul").append('<li id="'+li_id+'"><a class="'+className+'" onClick="'+onclick+'">'+icon+' '+name+'</a></li>');
+			$("[data-path='"+id_to_put_content+"'] ul").append('<li data-path="'+li_id+'"><a class="'+className+'" onClick="'+onclick+'">'+icon+' '+name+'</a></li>');
 			}
 		}
 	
 	
-	obj.showSubFolderContent = function(path,id)
+	obj.showSubFolderContent = function(path)
 		{
+		var dataPath = path;
+		path = decodeURIComponent(path);
 		var folder_content = support.readDir(path);
-		if ( typeof($("#"+id+" ul").html() ) == "undefined")
+		if ( typeof($("[data-path='"+dataPath+"'] ul").html() ) == "undefined")
 			{
-			$("#"+id).append("<ul></ul>");
+			$("[data-path='"+dataPath+"']").append("<ul></ul>");
 			for (each in folder_content)
 				{
 				var isfile = support.isFile(path + support.node.path.sep + folder_content[each]);
@@ -68,12 +66,12 @@ var file_tree = (function(obj)
 					{
 					content_type = "file";
 					}
-				makeFolderContent(content_type,path + support.node.path.sep+folder_content[each],id);
+				makeFolderContent(content_type,path + support.node.path.sep+folder_content[each],dataPath);
 				}		
 			}
 		else
 			{
-			$("#"+id+" ul").remove();
+			$("[data-path='"+dataPath+"'] ul").remove();
 			}
 		}
 	
@@ -101,17 +99,14 @@ var file_tree = (function(obj)
 		
 	obj.integrate = function()
 		{
-		
-		
-
-//    <button onclick='central.event.broadcast(\"FileMenu.openProject\",\"bigButton\",\"\");' type='button' style='white-space:normal' class='btn btn-primary btn-lg btn-block'>Choose Project</button>
+		// <button onclick='central.event.broadcast(\"FileMenu.openProject\",\"bigButton\",\"\");' type='button' style='white-space:normal' class='btn btn-primary btn-lg btn-block'>Choose Project</button>
     
-var ui = ['<div class="input-group" style="padding:10px">',
-'<input style="height:28px;" type="text" class="form-control" placeholder="Choose Project">',
-'<span class="input-group-btn">',
-'<button onclick="central.event.broadcast(\'FileMenu.openProject\',\'bigButton\',\'\');"  class="btn btn-default" type="button" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"><span style="color:#000000" class="openProjectGlyph glyphicon glyphicon-folder-open" ></span></button>',
-'</span>',
-'</div>'].join("\n"); 		
+		var ui = ['<div class="input-group" style="padding:10px">',
+		'<input style="height:28px;" type="text" class="form-control" placeholder="Choose Project">',
+		'<span class="input-group-btn">',
+		'<button onclick="central.event.broadcast(\'FileMenu.openProject\',\'bigButton\',\'\');"  class="btn btn-default" type="button" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"><span style="color:#000000" class="openProjectGlyph glyphicon glyphicon-folder-open" ></span></button>',
+		'</span>',
+		'</div>'].join("\n"); 		
 		
 		$(".option_position").append("<div id='"+idFileTree+"'>"+ui+"<ul style='padding-left:0px;'></ul></div>");
 		central.event.listen("openProject.complete",obj.showFolder);
